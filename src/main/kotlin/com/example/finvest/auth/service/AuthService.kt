@@ -8,8 +8,8 @@ import com.example.finvest.auth.exeption.UserAlreadyExistsException
 import com.example.finvest.auth.exeption.UserNotExistsException
 import com.example.finvest.auth.jwt.JwtService
 import com.example.finvest.auth.repository.AuthRepository
+import com.example.finvest.common.config.SecurityConfig
 import com.example.finvest.common.logger.Logger
-import com.example.finvest.config.SecurityConfig
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 

@@ -1,19 +1,18 @@
-package com.example.finvest.auth.entity
+package com.example.finvest.asset.entity
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
-import java.time.LocalDateTime
 
-@Table("users")
-data class UserEntity(
+@Table("asset_types")
+data class AssetTypeEntity(
     @Id
     @Column("id")
     var id: Long = 0L,
 
-    @Column("email")
-    var email: String = "",
+    @Column("code")
+    var code: String = "",
 
-    @Column("password")
-    var password: String = "",
+    @Column("name")
+    var name: String = ""
 )

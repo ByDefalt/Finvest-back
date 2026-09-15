@@ -1,4 +1,4 @@
-package com.example.finvest.config
+package com.example.finvest.common.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -19,6 +19,11 @@ class SecurityConfig {
 
         http
             .csrf { it.disable() }
+            .headers {
+                it.frameOptions { frame ->
+                    frame.sameOrigin()
+                }
+            }
             .authorizeHttpRequests {
                 it.anyRequest().permitAll()
             }

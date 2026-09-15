@@ -1,14 +1,18 @@
 package com.example.finvest.account.dto
 
-import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.Positive
 import java.math.BigDecimal
+import java.time.LocalDateTime
 
 data class AccountResponse(
-    @field:NotBlank
+    @field:Positive
     val id: Long,
-    @field:NotBlank
+    val bankId: Long,
     val name: String,
     val balance: BigDecimal,
-    @field:NotBlank
-    val type: String,
+    val currencyId: Long,
+    val createdAt: LocalDateTime,
+    val closedAt: LocalDateTime?,
+    val accountStatusId: Long,
+    val description: String?
 )

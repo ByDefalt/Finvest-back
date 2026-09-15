@@ -1,4 +1,4 @@
-package com.example.finvest.config
+package com.example.finvest.common.config
 
 import com.example.finvest.common.logger.Logger
 import org.h2.tools.Server

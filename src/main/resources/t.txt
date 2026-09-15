@@ -1,0 +1,36 @@
+user : id, email, password
+
+bank : id, name, bic, logo
+
+account : id, bankId, name, balance, currencyId, createdAt, closedAt, accountStatusId, description
+accountStatus : id, code, name
+
+accountOwner : id, accountId, userId, name, ownershipPercentage
+
+compteCourant : accountId, iban, bic, accountNumber, overdraftLimit, holderName
+livret : accountId, interestRate, ceiling
+pea : accountId, openingDate, depositLimit
+compteTitre : accountId, accountNumber
+assuranceVie : accountId, contractNumber, openingDate, managementTypeId
+per : accountId, contractNumber, openingDate, managementTypeId
+pee : accountId, openingDate, employer
+
+managementType : id, code, name
+
+country : id, code, name
+
+asset : id, name, assetTypeId, isin, ticker, issuerCountryId, currencyId, description
+assetType : id, code, name
+
+assetPrice : id, assetId, price, currencyId, date
+assetCountry : assetId, countryId, weight
+
+position : id, accountId, assetId, quantity, averagePrice, currencyId
+
+transaction : id, accountId, transactionTypeId, amount, currencyId, date, description
+transactionType : id, code, name
+
+trade : id, accountId, assetId, tradeTypeId, quantity, unitPrice, fees, currencyId, date
+tradeType : id, code, name
+
+currency : id, code, name, symbol

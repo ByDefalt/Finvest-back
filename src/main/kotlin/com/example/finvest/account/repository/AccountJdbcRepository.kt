@@ -1,5 +1,6 @@
 package com.example.finvest.account.repository
 
+import com.example.finvest.account.domain.Account
 import com.example.finvest.account.entity.AccountEntity
 import com.example.finvest.account.exeption.AccountNotCreatedException
 import com.example.finvest.account.exeption.AccountNotDeleteException
@@ -21,10 +22,14 @@ class AccountJdbcRepository(
         ) { rs, _ ->
             AccountEntity(
                 id = rs.getLong("id"),
+                bankId = rs.getObject("bank_id", Long::class.java),
                 name = rs.getString("name"),
                 balance = rs.getBigDecimal("balance"),
-                type = rs.getString("type"),
-                userId = rs.getLong("user_id")
+                currencyId = rs.getLong("currency_id"),
+                createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
+                closedAt = rs.getTimestamp("closed_at")?.toLocalDateTime(),
+                accountStatusId = rs.getLong("account_status_id"),
+                description = rs.getString("description")
             )
         }
     }
@@ -36,6 +41,7 @@ class AccountJdbcRepository(
                 .addValue("id", id)
                 .addValue("userId", userId)
         )
+
         if (affectedRows == 0) {
             throw AccountNotDeleteException()
         }
@@ -45,10 +51,12 @@ class AccountJdbcRepository(
         val keyHolder = GeneratedKeyHolder()
 
         val params = MapSqlParameterSource()
+            .addValue("bankId", account.bankId)
             .addValue("name", account.name)
             .addValue("balance", account.balance)
-            .addValue("type", account.type)
-            .addValue("userId", account.userId)
+            .addValue("currencyId", account.currencyId)
+            .addValue("accountStatusId", account.accountStatusId)
+            .addValue("description", account.description)
 
         val affectedRows = jdbcTemplate.update(
             AccountQueries.INSERT_ACCOUNT,
@@ -56,6 +64,7 @@ class AccountJdbcRepository(
             keyHolder,
             arrayOf("id")
         )
+
         if (affectedRows == 0) {
             throw AccountNotCreatedException()
         }
@@ -66,19 +75,49 @@ class AccountJdbcRepository(
         return account.copy(id = id)
     }
 
-    fun updateAccount(account: AccountEntity): AccountEntity {
+    fun updateAccount(
+        account: AccountEntity,
+        userId: Long
+    ): AccountEntity {
+
         val affectedRows = jdbcTemplate.update(
             AccountQueries.UPDATE_ACCOUNT,
             MapSqlParameterSource()
                 .addValue("id", account.id)
+                .addValue("bankId", account.bankId)
                 .addValue("name", account.name)
                 .addValue("balance", account.balance)
-                .addValue("type", account.type)
-                .addValue("userId", account.userId)
+                .addValue("currencyId", account.currencyId)
+                .addValue("accountStatusId", account.accountStatusId)
+                .addValue("description", account.description)
+                .addValue("userId", userId)
         )
+
         if (affectedRows == 0) {
             throw AccountNotUpdateException()
         }
+
         return account
+    }
+
+    fun findByIdAndUserId(id: Long, userId: Long): AccountEntity {
+        return jdbcTemplate.query(
+            AccountQueries.FIND_BY_ID_AND_USER_ID,
+            MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("userId", userId)
+        ) { rs, _ ->
+            AccountEntity(
+                id = rs.getLong("id"),
+                bankId = rs.getObject("bank_id", Long::class.java),
+                name = rs.getString("name"),
+                balance = rs.getBigDecimal("balance"),
+                currencyId = rs.getLong("currency_id"),
+                createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
+                closedAt = rs.getTimestamp("closed_at")?.toLocalDateTime(),
+                accountStatusId = rs.getLong("account_status_id"),
+                description = rs.getString("description")
+            )
+        }.firstOrNull() ?: throw AccountNotUpdateException()
     }
 }

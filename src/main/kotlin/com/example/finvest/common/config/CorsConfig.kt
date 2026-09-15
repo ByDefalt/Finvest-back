@@ -1,4 +1,4 @@
-package com.example.finvest.config
+package com.example.finvest.common.config
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration

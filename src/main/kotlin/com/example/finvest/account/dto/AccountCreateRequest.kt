@@ -7,6 +7,8 @@ data class AccountCreateRequest(
     @field:NotBlank
     val name: String,
     val balance: BigDecimal,
-    @field:NotBlank
-    val type: String,
+    val bankId: Long,
+    val currencyId: Long,
+    val accountStatusId: Long,
+    val description: String?
 )

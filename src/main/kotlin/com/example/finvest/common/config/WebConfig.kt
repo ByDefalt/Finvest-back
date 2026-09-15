@@ -1,4 +1,4 @@
-package com.example.finvest.config
+package com.example.finvest.common.config
 
 import com.example.finvest.auth.annotation.AuthenticationInterceptor
 import com.example.finvest.auth.annotation.CurrentUserArgumentResolver

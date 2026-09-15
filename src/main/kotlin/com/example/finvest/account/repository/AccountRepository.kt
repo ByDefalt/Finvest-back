@@ -8,7 +8,8 @@ interface AccountRepository {
 
     fun createAccount(account: Account): Account
 
-    fun updateAccount(account: Account): Account
+    fun updateAccount(account: Account, userId: Long): Account
 
     fun deleteAccount(id: Long, userId: Long)
+    fun findByIdAndUserId(id: Long, userId: Long): Account
 }

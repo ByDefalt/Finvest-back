@@ -21,12 +21,16 @@ class AccountRepositoryAdapter(
         return accountJdbcRepository.insertAccount(account.toEntity()).toDomain()
     }
 
-    override fun updateAccount(account: Account): Account {
-        return accountJdbcRepository.updateAccount(account.toEntity()).toDomain()
+    override fun updateAccount(account: Account, userId: Long): Account {
+        return accountJdbcRepository.updateAccount(account.toEntity(), userId).toDomain()
     }
 
     override fun deleteAccount(id: Long, userId: Long) {
         accountJdbcRepository.deleteByIdAndUserId(id, userId)
+    }
+
+    override fun findByIdAndUserId(id: Long, userId: Long) : Account {
+        return accountJdbcRepository.findByIdAndUserId(id, userId).toDomain()
     }
 
 }
