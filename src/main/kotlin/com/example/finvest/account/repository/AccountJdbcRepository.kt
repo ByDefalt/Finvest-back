@@ -1,6 +1,6 @@
 package com.example.finvest.account.repository
 
-import com.example.finvest.account.domain.Account
+import com.example.finvest.account.entity.AccountDashboardRow
 import com.example.finvest.account.entity.AccountEntity
 import com.example.finvest.account.exeption.AccountNotCreatedException
 import com.example.finvest.account.exeption.AccountNotDeleteException
@@ -29,7 +29,8 @@ class AccountJdbcRepository(
                 createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
                 closedAt = rs.getTimestamp("closed_at")?.toLocalDateTime(),
                 accountStatusId = rs.getLong("account_status_id"),
-                description = rs.getString("description")
+                description = rs.getString("description"),
+                accountTypeId = rs.getLong("account_type_id")
             )
         }
     }
@@ -116,8 +117,58 @@ class AccountJdbcRepository(
                 createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
                 closedAt = rs.getTimestamp("closed_at")?.toLocalDateTime(),
                 accountStatusId = rs.getLong("account_status_id"),
+                accountTypeId = rs.getLong("account_type_id"),
                 description = rs.getString("description")
             )
         }.firstOrNull() ?: throw AccountNotUpdateException()
+    }
+
+    fun findDashboardByUserId(userId: Long): List<AccountDashboardRow> {
+        return jdbcTemplate.query(
+            AccountQueries.FIND_DASHBOARD_BY_USER_ID,
+            MapSqlParameterSource()
+                .addValue("userId", userId)
+        ) { rs, _ ->
+            AccountDashboardRow(
+                // Account
+                accountId = rs.getLong("account_id"),
+                accountBankId = rs.getLong("account_bank_id"),
+                accountName = rs.getString("account_name"),
+                accountBalance = rs.getBigDecimal("account_balance"),
+                accountCurrencyId = rs.getLong("account_currency_id"),
+                accountCreatedAt = rs.getTimestamp("account_created_at").toLocalDateTime(),
+                accountClosedAt = rs.getTimestamp("account_closed_at")?.toLocalDateTime(),
+                accountStatusId = rs.getLong("account_status_id"),
+                accountDescription = rs.getString("account_description"),
+                accountType = rs.getString("account_type"),
+
+                // Bank
+                bankId = rs.getLong("bank_id"),
+                bankName = rs.getString("bank_name"),
+                bankBic = rs.getString("bank_bic"),
+                bankLogo = rs.getString("bank_logo"),
+
+                // Currency
+                currencyId = rs.getLong("currency_id"),
+                currencyCode = rs.getString("currency_code"),
+                currencyName = rs.getString("currency_name"),
+                currencySymbol = rs.getString("currency_symbol"),
+
+                // AccountStatus
+                statusId = rs.getLong("status_id"),
+                statusCode = rs.getString("status_code"),
+                statusName = rs.getString("status_name"),
+
+                // AccountOwner
+                ownerId = rs.getLong("owner_id"),
+                ownerAccountId = rs.getLong("owner_account_id"),
+                ownerUserId = rs.getLong("owner_user_id").let {
+                    if (rs.wasNull()) null else it
+                },
+                ownerName = rs.getString("owner_name"),
+                ownerOwnershipPercentage =
+                    rs.getBigDecimal("owner_ownership_percentage")
+            )
+        }
     }
 }

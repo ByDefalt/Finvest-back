@@ -4,6 +4,7 @@ import com.example.finvest.auth.domain.User
 import com.example.finvest.auth.domain.UserCredentials
 import com.example.finvest.auth.dto.UserResponse
 import com.example.finvest.auth.entity.UserEntity
+import com.example.finvest.common.dto.AuthenticatedUser
 
 fun UserEntity.toUserCredentialsDomain(): UserCredentials {
     return UserCredentials(
@@ -22,6 +23,13 @@ fun UserEntity.toUserDomain(): User {
 
 fun User.toDto(): UserResponse {
     return UserResponse(
+        email = this.email
+    )
+}
+
+fun AuthenticatedUser.toDomain(): User {
+    return User(
+        id = this.id,
         email = this.email
     )
 }

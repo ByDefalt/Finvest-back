@@ -34,5 +34,8 @@ data class AccountEntity(
     var accountStatusId: Long = 0L,
 
     @Column("description")
-    var description: String? = null
+    var description: String? = null,
+
+    @Column("account_type_id")
+    var accountTypeId: Long = 0L,
 )

@@ -2,8 +2,9 @@ user : id, email, password
 
 bank : id, name, bic, logo
 
-account : id, bankId, name, balance, currencyId, createdAt, closedAt, accountStatusId, description
+account : id, bankId, name, balance, currencyId, createdAt, closedAt, accountStatusId, description, account_type
 accountStatus : id, code, name
+accountType : id, code, name
 
 accountOwner : id, accountId, userId, name, ownershipPercentage
 

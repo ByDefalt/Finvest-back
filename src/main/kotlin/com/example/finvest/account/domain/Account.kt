@@ -12,5 +12,6 @@ data class Account(
     var createdAt: LocalDateTime,
     var closedAt: LocalDateTime?,
     var accountStatusId: Long,
-    var description: String?
+    var description: String?,
+    val accountType: String
 )

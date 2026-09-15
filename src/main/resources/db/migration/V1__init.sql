@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS pees CASCADE;
 
 DROP TABLE IF EXISTS account_owners CASCADE;
 DROP TABLE IF EXISTS accounts CASCADE;
+DROP TABLE IF EXISTS account_types CASCADE;
 
 DROP TABLE IF EXISTS trade_types CASCADE;
 DROP TABLE IF EXISTS transaction_types CASCADE;
@@ -96,6 +97,13 @@ CREATE TABLE trade_types
     name VARCHAR(100) NOT NULL
 );
 
+CREATE TABLE account_types
+(
+    id   BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    code VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL
+);
+
 CREATE TABLE accounts
 (
     id                BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -107,6 +115,10 @@ CREATE TABLE accounts
     closed_at         TIMESTAMP,
     account_status_id BIGINT NOT NULL,
     description       VARCHAR(1000),
+    account_type_id BIGINT NOT NULL,
+
+    CONSTRAINT fk_accounts_account_type
+        FOREIGN KEY (account_type_id) REFERENCES account_types (id),
 
     CONSTRAINT fk_accounts_bank
         FOREIGN KEY (bank_id) REFERENCES banks (id),
