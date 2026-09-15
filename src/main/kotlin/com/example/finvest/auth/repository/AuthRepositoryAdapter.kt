@@ -2,9 +2,9 @@ package com.example.finvest.auth.repository
 
 import com.example.finvest.auth.domain.User
 import com.example.finvest.auth.domain.UserCredentials
-import com.example.finvest.common.logger.Logger
 import com.example.finvest.auth.mapper.toUserCredentialsDomain
 import com.example.finvest.auth.mapper.toUserDomain
+import com.example.finvest.common.logger.Logger
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -33,6 +33,15 @@ class AuthRepositoryAdapter(
             .findByEmail(email)
             ?.toUserDomain()
         logger.debug("AuthRepositoryAdapter.findUserByEmail - result found=${user != null} email=$email")
+        return user
+    }
+
+    override fun findUserById(userId: Long): User? {
+        logger.debug("AuthRepositoryAdapter.findUserById - querying userId=$userId")
+        val user = authJdbcRepository
+            .findById(userId)
+            ?.toUserDomain()
+        logger.debug("AuthRepositoryAdapter.findUserById - result found=${user != null} userId=$userId")
         return user
     }
 }

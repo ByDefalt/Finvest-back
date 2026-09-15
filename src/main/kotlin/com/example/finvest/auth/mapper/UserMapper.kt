@@ -15,7 +15,7 @@ fun UserEntity.toUserCredentialsDomain(): UserCredentials {
 
 fun UserEntity.toUserDomain(): User {
     return User(
-        id =  requireNotNull(this.id),
+        id = requireNotNull(this.id),
         email = this.email
     )
 }

@@ -1,6 +1,5 @@
 package com.example.finvest.account.exeption
 
-import com.example.finvest.auth.exeption.UserAlreadyExistsException
 import com.example.finvest.common.exeption.ErrorResponse
 import com.example.finvest.common.logger.Logger
 import org.springframework.http.HttpStatus

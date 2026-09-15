@@ -49,13 +49,13 @@ class AuthenticationInterceptor(
             .trim()
 
         try {
-            val user = jwtService.validate(token)
+            val user = jwtService.validateAccessToken(token)
 
-            if(user != null) {
+            if (user != null) {
                 request.setAttribute("authenticatedUser", user)
 
                 return true
-            }else{
+            } else {
                 response.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED,
                     "Token invalide ou expiré"

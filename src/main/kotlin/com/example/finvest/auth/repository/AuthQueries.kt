@@ -11,4 +11,10 @@ object AuthQueries {
         FROM users
         WHERE email = :email
     """
+
+    const val FIND_BY_ID = """
+        SELECT id, email, password
+        FROM users
+        WHERE id = :userId
+    """
 }

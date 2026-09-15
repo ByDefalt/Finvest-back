@@ -3,45 +3,128 @@ package com.example.finvest.auth.jwt
 import com.example.finvest.common.dto.AuthenticatedUser
 import com.example.finvest.common.logger.Logger
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.security.Keys.hmacShaKeyFor
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import java.util.Date
+import java.util.*
 import javax.crypto.SecretKey
-
 
 @Service
 class JwtServiceImpl(
-    val logger: Logger
-) : JwtService {
-    private val secretKey: SecretKey? = Jwts.SIG.HS256.key().build()
+    val logger: Logger,
 
-    override fun generate(userId: Long, email: String): String {
-        return Jwts.builder()
+    @Value("\${jwt.secret}")
+    private val secret: String,
+
+    @Value("\${jwt.access-expiration}")
+    private val accessExpiration: Long,
+
+    @Value("\${jwt.refresh-expiration}")
+    private val refreshExpiration: Long,
+) : JwtService {
+
+    private val secretKey: SecretKey by lazy {
+        hmacShaKeyFor(
+            secret.toByteArray()
+        )
+    }
+
+    override fun generateAccessToken(
+        userId: Long,
+        email: String
+    ): String {
+        return generateToken(
+            userId = userId,
+            email = email,
+            type = "access",
+            expiration = accessExpiration
+        )
+    }
+
+    override fun generateRefreshToken(
+        userId: Long
+    ): String {
+        return generateToken(
+            userId = userId,
+            email = null,
+            type = "refresh",
+            expiration = refreshExpiration
+        )
+    }
+
+    private fun generateToken(
+        userId: Long,
+        email: String?,
+        type: String,
+        expiration: Long
+    ): String {
+
+        val builder = Jwts.builder()
             .subject(userId.toString())
             .issuedAt(Date())
-            .expiration(Date(System.currentTimeMillis() + 60 * 60 * 1000))
-            .claims()
-            .add("id", userId.toString())
-            .add("email", email)
-            .and()
+            .expiration(
+                Date(System.currentTimeMillis() + expiration)
+            )
+            .claim("type", type)
+
+        if (email != null) {
+            builder.claim("email", email)
+        }
+
+        return builder
             .signWith(secretKey)
             .compact()
     }
 
-    override fun validate(token: String): AuthenticatedUser? {
-        try {
-            val claims = Jwts.parser()
-                .verifyWith(secretKey)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-            val authenticatedUser = AuthenticatedUser(
-                claims.get("id", String::class.java).toLong(),
+    override fun validateAccessToken(
+        token: String
+    ): AuthenticatedUser? {
+
+        return try {
+            val claims = parseToken(token)
+
+            if (claims.get("type", String::class.java) != "access") {
+                return null
+            }
+
+            AuthenticatedUser(
+                claims.subject.toLong(),
                 claims.get("email", String::class.java)
             )
-            return authenticatedUser
+
         } catch (e: Exception) {
-            logger.warn("JwtServiceImpl.validate - invalid token: ${e.message}")
-            return null
+            logger.warn(
+                "JwtServiceImpl.validateAccessToken - invalid token: ${e.message}"
+            )
+            null
         }
     }
+
+    override fun validateRefreshToken(
+        token: String
+    ): Long? {
+
+        return try {
+            val claims = parseToken(token)
+
+            if (claims.get("type", String::class.java) != "refresh") {
+                return null
+            }
+
+            claims.subject.toLong()
+
+        } catch (e: Exception) {
+            logger.warn(
+                "JwtServiceImpl.validateRefreshToken - invalid token: ${e.message}"
+            )
+            null
+        }
+    }
+
+    private fun parseToken(token: String) =
+        Jwts.parser()
+            .verifyWith(secretKey)
+            .build()
+            .parseSignedClaims(token)
+            .payload
 }

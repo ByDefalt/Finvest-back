@@ -9,4 +9,5 @@ interface AuthRepository {
     fun findCredentialsByEmail(email: String): UserCredentials?
 
     fun findUserByEmail(email: String): User?
+    fun findUserById(userId: Long): User?
 }

@@ -28,7 +28,7 @@ fun List<Account>.toDto(): List<AccountResponse> {
     return this.map { it.toDto() }
 }
 
-fun  List<AccountEntity>.toDomain(): List<Account> {
+fun List<AccountEntity>.toDomain(): List<Account> {
     return this.map { it.toDomain() }
 }
 

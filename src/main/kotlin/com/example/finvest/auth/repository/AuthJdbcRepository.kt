@@ -47,4 +47,17 @@ class AuthJdbcRepository(
             )
         }.firstOrNull()
     }
+
+    fun findById(userId: Long): UserEntity? {
+        return jdbcTemplate.query(
+            AuthQueries.FIND_BY_ID,
+            MapSqlParameterSource("userId", userId)
+        ) { rs, _ ->
+            UserEntity(
+                id = rs.getLong("id"),
+                email = rs.getString("email"),
+                password = rs.getString("password")
+            )
+        }.firstOrNull()
+    }
 }

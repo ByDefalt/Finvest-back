@@ -56,7 +56,7 @@ class AccountJdbcRepository(
             keyHolder,
             arrayOf("id")
         )
-        if(affectedRows == 0) {
+        if (affectedRows == 0) {
             throw AccountNotCreatedException()
         }
 

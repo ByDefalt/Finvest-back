@@ -42,6 +42,9 @@ dependencies {
     testImplementation(libs.kotlin.test.junit5)
 
     testRuntimeOnly(libs.junit.platform.launcher)
+
+    // build.gradle.kts
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
 }
 
 kotlin {

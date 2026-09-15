@@ -7,7 +7,6 @@ import com.example.finvest.account.dto.AccountUpdateRequest
 import com.example.finvest.account.repository.AccountRepository
 import com.example.finvest.common.logger.Logger
 import org.springframework.stereotype.Service
-import java.math.BigDecimal
 
 @Service
 class AccountService(

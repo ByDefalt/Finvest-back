@@ -4,7 +4,20 @@ import com.example.finvest.common.dto.AuthenticatedUser
 
 interface JwtService {
 
-    fun generate(userId: Long, email: String): String
+    fun generateAccessToken(
+        userId: Long,
+        email: String
+    ): String
 
-    fun validate(token: String): AuthenticatedUser?
+    fun generateRefreshToken(
+        userId: Long
+    ): String
+
+    fun validateAccessToken(
+        token: String
+    ): AuthenticatedUser?
+
+    fun validateRefreshToken(
+        token: String
+    ): Long?
 }
