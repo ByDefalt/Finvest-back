@@ -18,36 +18,36 @@ VALUES
         '$2a$10$EO3AlQsEUvetnxuLcnAp6OKnd2TVkcT992RAxRMiGzD02y93o26W.'
     );
 
-
 -- ============================================================
 -- CURRENCIES
 -- ============================================================
 
-INSERT INTO currencies (code, name, symbol)
+INSERT INTO currencies (code)
 VALUES
-    ('EUR', 'Euro', '€'),
-    ('USD', 'Dollar américain', '$'),
-    ('GBP', 'Livre sterling', '£'),
-    ('JPY', 'Yen japonais', '¥'),
-    ('CHF', 'Franc suisse', 'CHF');
+    ('EUR'),
+    ('USD'),
+    ('GBP'),
+    ('JPY'),
+    ('CHF');
 
 
 -- ============================================================
 -- COUNTRIES
 -- ============================================================
 
-INSERT INTO countries (code, name)
+
+INSERT INTO countries (code)
 VALUES
-    ('FR', 'France'),
-    ('US', 'États-Unis'),
-    ('GB', 'Royaume-Uni'),
-    ('DE', 'Allemagne'),
-    ('JP', 'Japon'),
-    ('CH', 'Suisse'),
-    ('NL', 'Pays-Bas'),
-    ('LU', 'Luxembourg'),
-    ('IE', 'Irlande'),
-    ('CA', 'Canada');
+    ('FR'),
+    ('US'),
+    ('GB'),
+    ('DE'),
+    ('JP'),
+    ('CH'),
+    ('NL'),
+    ('LU'),
+    ('IE'),
+    ('CA');
 
 
 -- ============================================================
@@ -66,79 +66,78 @@ VALUES
 -- ACCOUNT STATUSES
 -- ============================================================
 
-INSERT INTO account_statuses (code, name)
+INSERT INTO account_statuses (code)
 VALUES
-    ('ACTIVE', 'Actif'),
-    ('CLOSED', 'Clôturé'),
-    ('BLOCKED', 'Bloqué');
+    ('ACTIVE'),
+    ('CLOSED'),
+    ('BLOCKED');
 
 
 -- ============================================================
 -- MANAGEMENT TYPES
 -- ============================================================
 
-INSERT INTO management_types (code, name)
+INSERT INTO management_types (code)
 VALUES
-    ('FREE_MANAGEMENT', 'Gestion libre'),
-    ('MANAGED', 'Gestion pilotée'),
-    ('ADVISED', 'Gestion conseillée');
+    ('FREE_MANAGEMENT'),
+    ('MANAGED'),
+    ('ADVISED');
 
 
 -- ============================================================
 -- ASSET TYPES
 -- ============================================================
 
-INSERT INTO asset_types (code, name)
+INSERT INTO asset_types (code)
 VALUES
-    ('STOCK', 'Action'),
-    ('ETF', 'ETF'),
-    ('BOND', 'Obligation'),
-    ('FUND', 'Fonds'),
-    ('SCPI', 'SCPI'),
-    ('OPCI', 'OPCI'),
-    ('CRYPTO', 'Cryptomonnaie'),
-    ('CASH', 'Liquidités');
+    ('STOCK'),
+    ('ETF'),
+    ('BOND'),
+    ('FUND'),
+    ('SCPI'),
+    ('OPCI'),
+    ('CRYPTO'),
+    ('CASH');
 
 
 -- ============================================================
 -- TRANSACTION TYPES
 -- ============================================================
 
-INSERT INTO transaction_types (code, name)
+INSERT INTO transaction_types (code)
 VALUES
-    ('DEPOSIT', 'Dépôt'),
-    ('WITHDRAWAL', 'Retrait'),
-    ('TRANSFER', 'Virement'),
-    ('DIVIDEND', 'Dividende'),
-    ('INTEREST', 'Intérêts'),
-    ('FEE', 'Frais'),
-    ('TAX', 'Impôt');
+    ('DEPOSIT'),
+    ('WITHDRAWAL'),
+    ('TRANSFER'),
+    ('DIVIDEND'),
+    ('INTEREST'),
+    ('FEE'),
+    ('TAX');
 
 
 -- ============================================================
 -- TRADE TYPES
 -- ============================================================
 
-INSERT INTO trade_types (code, name)
+INSERT INTO trade_types (code)
 VALUES
-    ('BUY', 'Achat'),
-    ('SELL', 'Vente');
+    ('BUY'),
+    ('SELL');
 
 
 -- ============================================================
 -- ACCOUNT TYPES
 -- ============================================================
 
-INSERT INTO account_types (code, name)
+INSERT INTO account_types (code)
 VALUES
-    ('COMPTE_COURANT', 'Compte courant'),
-    ('LIVRET', 'Livret'),
-    ('PEA', 'PEA'),
-    ('COMPTE_TITRES', 'Compte-titres'),
-    ('ASSURANCE_VIE', 'Assurance-vie'),
-    ('PER', 'PER'),
-    ('PEE', 'PEE');
-
+    ('COMPTE_COURANT'),
+    ('LIVRET'),
+    ('PEA'),
+    ('COMPTE_TITRES'),
+    ('ASSURANCE_VIE'),
+    ('PER'),
+    ('PEE');
 
 -- ============================================================
 -- ACCOUNTS - ROMAIN
