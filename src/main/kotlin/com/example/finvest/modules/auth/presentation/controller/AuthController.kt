@@ -5,10 +5,10 @@ import com.example.finvest.logger.Logger
 import com.example.finvest.modules.auth.application.usecase.LoginUseCase
 import com.example.finvest.modules.auth.application.usecase.RefreshAccessTokenUseCase
 import com.example.finvest.modules.auth.application.usecase.RegisterUseCase
-import com.example.finvest.modules.auth.presentation.dto.LoginRequest
-import com.example.finvest.modules.auth.presentation.dto.LoginResponse
-import com.example.finvest.modules.auth.presentation.dto.RegisterUserRequest
-import com.example.finvest.modules.auth.presentation.dto.UserResponse
+import com.example.finvest.modules.auth.presentation.models.LoginRequest
+import com.example.finvest.modules.auth.presentation.models.LoginResponse
+import com.example.finvest.modules.auth.presentation.models.RegisterUserRequest
+import com.example.finvest.modules.auth.presentation.models.UserResponse
 import com.example.finvest.modules.auth.presentation.mapper.toDto
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid

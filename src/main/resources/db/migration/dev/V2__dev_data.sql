@@ -6,7 +6,7 @@
 -- ============================================================
 -- USERS
 -- ============================================================
-
+//test-password-hash: $2a$10$EO3AlQsEUvetnxuLcnAp6OKnd2TVkcT992RAxRMiGzD02y93o26W.
 INSERT INTO users (email, password)
 VALUES
     (

@@ -23,7 +23,7 @@ class DashboardController(
     fun getDashboard(
         @CurrentUser authenticatedUser: AuthenticatedUser
     ): DashboardResponse {
-        logger.debug("start")
+        logger.info("start")
         return getDashboardUseCase(authenticatedUser).toDashboardResponse(authenticatedUser)
     }
 }
