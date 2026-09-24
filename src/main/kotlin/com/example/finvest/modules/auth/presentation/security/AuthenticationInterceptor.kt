@@ -1,5 +1,6 @@
 package com.example.finvest.modules.auth.presentation.security
 
+import com.example.finvest.logger.Logger
 import com.example.finvest.modules.auth.application.service.TokenValidator
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -9,7 +10,8 @@ import org.springframework.web.servlet.HandlerInterceptor
 
 @Component
 class AuthenticationInterceptor(
-    private val tokenValidator: TokenValidator
+    private val tokenValidator: TokenValidator,
+    private val logger: Logger,
 ) : HandlerInterceptor {
 
     override fun preHandle(
@@ -37,6 +39,7 @@ class AuthenticationInterceptor(
         val authHeader = request.getHeader("Authorization")
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            logger.info("Token missing in request")
             response.sendError(
                 HttpServletResponse.SC_UNAUTHORIZED,
                 "Authentification requise"
@@ -53,9 +56,10 @@ class AuthenticationInterceptor(
 
             if (user != null) {
                 request.setAttribute("authenticatedUser", user)
-
+                logger.info("Utilisateur authentifié id=${user.id} email=${user.email}")
                 return true
             } else {
+                logger.warn("Token invalide ou expiré")
                 response.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED,
                     "Token invalide ou expiré"

@@ -1,6 +1,7 @@
 package com.example.finvest.modules.account.infrastructure.persistence.repository
 
 
+import com.example.finvest.logger.Logger
 import com.example.finvest.modules.account.domain.models.AccountDashboardData
 import com.example.finvest.modules.account.domain.repository.AccountRepository
 import com.example.finvest.modules.account.infrastructure.persistence.mapper.toDomain
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class AccountJdbcRepository(
-    private val jdbcTemplate: NamedParameterJdbcTemplate
+    private val jdbcTemplate: NamedParameterJdbcTemplate,
+    private val logger: Logger
 ) : AccountRepository {
 
     override fun findDashboardByUserId(userId: Long): List<AccountDashboardData> {
@@ -23,40 +25,40 @@ class AccountJdbcRepository(
         ) { rs, _ ->
             AccountDashboardRow(
                 // Account
-                accountId = rs.getLong("account_id"),
-                accountBankId = rs.getLong("account_bank_id"),
-                accountName = rs.getString("account_name"),
-                accountBalance = rs.getBigDecimal("account_balance"),
-                accountCurrencyId = rs.getLong("account_currency_id"),
-                accountCreatedAt = rs.getTimestamp("account_created_at").toLocalDateTime(),
-                accountClosedAt = rs.getTimestamp("account_closed_at")?.toLocalDateTime(),
-                accountStatusId = rs.getLong("account_status_id"),
-                accountDescription = rs.getString("account_description"),
-                accountType = rs.getString("account_type"),
+                accountId = rs.getLong("accountId"),
+                accountBankId = rs.getLong("accountBankId"),
+                accountName = rs.getString("accountName"),
+                accountBalance = rs.getBigDecimal("accountBalance"),
+                accountCurrencyId = rs.getLong("accountCurrencyId"),
+                accountCreatedAt = rs.getTimestamp("accountCreatedAt").toLocalDateTime(),
+                accountClosedAt = rs.getTimestamp("accountClosedAt")?.toLocalDateTime(),
+                accountStatusId = rs.getLong("accountStatusId"),
+                accountDescription = rs.getString("accountDescription"),
+                accountType = rs.getString("accountType"),
 
                 // Bank
-                bankId = rs.getLong("bank_id"),
-                bankName = rs.getString("bank_name"),
-                bankBic = rs.getString("bank_bic"),
-                bankLogo = rs.getString("bank_logo"),
+                bankId = rs.getLong("bankId"),
+                bankName = rs.getString("bankName"),
+                bankBic = rs.getString("bankBic"),
+                bankLogo = rs.getString("bankLogo"),
 
                 // Currency
-                currencyId = rs.getLong("currency_id"),
-                currencyCode = rs.getString("currency_code"),
+                currencyId = rs.getLong("currencyId"),
+                currencyCode = rs.getString("currencyCode"),
 
                 // AccountStatus
-                statusId = rs.getLong("status_id"),
-                statusCode = rs.getString("status_code"),
+                statusId = rs.getLong("statusId"),
+                statusCode = rs.getString("statusCode"),
 
                 // AccountOwner
-                ownerId = rs.getLong("owner_id"),
-                ownerAccountId = rs.getLong("owner_account_id"),
-                ownerUserId = rs.getLong("owner_user_id").let {
+                ownerId = rs.getLong("ownerId"),
+                ownerAccountId = rs.getLong("ownerAccountId"),
+                ownerUserId = rs.getLong("ownerUserId").let {
                     if (rs.wasNull()) null else it
                 },
-                ownerName = rs.getString("owner_name"),
+                ownerName = rs.getString("ownerName"),
                 ownerOwnershipPercentage =
-                    rs.getBigDecimal("owner_ownership_percentage"),
+                    rs.getBigDecimal("ownerOwnershipPercentage"),
             ).toDomain()
         }
     }

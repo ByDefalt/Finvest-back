@@ -20,31 +20,49 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.spring.boot.h2console)
+    // Spring Boot
     implementation(libs.spring.boot.starter.data.jdbc)
     implementation(libs.spring.boot.starter.webmvc)
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.spring.boot.starter.validation)
+    implementation(libs.spring.boot.starter.security)
+    implementation(libs.spring.boot.h2console)
+
+    // Database
+    runtimeOnly(libs.h2)
+    runtimeOnly(libs.mariadb)
+
+    // Flyway
+    implementation(libs.flyway)
+    implementation(libs.flyway.mysql)
+
+    // Kotlin
     implementation(libs.kotlin.reflect)
     implementation(libs.jackson.module.kotlin)
-    implementation(libs.flyway)
+
+    // JWT
     implementation(libs.jjwt.api)
-    implementation(libs.jjwt.impl)
-    implementation(libs.jjwt.jackson)
+    runtimeOnly(libs.jjwt.impl)
+    runtimeOnly(libs.jjwt.jackson)
 
-    runtimeOnly(libs.mariadb)
-    implementation(libs.spring.boot.starter.security)
+    // OpenAPI
+    implementation(libs.springdoc.openapi)
 
-    runtimeOnly(libs.h2)
-
+    // Tests
+    testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.spring.boot.starter.data.jdbc.test)
     testImplementation(libs.spring.boot.starter.webmvc.test)
+    testImplementation(libs.spring.boot.starter.security.test)
     testImplementation(libs.kotlin.test.junit5)
 
     testRuntimeOnly(libs.junit.platform.launcher)
 
-    // build.gradle.kts
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
+    testImplementation(libs.testcontainers.mariadb)
+    testImplementation(libs.spring.boot.testcontainers)
+
+    testImplementation(libs.archunit)
+    // Docker
+    developmentOnly(libs.spring.boot.docker.compose)
 }
 
 kotlin {

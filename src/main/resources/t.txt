@@ -3,8 +3,8 @@ user : id, email, password
 bank : id, name, bic, logo
 
 account : id, bankId, name, balance, currencyId, createdAt, closedAt, accountStatusId, description, account_type
-accountStatus : id, code, name
-accountType : id, code, name
+accountStatus : id, code
+accountType : id, code
 
 accountOwner : id, accountId, userId, name, ownershipPercentage
 
@@ -16,12 +16,12 @@ assuranceVie : accountId, contractNumber, openingDate, managementTypeId
 per : accountId, contractNumber, openingDate, managementTypeId
 pee : accountId, openingDate, employer
 
-managementType : id, code, name
+managementType : id, code
 
-country : id, code, name
+country : id, code
 
 asset : id, name, assetTypeId, isin, ticker, issuerCountryId, currencyId, description
-assetType : id, code, name
+assetType : id, code
 
 assetPrice : id, assetId, price, currencyId, date
 assetCountry : assetId, countryId, weight
@@ -29,9 +29,9 @@ assetCountry : assetId, countryId, weight
 position : id, accountId, assetId, quantity, averagePrice, currencyId
 
 transaction : id, accountId, transactionTypeId, amount, currencyId, date, description
-transactionType : id, code, name
+transactionType : id, code
 
 trade : id, accountId, assetId, tradeTypeId, quantity, unitPrice, fees, currencyId, date
-tradeType : id, code, name
+tradeType : id, code
 
-currency : id, code, name, symbol
+currency : id, code

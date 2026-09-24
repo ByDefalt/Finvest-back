@@ -1,53 +1,48 @@
 -- ============================================================
 -- FINVEST - DATA TEST
+-- MariaDB
 -- ============================================================
 
 
 -- ============================================================
 -- USERS
 -- ============================================================
-//test-password-hash: $2a$10$EO3AlQsEUvetnxuLcnAp6OKnd2TVkcT992RAxRMiGzD02y93o26W.
+
+-- test-password-hash: $2a$10$EO3AlQsEUvetnxuLcnAp6OKnd2TVkcT992RAxRMiGzD02y93o26W.
 INSERT INTO users (email, password)
-VALUES
-    (
-        'romain@example.com',
-        '$2a$10$EO3AlQsEUvetnxuLcnAp6OKnd2TVkcT992RAxRMiGzD02y93o26W.'
-    ),
-    (
-        'test@example.com',
-        '$2a$10$EO3AlQsEUvetnxuLcnAp6OKnd2TVkcT992RAxRMiGzD02y93o26W.'
-    );
+VALUES ('romain@example.com',
+        '$2a$10$EO3AlQsEUvetnxuLcnAp6OKnd2TVkcT992RAxRMiGzD02y93o26W.'),
+       ('test@example.com',
+        '$2a$10$EO3AlQsEUvetnxuLcnAp6OKnd2TVkcT992RAxRMiGzD02y93o26W.');
+
 
 -- ============================================================
 -- CURRENCIES
 -- ============================================================
 
 INSERT INTO currencies (code)
-VALUES
-    ('EUR'),
-    ('USD'),
-    ('GBP'),
-    ('JPY'),
-    ('CHF');
+VALUES ('EUR'),
+       ('USD'),
+       ('GBP'),
+       ('JPY'),
+       ('CHF');
 
 
 -- ============================================================
 -- COUNTRIES
 -- ============================================================
 
-
 INSERT INTO countries (code)
-VALUES
-    ('FR'),
-    ('US'),
-    ('GB'),
-    ('DE'),
-    ('JP'),
-    ('CH'),
-    ('NL'),
-    ('LU'),
-    ('IE'),
-    ('CA');
+VALUES ('FR'),
+       ('US'),
+       ('GB'),
+       ('DE'),
+       ('JP'),
+       ('CH'),
+       ('NL'),
+       ('LU'),
+       ('IE'),
+       ('CA');
 
 
 -- ============================================================
@@ -55,11 +50,10 @@ VALUES
 -- ============================================================
 
 INSERT INTO banks (name, bic, logo)
-VALUES
-    ('Crédit Mutuel Arkéa', 'CMBRFR2B', NULL),
-    ('Fortuneo', 'FTNOFRP1', NULL),
-    ('Boursobank', 'BOUSFRPP', NULL),
-    ('AXA', 'AXABFRPP', NULL);
+VALUES ('Crédit Mutuel Arkéa', 'CMBRFR2B', NULL),
+       ('Fortuneo', 'FTNOFRP1', NULL),
+       ('Boursobank', 'BOUSFRPP', NULL),
+       ('AXA', 'AXABFRPP', NULL);
 
 
 -- ============================================================
@@ -67,10 +61,9 @@ VALUES
 -- ============================================================
 
 INSERT INTO account_statuses (code)
-VALUES
-    ('ACTIVE'),
-    ('CLOSED'),
-    ('BLOCKED');
+VALUES ('ACTIVE'),
+       ('CLOSED'),
+       ('BLOCKED');
 
 
 -- ============================================================
@@ -78,10 +71,9 @@ VALUES
 -- ============================================================
 
 INSERT INTO management_types (code)
-VALUES
-    ('FREE_MANAGEMENT'),
-    ('MANAGED'),
-    ('ADVISED');
+VALUES ('FREE_MANAGEMENT'),
+       ('MANAGED'),
+       ('ADVISED');
 
 
 -- ============================================================
@@ -89,15 +81,14 @@ VALUES
 -- ============================================================
 
 INSERT INTO asset_types (code)
-VALUES
-    ('STOCK'),
-    ('ETF'),
-    ('BOND'),
-    ('FUND'),
-    ('SCPI'),
-    ('OPCI'),
-    ('CRYPTO'),
-    ('CASH');
+VALUES ('STOCK'),
+       ('ETF'),
+       ('BOND'),
+       ('FUND'),
+       ('SCPI'),
+       ('OPCI'),
+       ('CRYPTO'),
+       ('CASH');
 
 
 -- ============================================================
@@ -105,14 +96,13 @@ VALUES
 -- ============================================================
 
 INSERT INTO transaction_types (code)
-VALUES
-    ('DEPOSIT'),
-    ('WITHDRAWAL'),
-    ('TRANSFER'),
-    ('DIVIDEND'),
-    ('INTEREST'),
-    ('FEE'),
-    ('TAX');
+VALUES ('DEPOSIT'),
+       ('WITHDRAWAL'),
+       ('TRANSFER'),
+       ('DIVIDEND'),
+       ('INTEREST'),
+       ('FEE'),
+       ('TAX');
 
 
 -- ============================================================
@@ -120,9 +110,8 @@ VALUES
 -- ============================================================
 
 INSERT INTO trade_types (code)
-VALUES
-    ('BUY'),
-    ('SELL');
+VALUES ('BUY'),
+       ('SELL');
 
 
 -- ============================================================
@@ -130,14 +119,14 @@ VALUES
 -- ============================================================
 
 INSERT INTO account_types (code)
-VALUES
-    ('COMPTE_COURANT'),
-    ('LIVRET'),
-    ('PEA'),
-    ('COMPTE_TITRES'),
-    ('ASSURANCE_VIE'),
-    ('PER'),
-    ('PEE');
+VALUES ('COMPTE_COURANT'),
+       ('LIVRET'),
+       ('PEA'),
+       ('COMPTE_TITRES'),
+       ('ASSURANCE_VIE'),
+       ('PER'),
+       ('PEE');
+
 
 -- ============================================================
 -- ACCOUNTS - ROMAIN
@@ -149,15 +138,14 @@ VALUES
 
 INSERT INTO accounts
 (bank_id, name, balance, currency_id, created_at, account_status_id, description, account_type_id)
-SELECT
-    b.id,
-    'Compte courant Romain',
-    2500.00,
-    c.id,
-    CURRENT_TIMESTAMP,
-    s.id,
-    'Compte courant principal',
-    at.id
+SELECT b.id,
+       'Compte courant Romain',
+       2500.00,
+       c.id,
+       CURRENT_TIMESTAMP,
+       s.id,
+       'Compte courant principal',
+       at.id
 FROM banks b
          CROSS JOIN currencies c
          CROSS JOIN account_statuses s
@@ -174,15 +162,14 @@ WHERE b.name = 'Crédit Mutuel Arkéa'
 
 INSERT INTO accounts
 (bank_id, name, balance, currency_id, created_at, account_status_id, description, account_type_id)
-SELECT
-    b.id,
-    'Livret A Romain',
-    10000.00,
-    c.id,
-    CURRENT_TIMESTAMP,
-    s.id,
-    'Épargne de précaution',
-    at.id
+SELECT b.id,
+       'Livret A Romain',
+       10000.00,
+       c.id,
+       CURRENT_TIMESTAMP,
+       s.id,
+       'Épargne de précaution',
+       at.id
 FROM banks b
          CROSS JOIN currencies c
          CROSS JOIN account_statuses s
@@ -199,15 +186,14 @@ WHERE b.name = 'Crédit Mutuel Arkéa'
 
 INSERT INTO accounts
 (bank_id, name, balance, currency_id, created_at, account_status_id, description, account_type_id)
-SELECT
-    b.id,
-    'PEA Romain',
-    25000.00,
-    c.id,
-    CURRENT_TIMESTAMP,
-    s.id,
-    'Plan d''épargne en actions',
-    at.id
+SELECT b.id,
+       'PEA Romain',
+       25000.00,
+       c.id,
+       CURRENT_TIMESTAMP,
+       s.id,
+       'Plan d''épargne en actions',
+       at.id
 FROM banks b
          CROSS JOIN currencies c
          CROSS JOIN account_statuses s
@@ -224,15 +210,14 @@ WHERE b.name = 'Fortuneo'
 
 INSERT INTO accounts
 (bank_id, name, balance, currency_id, created_at, account_status_id, description, account_type_id)
-SELECT
-    b.id,
-    'PER Romain',
-    8000.00,
-    c.id,
-    CURRENT_TIMESTAMP,
-    s.id,
-    'Plan épargne retraite',
-    at.id
+SELECT b.id,
+       'PER Romain',
+       8000.00,
+       c.id,
+       CURRENT_TIMESTAMP,
+       s.id,
+       'Plan épargne retraite',
+       at.id
 FROM banks b
          CROSS JOIN currencies c
          CROSS JOIN account_statuses s
@@ -249,15 +234,14 @@ WHERE b.name = 'AXA'
 
 INSERT INTO accounts
 (bank_id, name, balance, currency_id, created_at, account_status_id, description, account_type_id)
-SELECT
-    b.id,
-    'PEE Romain',
-    15000.00,
-    c.id,
-    CURRENT_TIMESTAMP,
-    s.id,
-    'Plan épargne entreprise',
-    at.id
+SELECT b.id,
+       'PEE Romain',
+       15000.00,
+       c.id,
+       CURRENT_TIMESTAMP,
+       s.id,
+       'Plan épargne entreprise',
+       at.id
 FROM banks b
          CROSS JOIN currencies c
          CROSS JOIN account_statuses s
@@ -274,15 +258,14 @@ WHERE b.name = 'Crédit Mutuel Arkéa'
 
 INSERT INTO accounts
 (bank_id, name, balance, currency_id, created_at, account_status_id, description, account_type_id)
-SELECT
-    b.id,
-    'Assurance vie Romain',
-    12000.00,
-    c.id,
-    CURRENT_TIMESTAMP,
-    s.id,
-    'Contrat d''assurance vie',
-    at.id
+SELECT b.id,
+       'Assurance vie Romain',
+       12000.00,
+       c.id,
+       CURRENT_TIMESTAMP,
+       s.id,
+       'Contrat d''assurance vie',
+       at.id
 FROM banks b
          CROSS JOIN currencies c
          CROSS JOIN account_statuses s
@@ -303,15 +286,14 @@ WHERE b.name = 'AXA'
 
 INSERT INTO accounts
 (bank_id, name, balance, currency_id, created_at, account_status_id, description, account_type_id)
-SELECT
-    b.id,
-    'Compte courant Test',
-    1800.00,
-    c.id,
-    CURRENT_TIMESTAMP,
-    s.id,
-    'Compte courant principal',
-    at.id
+SELECT b.id,
+       'Compte courant Test',
+       1800.00,
+       c.id,
+       CURRENT_TIMESTAMP,
+       s.id,
+       'Compte courant principal',
+       at.id
 FROM banks b
          CROSS JOIN currencies c
          CROSS JOIN account_statuses s
@@ -328,15 +310,14 @@ WHERE b.name = 'Boursobank'
 
 INSERT INTO accounts
 (bank_id, name, balance, currency_id, created_at, account_status_id, description, account_type_id)
-SELECT
-    b.id,
-    'Livret A Test',
-    7500.00,
-    c.id,
-    CURRENT_TIMESTAMP,
-    s.id,
-    'Épargne',
-    at.id
+SELECT b.id,
+       'Livret A Test',
+       7500.00,
+       c.id,
+       CURRENT_TIMESTAMP,
+       s.id,
+       'Épargne',
+       at.id
 FROM banks b
          CROSS JOIN currencies c
          CROSS JOIN account_statuses s
@@ -353,15 +334,14 @@ WHERE b.name = 'Boursobank'
 
 INSERT INTO accounts
 (bank_id, name, balance, currency_id, created_at, account_status_id, description, account_type_id)
-SELECT
-    b.id,
-    'PEA Test',
-    18500.00,
-    c.id,
-    CURRENT_TIMESTAMP,
-    s.id,
-    'Plan d''épargne en actions',
-    at.id
+SELECT b.id,
+       'PEA Test',
+       18500.00,
+       c.id,
+       CURRENT_TIMESTAMP,
+       s.id,
+       'Plan d''épargne en actions',
+       at.id
 FROM banks b
          CROSS JOIN currencies c
          CROSS JOIN account_statuses s
@@ -382,11 +362,10 @@ WHERE b.name = 'Fortuneo'
 
 INSERT INTO account_owners
 (account_id, user_id, name, ownership_percentage)
-SELECT
-    a.id,
-    u.id,
-    'Romain Rousval',
-    100.00
+SELECT a.id,
+       u.id,
+       'Romain Rousval',
+       100.00
 FROM accounts a
          CROSS JOIN users u
 WHERE u.email = 'romain@example.com'
@@ -406,11 +385,10 @@ WHERE u.email = 'romain@example.com'
 
 INSERT INTO account_owners
 (account_id, user_id, name, ownership_percentage)
-SELECT
-    a.id,
-    u.id,
-    'Utilisateur test',
-    100.00
+SELECT a.id,
+       u.id,
+       'Utilisateur test',
+       100.00
 FROM accounts a
          CROSS JOIN users u
 WHERE u.email = 'test@example.com'
@@ -431,13 +409,12 @@ WHERE u.email = 'test@example.com'
 
 INSERT INTO compte_courants
 (account_id, iban, bic, account_number, overdraft_limit, holder_name)
-SELECT
-    a.id,
-    'FR7630006000011234567890189',
-    b.bic,
-    '12345678901',
-    500.00,
-    'Romain Rousval'
+SELECT a.id,
+       'FR7630006000011234567890189',
+       b.bic,
+       '12345678901',
+       500.00,
+       'Romain Rousval'
 FROM accounts a
          JOIN banks b
               ON b.id = a.bank_id
@@ -455,13 +432,12 @@ WHERE a.name = 'Compte courant Romain'
 
 INSERT INTO compte_courants
 (account_id, iban, bic, account_number, overdraft_limit, holder_name)
-SELECT
-    a.id,
-    'FR7630006000098765432109876',
-    b.bic,
-    '98765432109',
-    300.00,
-    'Utilisateur test'
+SELECT a.id,
+       'FR7630006000098765432109876',
+       b.bic,
+       '98765432109',
+       300.00,
+       'Utilisateur test'
 FROM accounts a
          JOIN banks b
               ON b.id = a.bank_id
@@ -477,16 +453,11 @@ WHERE a.name = 'Compte courant Test'
 -- LIVRETS
 -- ============================================================
 
--- ------------------------------------------------------------
--- Livret A Romain
--- ------------------------------------------------------------
-
 INSERT INTO livrets
 (account_id, interest_rate, ceiling)
-SELECT
-    a.id,
-    1.70,
-    22950.00
+SELECT a.id,
+       1.70,
+       22950.00
 FROM accounts a
          JOIN account_owners ao
               ON ao.account_id = a.id
@@ -496,16 +467,11 @@ WHERE a.name = 'Livret A Romain'
   AND u.email = 'romain@example.com';
 
 
--- ------------------------------------------------------------
--- Livret A Test
--- ------------------------------------------------------------
-
 INSERT INTO livrets
 (account_id, interest_rate, ceiling)
-SELECT
-    a.id,
-    1.70,
-    22950.00
+SELECT a.id,
+       1.70,
+       22950.00
 FROM accounts a
          JOIN account_owners ao
               ON ao.account_id = a.id
@@ -519,16 +485,11 @@ WHERE a.name = 'Livret A Test'
 -- PEAs
 -- ============================================================
 
--- ------------------------------------------------------------
--- PEA Romain
--- ------------------------------------------------------------
-
 INSERT INTO peas
 (account_id, opening_date, deposit_limit)
-SELECT
-    a.id,
-    DATE '2022-03-15',
-    150000.00
+SELECT a.id,
+       '2022-03-15',
+       150000.00
 FROM accounts a
          JOIN account_owners ao
               ON ao.account_id = a.id
@@ -538,16 +499,11 @@ WHERE a.name = 'PEA Romain'
   AND u.email = 'romain@example.com';
 
 
--- ------------------------------------------------------------
--- PEA Test
--- ------------------------------------------------------------
-
 INSERT INTO peas
 (account_id, opening_date, deposit_limit)
-SELECT
-    a.id,
-    DATE '2024-06-10',
-    150000.00
+SELECT a.id,
+       '2024-06-10',
+       150000.00
 FROM accounts a
          JOIN account_owners ao
               ON ao.account_id = a.id
@@ -563,11 +519,10 @@ WHERE a.name = 'PEA Test'
 
 INSERT INTO pers
 (account_id, contract_number, opening_date, management_type_id)
-SELECT
-    a.id,
-    'PER-2025-000001',
-    DATE '2025-09-01',
-    m.id
+SELECT a.id,
+       'PER-2025-000001',
+       '2025-09-01',
+       m.id
 FROM accounts a
          JOIN account_owners ao
               ON ao.account_id = a.id
@@ -585,10 +540,9 @@ WHERE a.name = 'PER Romain'
 
 INSERT INTO pees
 (account_id, opening_date, employer)
-SELECT
-    a.id,
-    DATE '2020-06-01',
-    'Crédit Mutuel Arkéa'
+SELECT a.id,
+       '2020-06-01',
+       'Crédit Mutuel Arkéa'
 FROM accounts a
          JOIN account_owners ao
               ON ao.account_id = a.id
@@ -604,11 +558,10 @@ WHERE a.name = 'PEE Romain'
 
 INSERT INTO assurances_vie
 (account_id, contract_number, opening_date, management_type_id)
-SELECT
-    a.id,
-    'AV-2021-000001',
-    DATE '2021-05-10',
-    m.id
+SELECT a.id,
+       'AV-2021-000001',
+       '2021-05-10',
+       m.id
 FROM accounts a
          JOIN account_owners ao
               ON ao.account_id = a.id
@@ -624,20 +577,15 @@ WHERE a.name = 'Assurance vie Romain'
 -- ASSETS
 -- ============================================================
 
--- ------------------------------------------------------------
--- Apple
--- ------------------------------------------------------------
-
 INSERT INTO assets
 (name, asset_type_id, isin, ticker, issuer_country_id, currency_id, description)
-SELECT
-    'Apple Inc.',
-    at.id,
-    'US0378331005',
-    'AAPL',
-    co.id,
-    cu.id,
-    'Action Apple'
+SELECT 'Apple Inc.',
+       at.id,
+       'US0378331005',
+       'AAPL',
+       co.id,
+       cu.id,
+       'Action Apple'
 FROM asset_types at
          CROSS JOIN countries co
          CROSS JOIN currencies cu
@@ -646,20 +594,15 @@ WHERE at.code = 'STOCK'
   AND cu.code = 'USD';
 
 
--- ------------------------------------------------------------
--- Microsoft
--- ------------------------------------------------------------
-
 INSERT INTO assets
 (name, asset_type_id, isin, ticker, issuer_country_id, currency_id, description)
-SELECT
-    'Microsoft Corporation',
-    at.id,
-    'US5949181045',
-    'MSFT',
-    co.id,
-    cu.id,
-    'Action Microsoft'
+SELECT 'Microsoft Corporation',
+       at.id,
+       'US5949181045',
+       'MSFT',
+       co.id,
+       cu.id,
+       'Action Microsoft'
 FROM asset_types at
          CROSS JOIN countries co
          CROSS JOIN currencies cu
@@ -668,20 +611,15 @@ WHERE at.code = 'STOCK'
   AND cu.code = 'USD';
 
 
--- ------------------------------------------------------------
--- ETF MSCI World
--- ------------------------------------------------------------
-
 INSERT INTO assets
 (name, asset_type_id, isin, ticker, issuer_country_id, currency_id, description)
-SELECT
-    'Amundi MSCI World',
-    at.id,
-    'LU1681043599',
-    'CW8',
-    co.id,
-    cu.id,
-    'ETF MSCI World'
+SELECT 'Amundi MSCI World',
+       at.id,
+       'LU1681043599',
+       'CW8',
+       co.id,
+       cu.id,
+       'ETF MSCI World'
 FROM asset_types at
          CROSS JOIN countries co
          CROSS JOIN currencies cu
@@ -690,20 +628,15 @@ WHERE at.code = 'ETF'
   AND cu.code = 'EUR';
 
 
--- ------------------------------------------------------------
--- ETF S&P 500
--- ------------------------------------------------------------
-
 INSERT INTO assets
 (name, asset_type_id, isin, ticker, issuer_country_id, currency_id, description)
-SELECT
-    'iShares Core S&P 500',
-    at.id,
-    'IE00B5BMR087',
-    'CSPX',
-    co.id,
-    cu.id,
-    'ETF S&P 500'
+SELECT 'iShares Core S&P 500',
+       at.id,
+       'IE00B5BMR087',
+       'CSPX',
+       co.id,
+       cu.id,
+       'ETF S&P 500'
 FROM asset_types at
          CROSS JOIN countries co
          CROSS JOIN currencies cu
@@ -712,20 +645,15 @@ WHERE at.code = 'ETF'
   AND cu.code = 'USD';
 
 
--- ------------------------------------------------------------
--- SCPI
--- ------------------------------------------------------------
-
 INSERT INTO assets
 (name, asset_type_id, isin, ticker, issuer_country_id, currency_id, description)
-SELECT
-    'SCPI Immorente',
-    at.id,
-    NULL,
-    NULL,
-    co.id,
-    cu.id,
-    'SCPI immobilière'
+SELECT 'SCPI Immorente',
+       at.id,
+       NULL,
+       NULL,
+       co.id,
+       cu.id,
+       'SCPI immobilière'
 FROM asset_types at
          CROSS JOIN countries co
          CROSS JOIN currencies cu
@@ -740,10 +668,9 @@ WHERE at.code = 'SCPI'
 
 INSERT INTO asset_countries
 (asset_id, country_id, weight)
-SELECT
-    a.id,
-    c.id,
-    70.00
+SELECT a.id,
+       c.id,
+       70.00
 FROM assets a
          CROSS JOIN countries c
 WHERE a.isin = 'LU1681043599'
@@ -752,10 +679,9 @@ WHERE a.isin = 'LU1681043599'
 
 INSERT INTO asset_countries
 (asset_id, country_id, weight)
-SELECT
-    a.id,
-    c.id,
-    6.00
+SELECT a.id,
+       c.id,
+       6.00
 FROM assets a
          CROSS JOIN countries c
 WHERE a.isin = 'LU1681043599'
@@ -764,10 +690,9 @@ WHERE a.isin = 'LU1681043599'
 
 INSERT INTO asset_countries
 (asset_id, country_id, weight)
-SELECT
-    a.id,
-    c.id,
-    4.00
+SELECT a.id,
+       c.id,
+       4.00
 FROM assets a
          CROSS JOIN countries c
 WHERE a.isin = 'LU1681043599'
@@ -776,10 +701,9 @@ WHERE a.isin = 'LU1681043599'
 
 INSERT INTO asset_countries
 (asset_id, country_id, weight)
-SELECT
-    a.id,
-    c.id,
-    3.00
+SELECT a.id,
+       c.id,
+       3.00
 FROM assets a
          CROSS JOIN countries c
 WHERE a.isin = 'LU1681043599'
@@ -788,10 +712,9 @@ WHERE a.isin = 'LU1681043599'
 
 INSERT INTO asset_countries
 (asset_id, country_id, weight)
-SELECT
-    a.id,
-    c.id,
-    17.00
+SELECT a.id,
+       c.id,
+       17.00
 FROM assets a
          CROSS JOIN countries c
 WHERE a.isin = 'LU1681043599'
@@ -800,10 +723,9 @@ WHERE a.isin = 'LU1681043599'
 
 INSERT INTO asset_countries
 (asset_id, country_id, weight)
-SELECT
-    a.id,
-    c.id,
-    100.00
+SELECT a.id,
+       c.id,
+       100.00
 FROM assets a
          CROSS JOIN countries c
 WHERE a.isin = 'IE00B5BMR087'
@@ -816,11 +738,10 @@ WHERE a.isin = 'IE00B5BMR087'
 
 INSERT INTO asset_prices
 (asset_id, price, currency_id, date)
-SELECT
-    a.id,
-    230.50,
-    c.id,
-    CURRENT_TIMESTAMP
+SELECT a.id,
+       230.50,
+       c.id,
+       CURRENT_TIMESTAMP
 FROM assets a
          JOIN currencies c
               ON c.code = 'USD'
@@ -829,11 +750,10 @@ WHERE a.ticker = 'AAPL';
 
 INSERT INTO asset_prices
 (asset_id, price, currency_id, date)
-SELECT
-    a.id,
-    510.25,
-    c.id,
-    CURRENT_TIMESTAMP
+SELECT a.id,
+       510.25,
+       c.id,
+       CURRENT_TIMESTAMP
 FROM assets a
          JOIN currencies c
               ON c.code = 'USD'
@@ -842,11 +762,10 @@ WHERE a.ticker = 'MSFT';
 
 INSERT INTO asset_prices
 (asset_id, price, currency_id, date)
-SELECT
-    a.id,
-    520.80,
-    c.id,
-    CURRENT_TIMESTAMP
+SELECT a.id,
+       520.80,
+       c.id,
+       CURRENT_TIMESTAMP
 FROM assets a
          JOIN currencies c
               ON c.code = 'EUR'
@@ -855,11 +774,10 @@ WHERE a.ticker = 'CW8';
 
 INSERT INTO asset_prices
 (asset_id, price, currency_id, date)
-SELECT
-    a.id,
-    650.40,
-    c.id,
-    CURRENT_TIMESTAMP
+SELECT a.id,
+       650.40,
+       c.id,
+       CURRENT_TIMESTAMP
 FROM assets a
          JOIN currencies c
               ON c.code = 'USD'
@@ -868,11 +786,10 @@ WHERE a.ticker = 'CSPX';
 
 INSERT INTO asset_prices
 (asset_id, price, currency_id, date)
-SELECT
-    a.id,
-    350.00,
-    c.id,
-    CURRENT_TIMESTAMP
+SELECT a.id,
+       350.00,
+       c.id,
+       CURRENT_TIMESTAMP
 FROM assets a
          JOIN currencies c
               ON c.code = 'EUR'
@@ -885,12 +802,11 @@ WHERE a.name = 'SCPI Immorente';
 
 INSERT INTO positions
 (account_id, asset_id, quantity, average_price, currency_id)
-SELECT
-    a.id,
-    asset.id,
-    20,
-    180.00,
-    c.id
+SELECT a.id,
+       asset.id,
+       20,
+       180.00,
+       c.id
 FROM accounts a
          CROSS JOIN assets asset
          JOIN currencies c
@@ -906,12 +822,11 @@ WHERE a.name = 'PEA Romain'
 
 INSERT INTO positions
 (account_id, asset_id, quantity, average_price, currency_id)
-SELECT
-    a.id,
-    asset.id,
-    10,
-    390.00,
-    c.id
+SELECT a.id,
+       asset.id,
+       10,
+       390.00,
+       c.id
 FROM accounts a
          CROSS JOIN assets asset
          JOIN currencies c
@@ -927,12 +842,11 @@ WHERE a.name = 'PEA Romain'
 
 INSERT INTO positions
 (account_id, asset_id, quantity, average_price, currency_id)
-SELECT
-    a.id,
-    asset.id,
-    15,
-    450.00,
-    c.id
+SELECT a.id,
+       asset.id,
+       15,
+       450.00,
+       c.id
 FROM accounts a
          CROSS JOIN assets asset
          JOIN currencies c
@@ -950,19 +864,14 @@ WHERE a.name = 'PEA Romain'
 -- TRANSACTIONS
 -- ============================================================
 
--- ------------------------------------------------------------
--- Dépôt compte courant Romain
--- ------------------------------------------------------------
-
 INSERT INTO transactions
 (account_id, transaction_type_id, amount, currency_id, date, description)
-SELECT
-    a.id,
-    tt.id,
-    2500.00,
-    c.id,
-    CURRENT_TIMESTAMP - INTERVAL '30' DAY,
-    'Versement initial'
+SELECT a.id,
+       tt.id,
+       2500.00,
+       c.id,
+       CURRENT_TIMESTAMP - INTERVAL 30 DAY,
+       'Versement initial'
 FROM accounts a
          CROSS JOIN transaction_types tt
          CROSS JOIN currencies c
@@ -971,19 +880,14 @@ WHERE a.name = 'Compte courant Romain'
   AND c.code = 'EUR';
 
 
--- ------------------------------------------------------------
--- Dépôt compte courant Test
--- ------------------------------------------------------------
-
 INSERT INTO transactions
 (account_id, transaction_type_id, amount, currency_id, date, description)
-SELECT
-    a.id,
-    tt.id,
-    1800.00,
-    c.id,
-    CURRENT_TIMESTAMP - INTERVAL '25' DAY,
-    'Versement initial'
+SELECT a.id,
+       tt.id,
+       1800.00,
+       c.id,
+       CURRENT_TIMESTAMP - INTERVAL 25 DAY,
+       'Versement initial'
 FROM accounts a
          CROSS JOIN transaction_types tt
          CROSS JOIN currencies c
@@ -992,19 +896,14 @@ WHERE a.name = 'Compte courant Test'
   AND c.code = 'EUR';
 
 
--- ------------------------------------------------------------
--- Intérêts Livret A Romain
--- ------------------------------------------------------------
-
 INSERT INTO transactions
 (account_id, transaction_type_id, amount, currency_id, date, description)
-SELECT
-    a.id,
-    tt.id,
-    125.50,
-    c.id,
-    CURRENT_TIMESTAMP - INTERVAL '10' DAY,
-    'Intérêts annuels'
+SELECT a.id,
+       tt.id,
+       125.50,
+       c.id,
+       CURRENT_TIMESTAMP - INTERVAL 10 DAY,
+       'Intérêts annuels'
 FROM accounts a
          CROSS JOIN transaction_types tt
          CROSS JOIN currencies c
@@ -1013,19 +912,14 @@ WHERE a.name = 'Livret A Romain'
   AND c.code = 'EUR';
 
 
--- ------------------------------------------------------------
--- Intérêts Livret A Test
--- ------------------------------------------------------------
-
 INSERT INTO transactions
 (account_id, transaction_type_id, amount, currency_id, date, description)
-SELECT
-    a.id,
-    tt.id,
-    85.25,
-    c.id,
-    CURRENT_TIMESTAMP - INTERVAL '12' DAY,
-    'Intérêts annuels'
+SELECT a.id,
+       tt.id,
+       85.25,
+       c.id,
+       CURRENT_TIMESTAMP - INTERVAL 12 DAY,
+       'Intérêts annuels'
 FROM accounts a
          CROSS JOIN transaction_types tt
          CROSS JOIN currencies c
@@ -1034,19 +928,14 @@ WHERE a.name = 'Livret A Test'
   AND c.code = 'EUR';
 
 
--- ------------------------------------------------------------
--- Dividende Apple
--- ------------------------------------------------------------
-
 INSERT INTO transactions
 (account_id, transaction_type_id, amount, currency_id, date, description)
-SELECT
-    a.id,
-    tt.id,
-    24.50,
-    c.id,
-    CURRENT_TIMESTAMP - INTERVAL '5' DAY,
-    'Dividende Apple'
+SELECT a.id,
+       tt.id,
+       24.50,
+       c.id,
+       CURRENT_TIMESTAMP - INTERVAL 5 DAY,
+       'Dividende Apple'
 FROM accounts a
          CROSS JOIN transaction_types tt
          CROSS JOIN currencies c
@@ -1060,19 +949,14 @@ WHERE a.name = 'PEA Romain'
   AND c.code = 'USD';
 
 
--- ------------------------------------------------------------
--- Frais PEA Romain
--- ------------------------------------------------------------
-
 INSERT INTO transactions
 (account_id, transaction_type_id, amount, currency_id, date, description)
-SELECT
-    a.id,
-    tt.id,
-    1.99,
-    c.id,
-    CURRENT_TIMESTAMP - INTERVAL '3' DAY,
-    'Frais de courtage'
+SELECT a.id,
+       tt.id,
+       1.99,
+       c.id,
+       CURRENT_TIMESTAMP - INTERVAL 3 DAY,
+       'Frais de courtage'
 FROM accounts a
          CROSS JOIN transaction_types tt
          CROSS JOIN currencies c
@@ -1086,19 +970,14 @@ WHERE a.name = 'PEA Romain'
   AND c.code = 'EUR';
 
 
--- ------------------------------------------------------------
--- Dividende PEA Test
--- ------------------------------------------------------------
-
 INSERT INTO transactions
 (account_id, transaction_type_id, amount, currency_id, date, description)
-SELECT
-    a.id,
-    tt.id,
-    18.75,
-    c.id,
-    CURRENT_TIMESTAMP - INTERVAL '8' DAY,
-    'Dividende'
+SELECT a.id,
+       tt.id,
+       18.75,
+       c.id,
+       CURRENT_TIMESTAMP - INTERVAL 8 DAY,
+       'Dividende'
 FROM accounts a
          CROSS JOIN transaction_types tt
          CROSS JOIN currencies c
@@ -1116,21 +995,16 @@ WHERE a.name = 'PEA Test'
 -- TRADES - PEA ROMAIN
 -- ============================================================
 
--- ------------------------------------------------------------
--- Achat Apple
--- ------------------------------------------------------------
-
 INSERT INTO trades
 (account_id, asset_id, trade_type_id, quantity, unit_price, fees, currency_id, date)
-SELECT
-    a.id,
-    asset.id,
-    tt.id,
-    20,
-    180.00,
-    2.00,
-    c.id,
-    CURRENT_TIMESTAMP - INTERVAL '90' DAY
+SELECT a.id,
+       asset.id,
+       tt.id,
+       20,
+       180.00,
+       2.00,
+       c.id,
+       CURRENT_TIMESTAMP - INTERVAL 90 DAY
 FROM accounts a
          CROSS JOIN assets asset
          CROSS JOIN trade_types tt
@@ -1146,21 +1020,16 @@ WHERE a.name = 'PEA Romain'
   AND c.code = 'USD';
 
 
--- ------------------------------------------------------------
--- Achat Microsoft
--- ------------------------------------------------------------
-
 INSERT INTO trades
 (account_id, asset_id, trade_type_id, quantity, unit_price, fees, currency_id, date)
-SELECT
-    a.id,
-    asset.id,
-    tt.id,
-    10,
-    390.00,
-    2.00,
-    c.id,
-    CURRENT_TIMESTAMP - INTERVAL '60' DAY
+SELECT a.id,
+       asset.id,
+       tt.id,
+       10,
+       390.00,
+       2.00,
+       c.id,
+       CURRENT_TIMESTAMP - INTERVAL 60 DAY
 FROM accounts a
          CROSS JOIN assets asset
          CROSS JOIN trade_types tt
@@ -1176,21 +1045,16 @@ WHERE a.name = 'PEA Romain'
   AND c.code = 'USD';
 
 
--- ------------------------------------------------------------
--- Achat MSCI World
--- ------------------------------------------------------------
-
 INSERT INTO trades
 (account_id, asset_id, trade_type_id, quantity, unit_price, fees, currency_id, date)
-SELECT
-    a.id,
-    asset.id,
-    tt.id,
-    15,
-    450.00,
-    1.50,
-    c.id,
-    CURRENT_TIMESTAMP - INTERVAL '45' DAY
+SELECT a.id,
+       asset.id,
+       tt.id,
+       15,
+       450.00,
+       1.50,
+       c.id,
+       CURRENT_TIMESTAMP - INTERVAL 45 DAY
 FROM accounts a
          CROSS JOIN assets asset
          CROSS JOIN trade_types tt

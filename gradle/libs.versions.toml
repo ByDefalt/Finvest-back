@@ -4,6 +4,8 @@ spring-boot = "4.1.1"
 spring-dependency-management = "1.1.7"
 java = "25"
 jjwt = "0.13.0"
+springdoc = "2.8.9"
+archunit = "1.5.0"
 
 [libraries]
 spring-boot-h2console = { module = "org.springframework.boot:spring-boot-h2console" }
@@ -17,6 +19,8 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 jackson-module-kotlin = { module = "tools.jackson.module:jackson-module-kotlin" }
 
 flyway = { module = "org.springframework.boot:spring-boot-starter-flyway" }
+flyway-mysql = { module = "org.flywaydb:flyway-mysql" }
+
 jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
 jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
 jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
@@ -24,11 +28,24 @@ jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
 h2 = { module = "com.h2database:h2" }
 mariadb = { module = "org.mariadb.jdbc:mariadb-java-client" }
 
+# OpenAPI
+springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
+
+# Tests
 spring-boot-starter-data-jdbc-test = { module = "org.springframework.boot:spring-boot-starter-data-jdbc-test" }
 spring-boot-starter-webmvc-test = { module = "org.springframework.boot:spring-boot-starter-webmvc-test" }
+spring-boot-starter-security-test = { module = "org.springframework.security:spring-security-test" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+
 kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 
+testcontainers-mariadb = { module = "org.testcontainers:testcontainers-mariadb" }
+spring-boot-testcontainers = { module = "org.springframework.boot:spring-boot-testcontainers" }
+
+spring-boot-docker-compose = { module = "org.springframework.boot:spring-boot-docker-compose" }
+
+archunit = { module = "com.tngtech.archunit:archunit", version.ref = "archunit" }
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }

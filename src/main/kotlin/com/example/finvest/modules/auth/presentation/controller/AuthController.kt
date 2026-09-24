@@ -5,11 +5,11 @@ import com.example.finvest.logger.Logger
 import com.example.finvest.modules.auth.application.usecase.LoginUseCase
 import com.example.finvest.modules.auth.application.usecase.RefreshAccessTokenUseCase
 import com.example.finvest.modules.auth.application.usecase.RegisterUseCase
+import com.example.finvest.modules.auth.presentation.mapper.toDto
 import com.example.finvest.modules.auth.presentation.models.LoginRequest
 import com.example.finvest.modules.auth.presentation.models.LoginResponse
 import com.example.finvest.modules.auth.presentation.models.RegisterUserRequest
 import com.example.finvest.modules.auth.presentation.models.UserResponse
-import com.example.finvest.modules.auth.presentation.mapper.toDto
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Value
@@ -49,7 +49,7 @@ class AuthController(
         @Valid @RequestBody loginRequest: LoginRequest,
         response: HttpServletResponse
     ): LoginResponse {
-        logger.debug("start for email=${loginRequest.email}")
+        logger.debug("start login for email=${loginRequest.email}")
         val tokens = loginUseCase(
             loginRequest.email,
             loginRequest.password
@@ -76,7 +76,7 @@ class AuthController(
             .httpOnly(true)
             .secure(secure)
             .sameSite("Strict")
-            .path("/auth")
+            .path("/auth/refresh")
             .maxAge(Duration.ZERO)
             .build()
     }
@@ -85,9 +85,9 @@ class AuthController(
     fun refreshToken(
         @CookieValue("refreshToken") refreshToken: String
     ): LoginResponse {
-        logger.debug("start")
+        logger.debug("start refresh token")
         val accessToken = refreshAccessTokenUseCase(refreshToken)
-        logger.info("success")
+        logger.info("success new access token generated")
         return LoginResponse(accessToken.value)
     }
 
@@ -98,7 +98,7 @@ class AuthController(
             .httpOnly(true)
             .secure(secure)
             .sameSite("Strict")
-            .path("/auth")
+            .path("/auth/refresh")
             .maxAge(Duration.ofDays(30))
             .build()
     }

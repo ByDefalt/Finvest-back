@@ -22,7 +22,7 @@ fun AccountDashboardData.toResponse(authenticatedUser: AuthenticatedUser): Accou
         type = this.account.accountType,
         accountOwners = this.owners.map { owner ->
             AccountOwnerDashboardResponse(
-                email = if(owner.userId == authenticatedUser.id) authenticatedUser.email else null,
+                email = if (owner.userId == authenticatedUser.id) authenticatedUser.email else null,
                 name = owner.name,
                 ownershipPercentage = owner.ownershipPercentage
             )

@@ -5,37 +5,37 @@ object AccountQueries {
     const val FIND_DASHBOARD_BY_USER_ID = """
     SELECT
         -- Account
-        a.id                    AS account_id,
-        a.bank_id               AS account_bank_id,
-        a.name                  AS account_name,
-        a.balance               AS account_balance,
-        a.currency_id           AS account_currency_id,
-        a.created_at            AS account_created_at,
-        a.closed_at             AS account_closed_at,
-        a.account_status_id     AS account_status_id,
-        a.description           AS account_description,
-        at.code                 AS account_type,
+        a.id                    AS accountId,
+        a.bank_id               AS accountBankId,
+        a.name                  AS accountName,
+        a.balance               AS accountBalance,
+        a.currency_id           AS accountCurrencyId,
+        a.created_at            AS accountCreatedAt,
+        a.closed_at             AS accountClosedAt,
+        a.account_status_id     AS accountStatusId,
+        a.description           AS accountDescription,
+        at.code                 AS accountType,
 
         -- Bank
-        b.id                    AS bank_id,
-        b.name                  AS bank_name,
-        b.bic                   AS bank_bic,
-        b.logo                  AS bank_logo,
+        b.id                    AS bankId,
+        b.name                  AS bankName,
+        b.bic                   AS bankBic,
+        b.logo                  AS bankLogo,
 
         -- Currency
-        c.id                    AS currency_id,
-        c.code                  AS currency_code,
+        c.id                    AS currencyId,
+        c.code                  AS currencyCode,
 
         -- AccountStatus
-        s.id                    AS status_id,
-        s.code                  AS status_code,
+        s.id                    AS statusId,
+        s.code                  AS statusCode,
 
         -- AccountOwner
-        ao.id                   AS owner_id,
-        ao.account_id           AS owner_account_id,
-        ao.user_id              AS owner_user_id,
-        ao.name                 AS owner_name,
-        ao.ownership_percentage AS owner_ownership_percentage
+        ao.id                   AS ownerId,
+        ao.account_id           AS ownerAccountId,
+        ao.user_id              AS ownerUserId,
+        ao.name                 AS ownerName,
+        ao.ownership_percentage AS ownerOwnershipPercentage
         
 
     FROM accounts a

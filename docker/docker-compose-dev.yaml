@@ -1,0 +1,11 @@
+services:
+  mariadb:
+    image: mariadb:11.8
+    container_name: finvest-mariadb-dev
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: finvest
+      MARIADB_USER: finvest
+      MARIADB_PASSWORD: finvest
+    ports:
+      - "3307:3306"
