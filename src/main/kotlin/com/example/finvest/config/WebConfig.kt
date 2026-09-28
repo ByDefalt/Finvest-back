@@ -9,16 +9,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
 class WebConfig(
-    private val authenticationInterceptor: AuthenticationInterceptor
+    private val authenticationInterceptor: AuthenticationInterceptor,
 ) : WebMvcConfigurer {
-
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(authenticationInterceptor)
     }
 
-    override fun addArgumentResolvers(
-        resolvers: MutableList<HandlerMethodArgumentResolver>
-    ) {
+    override fun addArgumentResolvers(resolvers: MutableList<HandlerMethodArgumentResolver>) {
         resolvers.add(CurrentUserArgumentResolver())
     }
 }

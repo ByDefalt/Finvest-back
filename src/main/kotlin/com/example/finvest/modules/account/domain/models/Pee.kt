@@ -1,9 +1,10 @@
 package com.example.finvest.modules.account.domain.models
 
+import com.example.finvest.modules.account.domain.valueobject.AccountId
 import java.time.LocalDate
 
 data class Pee(
-    var accountId: Long,
-    var openingDate: LocalDate?,
-    var employer: String?
-)
+    val accountId: AccountId,
+    val openingDate: LocalDate,
+    val employer: String,
+) : AccountDetails

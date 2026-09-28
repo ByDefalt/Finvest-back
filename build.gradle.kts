@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.ktlint)
 }
 
 group = "com.example"
@@ -11,7 +12,12 @@ description = "Finvest"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get().toInt())
+        languageVersion =
+            JavaLanguageVersion.of(
+                libs.versions.java
+                    .get()
+                    .toInt(),
+            )
     }
 }
 
@@ -69,7 +75,7 @@ kotlin {
     compilerOptions {
         freeCompilerArgs.addAll(
             "-Xjsr305=strict",
-            "-Xannotation-default-target=param-property"
+            "-Xannotation-default-target=param-property",
         )
     }
 }

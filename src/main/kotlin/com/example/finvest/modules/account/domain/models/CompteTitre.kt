@@ -1,6 +1,8 @@
 package com.example.finvest.modules.account.domain.models
 
+import com.example.finvest.modules.account.domain.valueobject.AccountId
+
 data class CompteTitre(
-    var accountId: Long,
-    var accountNumber: String?
-)
+    val accountId: AccountId,
+    val accountNumber: String,
+) : AccountDetails

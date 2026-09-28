@@ -1,12 +1,13 @@
 package com.example.finvest.modules.account.domain.models
 
+import com.example.finvest.modules.account.domain.valueobject.AccountId
 import java.math.BigDecimal
 
 data class CompteCourant(
-    var accountId: Long,
-    var iban: String?,
-    var bic: String?,
-    var accountNumber: String?,
-    var overdraftLimit: BigDecimal?,
-    var holderName: String?
-)
+    val accountId: AccountId,
+    val iban: String,
+    val bic: String,
+    val accountNumber: String,
+    val overdraftLimit: BigDecimal,
+    val holderName: String,
+) : AccountDetails

@@ -9,13 +9,10 @@ data class BankEntity(
     @Id
     @Column("id")
     var id: Long = 0L,
-
     @Column("name")
     var name: String = "",
-
     @Column("bic")
-    var bic: String? = null,
-
+    var bic: String = "",
     @Column("logo")
-    var logo: String? = null
+    var logo: String? = null,
 )

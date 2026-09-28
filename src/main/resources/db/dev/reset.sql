@@ -2,6 +2,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 TRUNCATE TABLE trades;
 TRUNCATE TABLE transactions;
+TRUNCATE TABLE position_snapshots;
 TRUNCATE TABLE positions;
 TRUNCATE TABLE asset_countries;
 TRUNCATE TABLE asset_prices;
@@ -15,10 +16,13 @@ TRUNCATE TABLE assurances_vie;
 TRUNCATE TABLE pers;
 TRUNCATE TABLE pees;
 
+TRUNCATE TABLE account_owner_snapshots;
 TRUNCATE TABLE account_owners;
+TRUNCATE TABLE account_balance_snapshots;
 TRUNCATE TABLE accounts;
 TRUNCATE TABLE account_types;
 
+TRUNCATE TABLE exchange_rates;
 TRUNCATE TABLE trade_types;
 TRUNCATE TABLE transaction_types;
 TRUNCATE TABLE asset_types;

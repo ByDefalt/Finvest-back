@@ -1,17 +1,19 @@
 package com.example.finvest.modules.account.domain.models
 
-import java.math.BigDecimal
+import com.example.finvest.modules.account.domain.valueobject.AccountId
+import com.example.finvest.modules.account.domain.valueobject.AccountStatusId
+import com.example.finvest.modules.account.domain.valueobject.AccountTypeId
+import com.example.finvest.modules.account.domain.valueobject.BankId
 import java.time.LocalDateTime
 
 data class Account(
-    var id: Long,
-    var bankId: Long,
-    var name: String,
-    var balance: BigDecimal,
-    var currencyId: Long,
-    var createdAt: LocalDateTime,
-    var closedAt: LocalDateTime?,
-    var accountStatusId: Long,
-    var description: String?,
-    val accountType: String
+    val id: AccountId,
+    val bankId: BankId,
+    val name: String,
+    val balance: Money,
+    val createdAt: LocalDateTime,
+    val closedAt: LocalDateTime?,
+    val accountStatusId: AccountStatusId,
+    val description: String?,
+    val accountTypeId: AccountTypeId,
 )

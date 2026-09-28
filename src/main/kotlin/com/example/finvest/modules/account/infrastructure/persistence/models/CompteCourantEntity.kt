@@ -10,19 +10,14 @@ data class CompteCourantEntity(
     @Id
     @Column("account_id")
     var accountId: Long = 0L,
-
     @Column("iban")
-    var iban: String? = null,
-
+    var iban: String = "",
     @Column("bic")
-    var bic: String? = null,
-
+    var bic: String = "",
     @Column("account_number")
-    var accountNumber: String? = null,
-
+    var accountNumber: String = "",
     @Column("overdraft_limit")
-    var overdraftLimit: BigDecimal? = null,
-
+    var overdraftLimit: BigDecimal = BigDecimal.ZERO,
     @Column("holder_name")
-    var holderName: String? = null
+    var holderName: String = "",
 )

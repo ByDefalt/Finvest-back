@@ -1,9 +1,12 @@
 package com.example.finvest.modules.account.domain.repository
 
-import com.example.finvest.modules.account.domain.models.AccountDashboardData
-
+import com.example.finvest.modules.account.domain.models.Account
+import com.example.finvest.modules.account.domain.valueobject.AccountId
 
 interface AccountRepository {
+    fun createAccount(account: Account): AccountId
 
-    fun findDashboardByUserId(userId: Long): List<AccountDashboardData>
+    fun updateAccount(account: Account): Account
+
+    fun deleteAccount(accountId: AccountId)
 }

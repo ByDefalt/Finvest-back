@@ -4,5 +4,5 @@ import jakarta.validation.constraints.NotNull
 
 data class LoginResponse(
     @field:NotNull
-    val token: String
+    val token: String,
 )

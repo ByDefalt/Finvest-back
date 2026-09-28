@@ -4,7 +4,6 @@ import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabas
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
 
-
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

@@ -13,20 +13,20 @@ import org.springframework.context.annotation.Scope
 
 @Configuration
 class LoggerConfig {
-
     @Bean
     fun loggerFactory(
         @Value("\${app.logger.enabled}") enabled: Boolean = false,
-        @Value("\${app.logger.level}") level: LogLevel = LogLevel.ERROR
-    ): LoggerFactory {
-        return DefaultLoggerFactory(
+        @Value("\${app.logger.level}") level: LogLevel = LogLevel.ERROR,
+    ): LoggerFactory =
+        DefaultLoggerFactory(
             enabled = enabled,
-            level = level
+            level = level,
         )
-    }
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    fun logger(loggerFactory: LoggerFactory, injectionPoint: InjectionPoint): Logger =
-        loggerFactory.getLogger(injectionPoint.member.declaringClass)
+    fun logger(
+        loggerFactory: LoggerFactory,
+        injectionPoint: InjectionPoint,
+    ): Logger = loggerFactory.getLogger(injectionPoint.member.declaringClass)
 }

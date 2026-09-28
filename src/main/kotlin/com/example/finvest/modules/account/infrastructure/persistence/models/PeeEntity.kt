@@ -10,10 +10,8 @@ data class PeeEntity(
     @Id
     @Column("account_id")
     var accountId: Long = 0L,
-
     @Column("opening_date")
-    var openingDate: LocalDate? = null,
-
+    var openingDate: LocalDate = LocalDate.now(),
     @Column("employer")
-    var employer: String? = null
+    var employer: String = "",
 )

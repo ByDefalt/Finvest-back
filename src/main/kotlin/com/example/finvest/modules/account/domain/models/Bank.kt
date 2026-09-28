@@ -1,8 +1,11 @@
 package com.example.finvest.modules.account.domain.models
 
+import com.example.finvest.modules.account.domain.valueobject.BankId
+import com.example.finvest.modules.account.domain.valueobject.Bic
+
 data class Bank(
-    var id: Long,
-    var name: String,
-    var bic: String?,
-    var logo: String?
+    val id: BankId,
+    val name: String,
+    val bic: Bic,
+    val logo: String?,
 )

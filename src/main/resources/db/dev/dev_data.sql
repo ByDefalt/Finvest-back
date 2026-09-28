@@ -361,7 +361,7 @@ WHERE b.name = 'Fortuneo'
 -- ------------------------------------------------------------
 
 INSERT INTO account_owners
-(account_id, user_id, name, ownership_percentage)
+    (account_id, user_id, name, ownership_percentage)
 SELECT a.id,
        u.id,
        'Romain Rousval',
@@ -384,7 +384,7 @@ WHERE u.email = 'romain@example.com'
 -- ------------------------------------------------------------
 
 INSERT INTO account_owners
-(account_id, user_id, name, ownership_percentage)
+    (account_id, user_id, name, ownership_percentage)
 SELECT a.id,
        u.id,
        'Utilisateur test',
@@ -408,7 +408,7 @@ WHERE u.email = 'test@example.com'
 -- ------------------------------------------------------------
 
 INSERT INTO compte_courants
-(account_id, iban, bic, account_number, overdraft_limit, holder_name)
+    (account_id, iban, bic, account_number, overdraft_limit, holder_name)
 SELECT a.id,
        'FR7630006000011234567890189',
        b.bic,
@@ -431,7 +431,7 @@ WHERE a.name = 'Compte courant Romain'
 -- ------------------------------------------------------------
 
 INSERT INTO compte_courants
-(account_id, iban, bic, account_number, overdraft_limit, holder_name)
+    (account_id, iban, bic, account_number, overdraft_limit, holder_name)
 SELECT a.id,
        'FR7630006000098765432109876',
        b.bic,
@@ -454,7 +454,7 @@ WHERE a.name = 'Compte courant Test'
 -- ============================================================
 
 INSERT INTO livrets
-(account_id, interest_rate, ceiling)
+    (account_id, interest_rate, ceiling)
 SELECT a.id,
        1.70,
        22950.00
@@ -468,7 +468,7 @@ WHERE a.name = 'Livret A Romain'
 
 
 INSERT INTO livrets
-(account_id, interest_rate, ceiling)
+    (account_id, interest_rate, ceiling)
 SELECT a.id,
        1.70,
        22950.00
@@ -486,7 +486,7 @@ WHERE a.name = 'Livret A Test'
 -- ============================================================
 
 INSERT INTO peas
-(account_id, opening_date, deposit_limit)
+    (account_id, opening_date, deposit_limit)
 SELECT a.id,
        '2022-03-15',
        150000.00
@@ -500,7 +500,7 @@ WHERE a.name = 'PEA Romain'
 
 
 INSERT INTO peas
-(account_id, opening_date, deposit_limit)
+    (account_id, opening_date, deposit_limit)
 SELECT a.id,
        '2024-06-10',
        150000.00
@@ -518,7 +518,7 @@ WHERE a.name = 'PEA Test'
 -- ============================================================
 
 INSERT INTO pers
-(account_id, contract_number, opening_date, management_type_id)
+    (account_id, contract_number, opening_date, management_type_id)
 SELECT a.id,
        'PER-2025-000001',
        '2025-09-01',
@@ -539,7 +539,7 @@ WHERE a.name = 'PER Romain'
 -- ============================================================
 
 INSERT INTO pees
-(account_id, opening_date, employer)
+    (account_id, opening_date, employer)
 SELECT a.id,
        '2020-06-01',
        'Crédit Mutuel Arkéa'
@@ -557,7 +557,7 @@ WHERE a.name = 'PEE Romain'
 -- ============================================================
 
 INSERT INTO assurances_vie
-(account_id, contract_number, opening_date, management_type_id)
+    (account_id, contract_number, opening_date, management_type_id)
 SELECT a.id,
        'AV-2021-000001',
        '2021-05-10',
@@ -645,12 +645,18 @@ WHERE at.code = 'ETF'
   AND cu.code = 'USD';
 
 
+-- ------------------------------------------------------------
+-- SCPI
+-- ------------------------------------------------------------
+-- ISIN et ticker sont obligatoires dans le schéma.
+-- Valeurs synthétiques uniquement pour les données de test.
+
 INSERT INTO assets
 (name, asset_type_id, isin, ticker, issuer_country_id, currency_id, description)
 SELECT 'SCPI Immorente',
        at.id,
-       NULL,
-       NULL,
+       'TEST-SCPI-IMMOR-001',
+       'IMMOR',
        co.id,
        cu.id,
        'SCPI immobilière'
@@ -667,7 +673,7 @@ WHERE at.code = 'SCPI'
 -- ============================================================
 
 INSERT INTO asset_countries
-(asset_id, country_id, weight)
+    (asset_id, country_id, weight)
 SELECT a.id,
        c.id,
        70.00
@@ -678,7 +684,7 @@ WHERE a.isin = 'LU1681043599'
 
 
 INSERT INTO asset_countries
-(asset_id, country_id, weight)
+    (asset_id, country_id, weight)
 SELECT a.id,
        c.id,
        6.00
@@ -689,7 +695,7 @@ WHERE a.isin = 'LU1681043599'
 
 
 INSERT INTO asset_countries
-(asset_id, country_id, weight)
+    (asset_id, country_id, weight)
 SELECT a.id,
        c.id,
        4.00
@@ -700,7 +706,7 @@ WHERE a.isin = 'LU1681043599'
 
 
 INSERT INTO asset_countries
-(asset_id, country_id, weight)
+    (asset_id, country_id, weight)
 SELECT a.id,
        c.id,
        3.00
@@ -711,7 +717,7 @@ WHERE a.isin = 'LU1681043599'
 
 
 INSERT INTO asset_countries
-(asset_id, country_id, weight)
+    (asset_id, country_id, weight)
 SELECT a.id,
        c.id,
        17.00
@@ -722,7 +728,7 @@ WHERE a.isin = 'LU1681043599'
 
 
 INSERT INTO asset_countries
-(asset_id, country_id, weight)
+    (asset_id, country_id, weight)
 SELECT a.id,
        c.id,
        100.00
@@ -737,7 +743,7 @@ WHERE a.isin = 'IE00B5BMR087'
 -- ============================================================
 
 INSERT INTO asset_prices
-(asset_id, price, currency_id, date)
+    (asset_id, price, currency_id, date)
 SELECT a.id,
        230.50,
        c.id,
@@ -749,7 +755,7 @@ WHERE a.ticker = 'AAPL';
 
 
 INSERT INTO asset_prices
-(asset_id, price, currency_id, date)
+    (asset_id, price, currency_id, date)
 SELECT a.id,
        510.25,
        c.id,
@@ -761,7 +767,7 @@ WHERE a.ticker = 'MSFT';
 
 
 INSERT INTO asset_prices
-(asset_id, price, currency_id, date)
+    (asset_id, price, currency_id, date)
 SELECT a.id,
        520.80,
        c.id,
@@ -773,7 +779,7 @@ WHERE a.ticker = 'CW8';
 
 
 INSERT INTO asset_prices
-(asset_id, price, currency_id, date)
+    (asset_id, price, currency_id, date)
 SELECT a.id,
        650.40,
        c.id,
@@ -785,7 +791,7 @@ WHERE a.ticker = 'CSPX';
 
 
 INSERT INTO asset_prices
-(asset_id, price, currency_id, date)
+    (asset_id, price, currency_id, date)
 SELECT a.id,
        350.00,
        c.id,
@@ -793,7 +799,7 @@ SELECT a.id,
 FROM assets a
          JOIN currencies c
               ON c.code = 'EUR'
-WHERE a.name = 'SCPI Immorente';
+WHERE a.ticker = 'IMMOR';
 
 
 -- ============================================================
@@ -801,7 +807,7 @@ WHERE a.name = 'SCPI Immorente';
 -- ============================================================
 
 INSERT INTO positions
-(account_id, asset_id, quantity, average_price, currency_id)
+    (account_id, asset_id, quantity, average_price, currency_id)
 SELECT a.id,
        asset.id,
        20,
@@ -821,7 +827,7 @@ WHERE a.name = 'PEA Romain'
 
 
 INSERT INTO positions
-(account_id, asset_id, quantity, average_price, currency_id)
+    (account_id, asset_id, quantity, average_price, currency_id)
 SELECT a.id,
        asset.id,
        10,
@@ -841,7 +847,7 @@ WHERE a.name = 'PEA Romain'
 
 
 INSERT INTO positions
-(account_id, asset_id, quantity, average_price, currency_id)
+    (account_id, asset_id, quantity, average_price, currency_id)
 SELECT a.id,
        asset.id,
        15,
@@ -1068,6 +1074,389 @@ WHERE a.name = 'PEA Romain'
   AND asset.ticker = 'CW8'
   AND tt.code = 'BUY'
   AND c.code = 'EUR';
+
+
+-- ============================================================
+-- EXCHANGE RATES
+-- ============================================================
+-- Taux vers EUR (devise de référence par défaut), sur 4 dates
+-- (J-90, J-60, J-30, aujourd'hui) pour permettre de tester
+-- des conversions historiques.
+
+-- ------------------------------------------------------------
+-- USD -> EUR
+-- ------------------------------------------------------------
+
+INSERT INTO exchange_rates
+    (from_currency_id, to_currency_id, rate, rate_date)
+SELECT cf.id,
+       ct.id,
+       v.rate,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM currencies cf
+         JOIN currencies ct
+              ON ct.code = 'EUR'
+         CROSS JOIN (VALUES (90, 0.9280),
+                            (60, 0.9195),
+                            (30, 0.9240),
+                            (0, 0.9265)) AS v (days_ago, rate)
+WHERE cf.code = 'USD';
+
+
+-- ------------------------------------------------------------
+-- GBP -> EUR
+-- ------------------------------------------------------------
+
+INSERT INTO exchange_rates
+    (from_currency_id, to_currency_id, rate, rate_date)
+SELECT cf.id,
+       ct.id,
+       v.rate,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM currencies cf
+         JOIN currencies ct
+              ON ct.code = 'EUR'
+         CROSS JOIN (VALUES (90, 1.1650),
+                            (60, 1.1720),
+                            (30, 1.1695),
+                            (0, 1.1710)) AS v (days_ago, rate)
+WHERE cf.code = 'GBP';
+
+
+-- ------------------------------------------------------------
+-- JPY -> EUR
+-- ------------------------------------------------------------
+
+INSERT INTO exchange_rates
+    (from_currency_id, to_currency_id, rate, rate_date)
+SELECT cf.id,
+       ct.id,
+       v.rate,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM currencies cf
+         JOIN currencies ct
+              ON ct.code = 'EUR'
+         CROSS JOIN (VALUES (90, 0.00615),
+                            (60, 0.00608),
+                            (30, 0.00612),
+                            (0, 0.00619)) AS v (days_ago, rate)
+WHERE cf.code = 'JPY';
+
+
+-- ------------------------------------------------------------
+-- CHF -> EUR
+-- ------------------------------------------------------------
+
+INSERT INTO exchange_rates
+    (from_currency_id, to_currency_id, rate, rate_date)
+SELECT cf.id,
+       ct.id,
+       v.rate,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM currencies cf
+         JOIN currencies ct
+              ON ct.code = 'EUR'
+         CROSS JOIN (VALUES (90, 1.0420),
+                            (60, 1.0455),
+                            (30, 1.0480),
+                            (0, 1.0460)) AS v (days_ago, rate)
+WHERE cf.code = 'CHF';
+
+
+-- ============================================================
+-- ACCOUNT BALANCE SNAPSHOTS
+-- ============================================================
+-- 4 dates (J-90, J-60, J-30, aujourd'hui) par compte, avec une
+-- progression réaliste vers le solde actuel.
+
+INSERT INTO account_balance_snapshots
+    (account_id, balance, currency_id, snapshot_date)
+SELECT a.id,
+       v.balance,
+       a.currency_id,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM accounts a
+         JOIN account_owners ao
+              ON ao.account_id = a.id
+         JOIN users u
+              ON u.id = ao.user_id
+         CROSS JOIN (VALUES (90, 2200.00),
+                            (60, 2350.00),
+                            (30, 2420.00),
+                            (0, 2500.00)) AS v (days_ago, balance)
+WHERE a.name = 'Compte courant Romain'
+  AND u.email = 'romain@example.com';
+
+
+INSERT INTO account_balance_snapshots
+    (account_id, balance, currency_id, snapshot_date)
+SELECT a.id,
+       v.balance,
+       a.currency_id,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM accounts a
+         JOIN account_owners ao
+              ON ao.account_id = a.id
+         JOIN users u
+              ON u.id = ao.user_id
+         CROSS JOIN (VALUES (90, 9700.00),
+                            (60, 9820.00),
+                            (30, 9910.00),
+                            (0, 10000.00)) AS v (days_ago, balance)
+WHERE a.name = 'Livret A Romain'
+  AND u.email = 'romain@example.com';
+
+
+INSERT INTO account_balance_snapshots
+    (account_id, balance, currency_id, snapshot_date)
+SELECT a.id,
+       v.balance,
+       a.currency_id,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM accounts a
+         JOIN account_owners ao
+              ON ao.account_id = a.id
+         JOIN users u
+              ON u.id = ao.user_id
+         CROSS JOIN (VALUES (90, 23100.00),
+                            (60, 23800.00),
+                            (30, 24350.00),
+                            (0, 25000.00)) AS v (days_ago, balance)
+WHERE a.name = 'PEA Romain'
+  AND u.email = 'romain@example.com';
+
+
+INSERT INTO account_balance_snapshots
+    (account_id, balance, currency_id, snapshot_date)
+SELECT a.id,
+       v.balance,
+       a.currency_id,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM accounts a
+         JOIN account_owners ao
+              ON ao.account_id = a.id
+         JOIN users u
+              ON u.id = ao.user_id
+         CROSS JOIN (VALUES (90, 7600.00),
+                            (60, 7750.00),
+                            (30, 7880.00),
+                            (0, 8000.00)) AS v (days_ago, balance)
+WHERE a.name = 'PER Romain'
+  AND u.email = 'romain@example.com';
+
+
+INSERT INTO account_balance_snapshots
+    (account_id, balance, currency_id, snapshot_date)
+SELECT a.id,
+       v.balance,
+       a.currency_id,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM accounts a
+         JOIN account_owners ao
+              ON ao.account_id = a.id
+         JOIN users u
+              ON u.id = ao.user_id
+         CROSS JOIN (VALUES (90, 14200.00),
+                            (60, 14550.00),
+                            (30, 14800.00),
+                            (0, 15000.00)) AS v (days_ago, balance)
+WHERE a.name = 'PEE Romain'
+  AND u.email = 'romain@example.com';
+
+
+INSERT INTO account_balance_snapshots
+    (account_id, balance, currency_id, snapshot_date)
+SELECT a.id,
+       v.balance,
+       a.currency_id,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM accounts a
+         JOIN account_owners ao
+              ON ao.account_id = a.id
+         JOIN users u
+              ON u.id = ao.user_id
+         CROSS JOIN (VALUES (90, 11400.00),
+                            (60, 11650.00),
+                            (30, 11820.00),
+                            (0, 12000.00)) AS v (days_ago, balance)
+WHERE a.name = 'Assurance vie Romain'
+  AND u.email = 'romain@example.com';
+
+
+INSERT INTO account_balance_snapshots
+    (account_id, balance, currency_id, snapshot_date)
+SELECT a.id,
+       v.balance,
+       a.currency_id,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM accounts a
+         JOIN account_owners ao
+              ON ao.account_id = a.id
+         JOIN users u
+              ON u.id = ao.user_id
+         CROSS JOIN (VALUES (90, 1600.00),
+                            (60, 1680.00),
+                            (30, 1740.00),
+                            (0, 1800.00)) AS v (days_ago, balance)
+WHERE a.name = 'Compte courant Test'
+  AND u.email = 'test@example.com';
+
+
+INSERT INTO account_balance_snapshots
+    (account_id, balance, currency_id, snapshot_date)
+SELECT a.id,
+       v.balance,
+       a.currency_id,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM accounts a
+         JOIN account_owners ao
+              ON ao.account_id = a.id
+         JOIN users u
+              ON u.id = ao.user_id
+         CROSS JOIN (VALUES (90, 7250.00),
+                            (60, 7350.00),
+                            (30, 7420.00),
+                            (0, 7500.00)) AS v (days_ago, balance)
+WHERE a.name = 'Livret A Test'
+  AND u.email = 'test@example.com';
+
+
+INSERT INTO account_balance_snapshots
+    (account_id, balance, currency_id, snapshot_date)
+SELECT a.id,
+       v.balance,
+       a.currency_id,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM accounts a
+         JOIN account_owners ao
+              ON ao.account_id = a.id
+         JOIN users u
+              ON u.id = ao.user_id
+         CROSS JOIN (VALUES (90, 17100.00),
+                            (60, 17650.00),
+                            (30, 18100.00),
+                            (0, 18500.00)) AS v (days_ago, balance)
+WHERE a.name = 'PEA Test'
+  AND u.email = 'test@example.com';
+
+
+-- ============================================================
+-- POSITION SNAPSHOTS
+-- ============================================================
+-- Quantité et prix de revient figés à la date du snapshot,
+-- valorisation de marché progressant vers le prix actuel de
+-- l'actif (asset_prices).
+
+-- ------------------------------------------------------------
+-- AAPL (PEA Romain) - 20 titres, PRU 180.00 USD
+-- ------------------------------------------------------------
+
+INSERT INTO position_snapshots
+(position_id, quantity, market_value, average_price, currency_id, snapshot_date)
+SELECT p.id,
+       20,
+       v.market_value,
+       180.00,
+       c.id,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM positions p
+         JOIN accounts a
+              ON a.id = p.account_id
+         JOIN assets asset
+              ON asset.id = p.asset_id
+         JOIN account_owners ao
+              ON ao.account_id = a.id
+         JOIN users u
+              ON u.id = ao.user_id
+         JOIN currencies c
+              ON c.code = 'USD'
+         CROSS JOIN (VALUES (90, 3980.00),
+                            (60, 4260.00),
+                            (30, 4450.00),
+                            (0, 4610.00)) AS v (days_ago, market_value)
+WHERE a.name = 'PEA Romain'
+  AND u.email = 'romain@example.com'
+  AND asset.ticker = 'AAPL';
+
+
+-- ------------------------------------------------------------
+-- MSFT (PEA Romain) - 10 titres, PRU 390.00 USD
+-- ------------------------------------------------------------
+
+INSERT INTO position_snapshots
+(position_id, quantity, market_value, average_price, currency_id, snapshot_date)
+SELECT p.id,
+       10,
+       v.market_value,
+       390.00,
+       c.id,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM positions p
+         JOIN accounts a
+              ON a.id = p.account_id
+         JOIN assets asset
+              ON asset.id = p.asset_id
+         JOIN account_owners ao
+              ON ao.account_id = a.id
+         JOIN users u
+              ON u.id = ao.user_id
+         JOIN currencies c
+              ON c.code = 'USD'
+         CROSS JOIN (VALUES (90, 4650.00),
+                            (60, 4850.00),
+                            (30, 4980.00),
+                            (0, 5102.50)) AS v (days_ago, market_value)
+WHERE a.name = 'PEA Romain'
+  AND u.email = 'romain@example.com'
+  AND asset.ticker = 'MSFT';
+
+
+-- ------------------------------------------------------------
+-- CW8 (PEA Romain) - 15 titres, PRU 450.00 EUR
+-- ------------------------------------------------------------
+
+INSERT INTO position_snapshots
+(position_id, quantity, market_value, average_price, currency_id, snapshot_date)
+SELECT p.id,
+       15,
+       v.market_value,
+       450.00,
+       c.id,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM positions p
+         JOIN accounts a
+              ON a.id = p.account_id
+         JOIN assets asset
+              ON asset.id = p.asset_id
+         JOIN account_owners ao
+              ON ao.account_id = a.id
+         JOIN users u
+              ON u.id = ao.user_id
+         JOIN currencies c
+              ON c.code = 'EUR'
+         CROSS JOIN (VALUES (90, 7100.00),
+                            (60, 7420.00),
+                            (30, 7650.00),
+                            (0, 7812.00)) AS v (days_ago, market_value)
+WHERE a.name = 'PEA Romain'
+  AND u.email = 'romain@example.com'
+  AND asset.ticker = 'CW8';
+
+
+-- ============================================================
+-- ACCOUNT OWNER SNAPSHOTS
+-- ============================================================
+-- Répartition de propriété inchangée dans ce jeu de test
+-- (100% sur les 4 mêmes dates) - la table est prévue pour le
+-- jour où la répartition d'un compte évoluerait.
+
+INSERT INTO account_owner_snapshots
+    (account_owner_id, ownership_percentage, snapshot_date)
+SELECT ao.id,
+       100.00,
+       CURRENT_DATE - INTERVAL v.days_ago DAY
+FROM account_owners ao
+         CROSS JOIN (VALUES (90), (60), (30), (0)) AS v (days_ago);
 
 
 -- ============================================================

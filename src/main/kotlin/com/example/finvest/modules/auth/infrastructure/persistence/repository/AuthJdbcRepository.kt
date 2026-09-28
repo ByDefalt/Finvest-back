@@ -14,69 +14,73 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class AuthJdbcRepository(
-    private val jdbcTemplate: NamedParameterJdbcTemplate
+    private val jdbcTemplate: NamedParameterJdbcTemplate,
 ) : AuthRepository {
-
-    override fun register(email: String, password: String): User {
+    override fun register(
+        email: String,
+        password: String,
+    ): User {
         val keyHolder = GeneratedKeyHolder()
 
-        val params = MapSqlParameterSource()
-            .addValue("email", email)
-            .addValue("password", password)
+        val params =
+            MapSqlParameterSource()
+                .addValue("email", email)
+                .addValue("password", password)
 
         jdbcTemplate.update(
             AuthQueries.REGISTER,
             params,
             keyHolder,
-            arrayOf("id")
+            arrayOf("id"),
         )
 
-        val id = keyHolder.key?.toLong()
-            ?: throw IllegalStateException("Failed to retrieve generated user ID")
+        val id =
+            keyHolder.key?.toLong()
+                ?: throw IllegalStateException("Failed to retrieve generated user ID")
 
         return UserEntity(
             id = id,
             email = email,
-            password = password
+            password = password,
         ).toDomain()
     }
 
-    override fun findCredentialsByEmail(email: String): UserCredentials? {
-        return jdbcTemplate.query(
-            AuthQueries.FIND_CREDENTIALS_BY_EMAIL,
-            MapSqlParameterSource("email", email)
-        ) { rs, _ ->
-            UserEntity(
-                id = rs.getLong("id"),
-                email = rs.getString("email"),
-                password = rs.getString("password"),
-            ).toDomainCredentials()
-        }.firstOrNull()
-    }
+    override fun findCredentialsByEmail(email: String): UserCredentials? =
+        jdbcTemplate
+            .query(
+                AuthQueries.FIND_CREDENTIALS_BY_EMAIL,
+                MapSqlParameterSource("email", email),
+            ) { rs, _ ->
+                UserEntity(
+                    id = rs.getLong("id"),
+                    email = rs.getString("email"),
+                    password = rs.getString("password"),
+                ).toDomainCredentials()
+            }.firstOrNull()
 
-    override fun findUserByEmail(email: String): User? {
-        return jdbcTemplate.query(
-            AuthQueries.FIND_BY_EMAIL,
-            MapSqlParameterSource("email", email)
-        ) { rs, _ ->
-            UserEntity(
-                id = rs.getLong("id"),
-                email = rs.getString("email"),
-                password = rs.getString("password")
-            ).toDomain()
-        }.firstOrNull()
-    }
+    override fun findUserByEmail(email: String): User? =
+        jdbcTemplate
+            .query(
+                AuthQueries.FIND_BY_EMAIL,
+                MapSqlParameterSource("email", email),
+            ) { rs, _ ->
+                UserEntity(
+                    id = rs.getLong("id"),
+                    email = rs.getString("email"),
+                    password = rs.getString("password"),
+                ).toDomain()
+            }.firstOrNull()
 
-    override fun findUserById(userId: Long): User? {
-        return jdbcTemplate.query(
-            AuthQueries.FIND_BY_ID,
-            MapSqlParameterSource("userId", userId)
-        ) { rs, _ ->
-            UserEntity(
-                id = rs.getLong("id"),
-                email = rs.getString("email"),
-                password = rs.getString("password")
-            ).toDomain()
-        }.firstOrNull()
-    }
+    override fun findUserById(userId: Long): User? =
+        jdbcTemplate
+            .query(
+                AuthQueries.FIND_BY_ID,
+                MapSqlParameterSource("userId", userId),
+            ) { rs, _ ->
+                UserEntity(
+                    id = rs.getLong("id"),
+                    email = rs.getString("email"),
+                    password = rs.getString("password"),
+                ).toDomain()
+            }.firstOrNull()
 }

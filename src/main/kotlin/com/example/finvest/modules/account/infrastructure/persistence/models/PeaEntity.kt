@@ -11,10 +11,8 @@ data class PeaEntity(
     @Id
     @Column("account_id")
     var accountId: Long = 0L,
-
     @Column("opening_date")
-    var openingDate: LocalDate? = null,
-
+    var openingDate: LocalDate = LocalDate.now(),
     @Column("deposit_limit")
-    var depositLimit: BigDecimal? = null
+    var depositLimit: BigDecimal = BigDecimal.ZERO,
 )

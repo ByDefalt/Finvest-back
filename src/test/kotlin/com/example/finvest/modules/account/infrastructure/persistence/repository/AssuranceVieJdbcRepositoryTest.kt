@@ -1,5 +1,6 @@
 package com.example.finvest.modules.account.infrastructure.persistence.repository
 
+import com.example.finvest.modules.account.domain.models.AssuranceVie
 import com.example.finvest.modules.shared.infrastructure.persistence.repository.JdbcRepositoryTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -8,253 +9,133 @@ import org.mockito.Mockito.mock
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import java.time.LocalDate
 
-
 class AssuranceVieJdbcRepositoryTest : JdbcRepositoryTest() {
     private lateinit var repository: AssuranceVieJdbcRepository
 
     @BeforeEach
     fun setUp() {
-        repository = AssuranceVieJdbcRepository(
-            jdbcTemplate = jdbcTemplate,
-            logger = mock()
-        )
+        repository =
+            AssuranceVieJdbcRepository(
+                jdbcTemplate = jdbcTemplate,
+                logger = mock(),
+            )
     }
 
     @Test
     fun `should get assurance vie by user id`() {
-        // Given
-
-        // User
-        jdbcTemplate.update(
-            """
-            INSERT INTO users (email, password)
-            VALUES (:email, :password)
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("email", "assurance-vie-test@example.com")
-                .addValue("password", "password")
+        val references = jdbcTemplate.insertReferenceData()
+        val userId = jdbcTemplate.insertUser()
+        val accountId = jdbcTemplate.insertAccount(references)
+        jdbcTemplate.insertAccountOwner(accountId, userId)
+        val managementTypeId = jdbcTemplate.insertManagementType()
+        jdbcTemplate.insertAssuranceVie(
+            accountId,
+            "AV-2021-000001",
+            LocalDate.of(2021, 5, 10),
+            managementTypeId,
         )
 
-        val userId = jdbcTemplate.queryForObject(
-            """
-            SELECT id
-            FROM users
-            WHERE email = :email
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("email", "assurance-vie-test@example.com"),
-            Long::class.java
-        )!!
+        val result = repository.getAssuranceVieByUserId(userId)
 
-        // Bank
-        jdbcTemplate.update(
-            """
-            INSERT INTO banks (name)
-            VALUES (:name)
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("name", "Test Bank")
+        assertThat(result).containsExactly(
+            AssuranceVie(
+                accountId,
+                "AV-2021-000001",
+                LocalDate.of(2021, 5, 10),
+                managementTypeId,
+            ),
         )
+    }
 
-        val bankId = jdbcTemplate.queryForObject(
-            """
-            SELECT id
-            FROM banks
-            WHERE name = :name
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("name", "Test Bank"),
-            Long::class.java
-        )!!
-
-        // Currency
-        jdbcTemplate.update(
-            """
-            INSERT INTO currencies (code)
-            VALUES (:code)
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("code", "EUR")
-        )
-
-        val currencyId = jdbcTemplate.queryForObject(
-            """
-            SELECT id
-            FROM currencies
-            WHERE code = :code
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("code", "EUR"),
-            Long::class.java
-        )!!
-
-        // Account status
-        jdbcTemplate.update(
-            """
-            INSERT INTO account_statuses (code)
-            VALUES (:code)
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("code", "OPEN")
-        )
-
-        val accountStatusId = jdbcTemplate.queryForObject(
-            """
-            SELECT id
-            FROM account_statuses
-            WHERE code = :code
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("code", "OPEN"),
-            Long::class.java
-        )!!
-
-        // Account type
-        jdbcTemplate.update(
-            """
-            INSERT INTO account_types (code)
-            VALUES (:code)
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("code", "ASSURANCE_VIE")
-        )
-
-        val accountTypeId = jdbcTemplate.queryForObject(
-            """
-            SELECT id
-            FROM account_types
-            WHERE code = :code
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("code", "ASSURANCE_VIE"),
-            Long::class.java
-        )!!
-
-        // Account
-        jdbcTemplate.update(
-            """
-            INSERT INTO accounts (
-                bank_id,
-                name,
-                balance,
-                currency_id,
-                account_status_id,
-                account_type_id,
-                description
+    @Test
+    fun `should create an assurance vie`() {
+        val references = jdbcTemplate.insertReferenceData()
+        val accountId = jdbcTemplate.insertAccount(references)
+        val managementTypeId = jdbcTemplate.insertManagementType()
+        val assuranceVie =
+            AssuranceVie(
+                accountId = accountId,
+                contractNumber = "AV-CREATED",
+                openingDate = LocalDate.of(2022, 1, 2),
+                managementTypeId = managementTypeId,
             )
-            VALUES (
-                :bankId,
-                :name,
-                :balance,
-                :currencyId,
-                :accountStatusId,
-                :accountTypeId,
-                :description
+
+        val result = repository.createAssuranceVie(assuranceVie)
+
+        assertThat(result).isEqualTo(accountId)
+        val row =
+            jdbcTemplate.queryForMap(
+                "SELECT * FROM assurances_vie WHERE account_id = :accountId",
+                MapSqlParameterSource().addValue("accountId", accountId.value),
             )
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("bankId", bankId)
-                .addValue("name", "Assurance Vie Test")
-                .addValue("balance", 10_000.00)
-                .addValue("currencyId", currencyId)
-                .addValue("accountStatusId", accountStatusId)
-                .addValue("accountTypeId", accountTypeId)
-                .addValue("description", "Test assurance vie")
-        )
+        assertThat(row["contract_number"]).isEqualTo("AV-CREATED")
+    }
 
-        val accountId = jdbcTemplate.queryForObject(
-            """
-            SELECT id
-            FROM accounts
-            WHERE name = :name
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("name", "Assurance Vie Test"),
-            Long::class.java
-        )!!
-
-        // Account owner
-        jdbcTemplate.update(
-            """
-            INSERT INTO account_owners (
-                account_id,
-                user_id,
-                name,
-                ownership_percentage
-            )
-            VALUES (
-                :accountId,
-                :userId,
-                :name,
-                :ownershipPercentage
-            )
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("accountId", accountId)
-                .addValue("userId", userId)
-                .addValue("name", "Romain")
-                .addValue("ownershipPercentage", 100.00)
-        )
-
-        // Management type
-        jdbcTemplate.update(
-            """
-            INSERT INTO management_types (code)
-            VALUES (:code)
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("code", "FREE_MANAGEMENT")
-        )
-
-        val managementTypeId = jdbcTemplate.queryForObject(
-            """
-            SELECT id
-            FROM management_types
-            WHERE code = :code
-            """.trimIndent(),
-            MapSqlParameterSource()
-                .addValue("code", "FREE_MANAGEMENT"),
-            Long::class.java
-        )!!
-
-        // Assurance vie
+    @Test
+    fun `should update an assurance vie`() {
+        val references = jdbcTemplate.insertReferenceData()
+        val accountId = jdbcTemplate.insertAccount(references)
+        val managementTypeId = jdbcTemplate.insertManagementType()
         jdbcTemplate.update(
             """
             INSERT INTO assurances_vie (
-                account_id,
-                contract_number,
-                opening_date,
-                management_type_id
+                account_id, contract_number, opening_date, management_type_id
             )
-            VALUES (
-                :accountId,
-                :contractNumber,
-                :openingDate,
-                :managementTypeId
-            )
+            VALUES (:accountId, :contractNumber, :openingDate, :managementTypeId)
             """.trimIndent(),
             MapSqlParameterSource()
-                .addValue("accountId", accountId)
-                .addValue("contractNumber", "AV-2021-000001")
-                .addValue("openingDate", LocalDate.of(2021, 5, 10))
-                .addValue("managementTypeId", managementTypeId)
+                .addValue("accountId", accountId.value)
+                .addValue("contractNumber", "AV-OLD")
+                .addValue("openingDate", LocalDate.of(2020, 1, 1))
+                .addValue("managementTypeId", managementTypeId),
+        )
+        val assuranceVie =
+            AssuranceVie(
+                accountId = accountId,
+                contractNumber = "AV-UPDATED",
+                openingDate = LocalDate.of(2023, 3, 4),
+                managementTypeId = managementTypeId,
+            )
+
+        val result = repository.updateAssuranceVie(assuranceVie)
+
+        assertThat(result).isEqualTo(assuranceVie)
+        assertThat(
+            jdbcTemplate.queryForObject(
+                "SELECT contract_number FROM assurances_vie WHERE account_id = :accountId",
+                MapSqlParameterSource().addValue("accountId", accountId.value),
+                String::class.java,
+            ),
+        ).isEqualTo("AV-UPDATED")
+    }
+
+    @Test
+    fun `should delete an assurance vie`() {
+        val references = jdbcTemplate.insertReferenceData()
+        val accountId = jdbcTemplate.insertAccount(references)
+        val managementTypeId = jdbcTemplate.insertManagementType()
+        jdbcTemplate.update(
+            """
+            INSERT INTO assurances_vie (
+                account_id, contract_number, opening_date, management_type_id
+            )
+            VALUES (:accountId, :contractNumber, :openingDate, :managementTypeId)
+            """.trimIndent(),
+            MapSqlParameterSource()
+                .addValue("accountId", accountId.value)
+                .addValue("contractNumber", "AV-DELETED")
+                .addValue("openingDate", LocalDate.of(2020, 1, 1))
+                .addValue("managementTypeId", managementTypeId),
         )
 
-        // When
-        val result = repository.getAssuranceVieByUserId(userId)
+        repository.deleteAssuranceVie(accountId)
 
-        // Then
-        assertThat(result).hasSize(1)
-
-        val assuranceVie = result.first()
-
-        assertThat(assuranceVie.contractNumber)
-            .isEqualTo("AV-2021-000001")
-
-        assertThat(assuranceVie.openingDate)
-            .isEqualTo(LocalDate.of(2021, 5, 10))
-
-        assertThat(assuranceVie.managementTypeId)
-            .isEqualTo(managementTypeId)
+        assertThat(
+            jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM assurances_vie WHERE account_id = :accountId",
+                MapSqlParameterSource().addValue("accountId", accountId.value),
+                Long::class.java,
+            ),
+        ).isZero()
     }
 }

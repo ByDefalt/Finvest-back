@@ -9,10 +9,8 @@ data class UserEntity(
     @Id
     @Column("id")
     var id: Long = 0L,
-
     @Column("email")
     var email: String = "",
-
     @Column("password")
     var password: String = "",
 )

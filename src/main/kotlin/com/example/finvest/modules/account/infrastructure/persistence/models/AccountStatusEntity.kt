@@ -9,10 +9,8 @@ data class AccountStatusEntity(
     @Id
     @Column("id")
     var id: Long = 0L,
-
     @Column("code")
     var code: String = "",
-
     @Column("name")
-    var name: String = ""
+    var name: String = "",
 )

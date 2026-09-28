@@ -3,6 +3,7 @@ package com.example.finvest.modules.account.infrastructure.persistence.repositor
 import com.example.finvest.logger.Logger
 import com.example.finvest.modules.account.domain.models.Livret
 import com.example.finvest.modules.account.domain.repository.LivretRepository
+import com.example.finvest.modules.account.domain.valueobject.AccountId
 import com.example.finvest.modules.account.infrastructure.persistence.mapper.toDomain
 import com.example.finvest.modules.account.infrastructure.persistence.models.LivretEntity
 import com.example.finvest.modules.account.infrastructure.persistence.queries.LivretQueries
@@ -13,15 +14,14 @@ import org.springframework.stereotype.Repository
 @Repository
 class LivretJdbcRepository(
     private val jdbcTemplate: NamedParameterJdbcTemplate,
-    private val logger: Logger
+    private val logger: Logger,
 ) : LivretRepository {
-
     override fun getLivretByUserId(userId: Long): List<Livret> {
-
+        logger.info("Getting all livrets for user with id: $userId")
         return jdbcTemplate.query(
             LivretQueries.GET_LIVRET_BY_USER_ID,
             MapSqlParameterSource()
-                .addValue("userId", userId)
+                .addValue("userId", userId),
         ) { rs, _ ->
             LivretEntity(
                 accountId = rs.getLong("accountId"),
@@ -29,5 +29,41 @@ class LivretJdbcRepository(
                 ceiling = rs.getBigDecimal("ceiling"),
             ).toDomain()
         }
+    }
+
+    override fun createLivret(livret: Livret): AccountId {
+        logger.info("Creating livret for user with id: ${livret.accountId}")
+        jdbcTemplate.update(
+            LivretQueries.CREATE_LIVRET,
+            MapSqlParameterSource()
+                .addValue("accountId", livret.accountId.value)
+                .addValue("interestRate", livret.interestRate)
+                .addValue("ceiling", livret.ceiling),
+        )
+        logger.info("Created livret for user with id: ${livret.accountId}")
+        return livret.accountId
+    }
+
+    override fun updateLivret(livret: Livret): Livret {
+        logger.info("Updating livret with id: ${livret.accountId}")
+        jdbcTemplate.update(
+            LivretQueries.UPDATE_LIVRET_BY_ACCOUNT_ID,
+            MapSqlParameterSource()
+                .addValue("accountId", livret.accountId.value)
+                .addValue("interestRate", livret.interestRate)
+                .addValue("ceiling", livret.ceiling),
+        )
+        logger.info("Updated livret for user with id: ${livret.accountId}")
+        return livret
+    }
+
+    override fun deleteLivret(accountId: AccountId) {
+        logger.info("Deleting livret with id: $accountId")
+        jdbcTemplate.update(
+            LivretQueries.DELETE_LIVRET_BY_ACCOUNT_ID,
+            MapSqlParameterSource()
+                .addValue("accountId", accountId.value),
+        )
+        logger.info("Deleted livret with id: $accountId")
     }
 }

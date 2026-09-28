@@ -12,9 +12,12 @@ class LoginUseCase(
     private val authRepository: AuthRepository,
     private val passwordHasher: PasswordHasher,
     private val tokenGenerator: TokenGenerator,
-    private val logger: Logger
+    private val logger: Logger,
 ) {
-    operator fun invoke(email: String, password: String): Tokens {
+    operator fun invoke(
+        email: String,
+        password: String,
+    ): Tokens {
         val existingUser = authRepository.findCredentialsByEmail(email)
         if (existingUser == null) {
             logger.warn("user not found email=$email")
@@ -22,28 +25,30 @@ class LoginUseCase(
         }
         if (!passwordHasher.matches(
                 password,
-                existingUser.password
+                existingUser.password,
             )
         ) {
             logger.warn("invalid password for email=$email")
             throw PasswordMismatchException(email)
         }
-        val accessToken = tokenGenerator.generateAccessToken(
-            existingUser.id,
-            existingUser.email
-        )
+        val accessToken =
+            tokenGenerator.generateAccessToken(
+                existingUser.id,
+                existingUser.email,
+            )
 
-        val refreshToken = tokenGenerator.generateRefreshToken(
-            existingUser.id
-        )
+        val refreshToken =
+            tokenGenerator.generateRefreshToken(
+                existingUser.id,
+            )
 
         logger.info(
-            "AuthService.login - success id=${existingUser.id} email=${existingUser.email}"
+            "AuthService.login - success id=${existingUser.id} email=${existingUser.email}",
         )
 
         return Tokens(
             accessToken = accessToken,
-            refreshToken = refreshToken
+            refreshToken = refreshToken,
         )
     }
 }

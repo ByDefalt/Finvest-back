@@ -9,7 +9,6 @@ data class ManagementTypeEntity(
     @Id
     @Column("id")
     var id: Long = 0L,
-
     @Column("code")
     var code: String = "",
 )

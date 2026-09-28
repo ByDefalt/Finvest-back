@@ -13,16 +13,15 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class AuthApplicationConfig {
-
     @Bean
     fun registerUseCase(
         passwordHasher: PasswordHasher,
         authRepository: AuthRepository,
-        logger: Logger
+        logger: Logger,
     ) = RegisterUseCase(
         authRepository = authRepository,
         passwordHasher = passwordHasher,
-        logger = logger
+        logger = logger,
     )
 
     @Bean
@@ -30,12 +29,12 @@ class AuthApplicationConfig {
         passwordHasher: PasswordHasher,
         authRepository: AuthRepository,
         tokenGenerator: TokenGenerator,
-        logger: Logger
+        logger: Logger,
     ) = LoginUseCase(
         authRepository = authRepository,
         passwordHasher = passwordHasher,
         tokenGenerator = tokenGenerator,
-        logger = logger
+        logger = logger,
     )
 
     @Bean
@@ -43,11 +42,11 @@ class AuthApplicationConfig {
         authRepository: AuthRepository,
         tokenGenerator: TokenGenerator,
         tokenValidator: TokenValidator,
-        logger: Logger
+        logger: Logger,
     ) = RefreshAccessTokenUseCase(
         tokenValidator = tokenValidator,
         tokenGenerator = tokenGenerator,
         authRepository = authRepository,
-        logger = logger
+        logger = logger,
     )
 }

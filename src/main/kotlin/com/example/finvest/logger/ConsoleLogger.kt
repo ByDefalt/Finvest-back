@@ -5,26 +5,19 @@ import java.time.format.DateTimeFormatter
 
 class ConsoleLogger(
     private val name: String,
-    private val level: LogLevel
+    private val level: LogLevel,
 ) : Logger {
-
     private val formatter =
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
-    private fun isEnabled(logLevel: LogLevel): Boolean {
-        return logLevel.priority >= level.priority
-    }
+    private fun isEnabled(logLevel: LogLevel): Boolean = logLevel.priority >= level.priority
 
-    private fun timestamp(): String {
-        return LocalDateTime.now().format(formatter)
-    }
+    private fun timestamp(): String = LocalDateTime.now().format(formatter)
 
     private fun format(
         level: LogLevel,
-        message: String
-    ): String {
-        return "[${timestamp()}] ${level.name} [$name] - $message"
-    }
+        message: String,
+    ): String = "[${timestamp()}] ${level.name} [$name] - $message"
 
     override fun trace(message: String) {
         log(LogLevel.TRACE, message)
@@ -48,7 +41,7 @@ class ConsoleLogger(
 
     override fun error(
         message: String,
-        t: Throwable
+        t: Throwable,
     ) {
         if (!isEnabled(LogLevel.ERROR)) return
 
@@ -56,21 +49,20 @@ class ConsoleLogger(
         t.printStackTrace(System.err)
     }
 
-    override fun isLevelEnabled(level: LogLevel): Boolean {
-        return isEnabled(level)
-    }
+    override fun isLevelEnabled(level: LogLevel): Boolean = isEnabled(level)
 
     private fun log(
         level: LogLevel,
-        message: String
+        message: String,
     ) {
         if (!isEnabled(level)) return
 
-        val output = if (level.priority >= LogLevel.WARN.priority) {
-            System.err
-        } else {
-            System.out
-        }
+        val output =
+            if (level.priority >= LogLevel.WARN.priority) {
+                System.err
+            } else {
+                System.out
+            }
 
         output.println(format(level, message))
     }

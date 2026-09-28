@@ -2,6 +2,7 @@ package com.example.finvest.modules.auth.presentation.security
 
 import com.example.finvest.logger.Logger
 import com.example.finvest.modules.auth.application.service.TokenValidator
+import com.example.finvest.modules.shared.presentation.security.AuthenticationRequired
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Component
@@ -13,13 +14,11 @@ class AuthenticationInterceptor(
     private val tokenValidator: TokenValidator,
     private val logger: Logger,
 ) : HandlerInterceptor {
-
     override fun preHandle(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        handler: Any
+        handler: Any,
     ): Boolean {
-
         if (handler !is HandlerMethod) {
             return true
         }
@@ -29,7 +28,7 @@ class AuthenticationInterceptor(
 
         val authenticationRequired =
             method.isAnnotationPresent(AuthenticationRequired::class.java) ||
-                    controller.isAnnotationPresent(AuthenticationRequired::class.java)
+                controller.isAnnotationPresent(AuthenticationRequired::class.java)
 
         // Route publique
         if (!authenticationRequired) {
@@ -42,14 +41,15 @@ class AuthenticationInterceptor(
             logger.info("Token missing in request")
             response.sendError(
                 HttpServletResponse.SC_UNAUTHORIZED,
-                "Authentification requise"
+                "Authentification requise",
             )
             return false
         }
 
-        val token = authHeader
-            .substring("Bearer ".length)
-            .trim()
+        val token =
+            authHeader
+                .substring("Bearer ".length)
+                .trim()
 
         try {
             val user = tokenValidator.validateAccessToken(token)
@@ -62,15 +62,14 @@ class AuthenticationInterceptor(
                 logger.warn("Token invalide ou expiré")
                 response.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED,
-                    "Token invalide ou expiré"
+                    "Token invalide ou expiré",
                 )
                 return false
             }
-
         } catch (e: Exception) {
             response.sendError(
                 HttpServletResponse.SC_UNAUTHORIZED,
-                "Token invalide ou expiré"
+                "Token invalide ou expiré",
             )
             return false
         }

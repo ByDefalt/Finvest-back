@@ -10,13 +10,10 @@ data class AssuranceVieEntity(
     @Id
     @Column("account_id")
     var accountId: Long = 0L,
-
     @Column("contract_number")
-    var contractNumber: String? = null,
-
+    var contractNumber: String = "",
     @Column("opening_date")
-    var openingDate: LocalDate? = null,
-
+    var openingDate: LocalDate = LocalDate.now(),
     @Column("management_type_id")
-    var managementTypeId: Long? = null
+    var managementTypeId: Long = 0L,
 )

@@ -12,7 +12,7 @@ CREATE TABLE banks
 (
     id   BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    bic  VARCHAR(50),
+    bic  VARCHAR(50)  NOT NULL UNIQUE,
     logo VARCHAR(500)
 );
 
@@ -90,6 +90,19 @@ CREATE TABLE accounts
         FOREIGN KEY (account_status_id) REFERENCES account_statuses (id)
 );
 
+CREATE TABLE account_balance_snapshots
+(
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    account_id    BIGINT         NOT NULL,
+    balance       DECIMAL(19, 4) NOT NULL,
+    currency_id   BIGINT         NOT NULL,
+    snapshot_date DATE           NOT NULL,
+
+    CONSTRAINT fk_abs_account FOREIGN KEY (account_id) REFERENCES accounts (id),
+    CONSTRAINT fk_abs_currency FOREIGN KEY (currency_id) REFERENCES currencies (id),
+    CONSTRAINT uk_abs_account_date UNIQUE (account_id, snapshot_date)
+);
+
 CREATE TABLE account_owners
 (
     id                   BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -104,6 +117,9 @@ CREATE TABLE account_owners
     CONSTRAINT fk_account_owners_user
         FOREIGN KEY (user_id) REFERENCES users (id),
 
+    CONSTRAINT uk_account_owners_account_user
+        UNIQUE (account_id, user_id),
+
     CONSTRAINT chk_account_owners_percentage
         CHECK (ownership_percentage >= 0 AND ownership_percentage <= 100)
 );
@@ -111,11 +127,11 @@ CREATE TABLE account_owners
 CREATE TABLE compte_courants
 (
     account_id      BIGINT PRIMARY KEY,
-    iban            VARCHAR(50),
-    bic             VARCHAR(50),
-    account_number  VARCHAR(100),
-    overdraft_limit DECIMAL(19, 4),
-    holder_name     VARCHAR(255),
+    iban            VARCHAR(50)    NOT NULL UNIQUE,
+    bic             VARCHAR(50)    NOT NULL,
+    account_number  VARCHAR(100)   NOT NULL,
+    overdraft_limit DECIMAL(19, 4) NOT NULL DEFAULT 0,
+    holder_name     VARCHAR(255)   NOT NULL,
 
     CONSTRAINT fk_compte_courants_account
         FOREIGN KEY (account_id) REFERENCES accounts (id)
@@ -124,8 +140,8 @@ CREATE TABLE compte_courants
 CREATE TABLE livrets
 (
     account_id    BIGINT PRIMARY KEY,
-    interest_rate DECIMAL(8, 4),
-    ceiling       DECIMAL(19, 4),
+    interest_rate DECIMAL(8, 4)  NOT NULL DEFAULT 0,
+    ceiling       DECIMAL(19, 4) NOT NULL,
 
     CONSTRAINT fk_livrets_account
         FOREIGN KEY (account_id) REFERENCES accounts (id)
@@ -134,8 +150,8 @@ CREATE TABLE livrets
 CREATE TABLE peas
 (
     account_id    BIGINT PRIMARY KEY,
-    opening_date  DATE,
-    deposit_limit DECIMAL(19, 4),
+    opening_date  DATE           NOT NULL,
+    deposit_limit DECIMAL(19, 4) NOT NULL,
 
     CONSTRAINT fk_peas_account
         FOREIGN KEY (account_id) REFERENCES accounts (id)
@@ -144,7 +160,7 @@ CREATE TABLE peas
 CREATE TABLE comptes_titres
 (
     account_id     BIGINT PRIMARY KEY,
-    account_number VARCHAR(100),
+    account_number VARCHAR(100) NOT NULL UNIQUE,
 
     CONSTRAINT fk_comptes_titres_account
         FOREIGN KEY (account_id) REFERENCES accounts (id)
@@ -153,9 +169,9 @@ CREATE TABLE comptes_titres
 CREATE TABLE assurances_vie
 (
     account_id         BIGINT PRIMARY KEY,
-    contract_number    VARCHAR(100),
-    opening_date       DATE,
-    management_type_id BIGINT,
+    contract_number    VARCHAR(100) NOT NULL UNIQUE,
+    opening_date       DATE         NOT NULL,
+    management_type_id BIGINT       NOT NULL,
 
     CONSTRAINT fk_assurances_vie_account
         FOREIGN KEY (account_id) REFERENCES accounts (id),
@@ -167,9 +183,9 @@ CREATE TABLE assurances_vie
 CREATE TABLE pers
 (
     account_id         BIGINT PRIMARY KEY,
-    contract_number    VARCHAR(100),
-    opening_date       DATE,
-    management_type_id BIGINT,
+    contract_number    VARCHAR(100) NOT NULL UNIQUE,
+    opening_date       DATE         NOT NULL,
+    management_type_id BIGINT       NOT NULL,
 
     CONSTRAINT fk_pers_account
         FOREIGN KEY (account_id) REFERENCES accounts (id),
@@ -181,8 +197,8 @@ CREATE TABLE pers
 CREATE TABLE pees
 (
     account_id   BIGINT PRIMARY KEY,
-    opening_date DATE,
-    employer     VARCHAR(255),
+    opening_date DATE         NOT NULL,
+    employer     VARCHAR(255) NOT NULL,
 
     CONSTRAINT fk_pees_account
         FOREIGN KEY (account_id) REFERENCES accounts (id)
@@ -193,9 +209,9 @@ CREATE TABLE assets
     id                BIGINT AUTO_INCREMENT PRIMARY KEY,
     name              VARCHAR(255) NOT NULL,
     asset_type_id     BIGINT       NOT NULL,
-    isin              VARCHAR(50),
-    ticker            VARCHAR(50),
-    issuer_country_id BIGINT,
+    isin              VARCHAR(50)  NOT NULL UNIQUE,
+    ticker            VARCHAR(50)  NOT NULL,
+    issuer_country_id BIGINT       NOT NULL,
     currency_id       BIGINT       NOT NULL,
     description       VARCHAR(1000),
 
@@ -221,7 +237,10 @@ CREATE TABLE asset_prices
         FOREIGN KEY (asset_id) REFERENCES assets (id),
 
     CONSTRAINT fk_asset_prices_currency
-        FOREIGN KEY (currency_id) REFERENCES currencies (id)
+        FOREIGN KEY (currency_id) REFERENCES currencies (id),
+
+    CONSTRAINT uk_asset_prices_asset_date
+        UNIQUE (asset_id, date)
 );
 
 CREATE TABLE asset_countries
@@ -261,6 +280,50 @@ CREATE TABLE positions
         UNIQUE (account_id, asset_id)
 );
 
+CREATE TABLE position_snapshots
+(
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    position_id   BIGINT         NOT NULL,
+    quantity      DECIMAL(19, 8) NOT NULL,
+    market_value  DECIMAL(19, 4) NOT NULL,
+    average_price DECIMAL(19, 8) NOT NULL,
+    currency_id   BIGINT         NOT NULL,
+    snapshot_date DATE           NOT NULL,
+
+    CONSTRAINT fk_ps_position FOREIGN KEY (position_id) REFERENCES positions (id),
+    CONSTRAINT fk_ps_currency FOREIGN KEY (currency_id) REFERENCES currencies (id),
+    CONSTRAINT uk_ps_position_date UNIQUE (position_id, snapshot_date)
+);
+
+CREATE TABLE exchange_rates
+(
+    id               BIGINT AUTO_INCREMENT PRIMARY KEY,
+    from_currency_id BIGINT         NOT NULL,
+    to_currency_id   BIGINT         NOT NULL,
+    rate             DECIMAL(19, 8) NOT NULL,
+    rate_date        DATE           NOT NULL,
+
+    CONSTRAINT fk_er_from FOREIGN KEY (from_currency_id) REFERENCES currencies (id),
+    CONSTRAINT fk_er_to FOREIGN KEY (to_currency_id) REFERENCES currencies (id),
+    CONSTRAINT uk_er_pair_date UNIQUE (from_currency_id, to_currency_id, rate_date)
+);
+
+CREATE TABLE account_owner_snapshots
+(
+    id                   BIGINT AUTO_INCREMENT PRIMARY KEY,
+    account_owner_id     BIGINT        NOT NULL,
+    ownership_percentage DECIMAL(5, 2) NOT NULL,
+    snapshot_date        DATE          NOT NULL,
+
+    CONSTRAINT fk_aos_owner FOREIGN KEY (account_owner_id) REFERENCES account_owners (id),
+    CONSTRAINT uk_aos_owner_date UNIQUE (account_owner_id, snapshot_date)
+);
+
+CREATE INDEX idx_aos_owner_date ON account_owner_snapshots (account_owner_id, snapshot_date);
+CREATE INDEX idx_abs_account_date ON account_balance_snapshots (account_id, snapshot_date);
+CREATE INDEX idx_ps_position_date ON position_snapshots (position_id, snapshot_date);
+CREATE INDEX idx_er_date ON exchange_rates (rate_date);
+
 CREATE TABLE transactions
 (
     id                  BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -268,7 +331,7 @@ CREATE TABLE transactions
     transaction_type_id BIGINT         NOT NULL,
     amount              DECIMAL(19, 4) NOT NULL,
     currency_id         BIGINT         NOT NULL,
-    date                TIMESTAMP      NOT NULL,
+    date                TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
     description         VARCHAR(1000),
 
     CONSTRAINT fk_transactions_account
@@ -291,7 +354,7 @@ CREATE TABLE trades
     unit_price    DECIMAL(19, 8) NOT NULL,
     fees          DECIMAL(19, 4) NOT NULL DEFAULT 0,
     currency_id   BIGINT         NOT NULL,
-    date          TIMESTAMP      NOT NULL,
+    date          TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_trades_account
         FOREIGN KEY (account_id) REFERENCES accounts (id),

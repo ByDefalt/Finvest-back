@@ -11,7 +11,7 @@ class RefreshAccessTokenUseCase(
     private val tokenValidator: TokenValidator,
     private val tokenGenerator: TokenGenerator,
     private val authRepository: AuthRepository,
-    private val logger: Logger
+    private val logger: Logger,
 ) {
     operator fun invoke(refreshToken: String): Token {
         val userId = tokenValidator.validateRefreshToken(refreshToken)
@@ -21,16 +21,17 @@ class RefreshAccessTokenUseCase(
             throw IllegalArgumentException("Invalid refresh token")
         }
 
-        val user = authRepository.findUserById(userId)
-            ?: throw UserNotExistsException(userId.toString())
+        val user =
+            authRepository.findUserById(userId)
+                ?: throw UserNotExistsException(userId.toString())
 
         logger.info("success id=${user.id} email=${user.email}")
 
         return Token(
             tokenGenerator.generateAccessToken(
                 user.id,
-                user.email
-            )
+                user.email,
+            ),
         )
     }
 }

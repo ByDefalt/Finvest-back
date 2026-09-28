@@ -10,10 +10,8 @@ data class LivretEntity(
     @Id
     @Column("account_id")
     var accountId: Long = 0L,
-
     @Column("interest_rate")
-    var interestRate: BigDecimal? = null,
-
+    var interestRate: BigDecimal = BigDecimal.ZERO,
     @Column("ceiling")
-    var ceiling: BigDecimal? = null
+    var ceiling: BigDecimal = BigDecimal.ZERO,
 )

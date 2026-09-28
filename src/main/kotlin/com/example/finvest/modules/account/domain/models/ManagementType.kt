@@ -1,7 +1,7 @@
 package com.example.finvest.modules.account.domain.models
 
 data class ManagementType(
-    var id: Long,
-    var code: String,
-    var name: String
+    val id: Long,
+    val code: String,
+    val name: String,
 )

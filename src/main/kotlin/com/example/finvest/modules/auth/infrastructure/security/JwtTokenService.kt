@@ -3,38 +3,38 @@ package com.example.finvest.modules.auth.infrastructure.security
 import com.example.finvest.logger.Logger
 import com.example.finvest.modules.auth.application.service.TokenGenerator
 import com.example.finvest.modules.auth.application.service.TokenValidator
-import com.example.finvest.modules.shared.application.security.AuthenticatedUser
+import com.example.finvest.modules.shared.application.models.AuthenticatedUser
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys.hmacShaKeyFor
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import java.util.*
+import java.util.Date
 import javax.crypto.SecretKey
 
 @Service
 class JwtTokenService(
     private val logger: Logger,
-
     @Value("\${jwt.secret}")
     secret: String,
-
     @Value("\${jwt.access-expiration}")
     private val accessExpiration: Long,
-
     @Value("\${jwt.refresh-expiration}")
     private val refreshExpiration: Long,
-) : TokenGenerator, TokenValidator {
-
+) : TokenGenerator,
+    TokenValidator {
     private val secretKey: SecretKey = hmacShaKeyFor(secret.toByteArray(Charsets.UTF_8))
 
-    override fun generateAccessToken(userId: Long, email: String): String =
+    override fun generateAccessToken(
+        userId: Long,
+        email: String,
+    ): String =
         generateToken(
             userId = userId,
             email = email,
             type = TYPE_ACCESS,
-            expiration = accessExpiration
+            expiration = accessExpiration,
         )
 
     override fun generateRefreshToken(userId: Long): String =
@@ -42,7 +42,7 @@ class JwtTokenService(
             userId = userId,
             email = null,
             type = TYPE_REFRESH,
-            expiration = refreshExpiration
+            expiration = refreshExpiration,
         )
 
     override fun validateAccessToken(token: String): AuthenticatedUser? {
@@ -53,22 +53,23 @@ class JwtTokenService(
         return AuthenticatedUser(userId, email)
     }
 
-    override fun validateRefreshToken(token: String): Long? =
-        parseClaims(token, TYPE_REFRESH)?.subject?.toLongOrNull()
+    override fun validateRefreshToken(token: String): Long? = parseClaims(token, TYPE_REFRESH)?.subject?.toLongOrNull()
 
     private fun generateToken(
         userId: Long,
         email: String?,
         type: String,
-        expiration: Long
+        expiration: Long,
     ): String {
         val now = Date()
 
-        val builder = Jwts.builder()
-            .subject(userId.toString())
-            .issuedAt(now)
-            .expiration(Date(now.time + expiration))
-            .claim(CLAIM_TYPE, type)
+        val builder =
+            Jwts
+                .builder()
+                .subject(userId.toString())
+                .issuedAt(now)
+                .expiration(Date(now.time + expiration))
+                .claim(CLAIM_TYPE, type)
 
         email?.let { builder.claim(CLAIM_EMAIL, it) }
 
@@ -77,7 +78,10 @@ class JwtTokenService(
             .compact()
     }
 
-    private fun parseClaims(token: String, expectedType: String): Claims? =
+    private fun parseClaims(
+        token: String,
+        expectedType: String,
+    ): Claims? =
         try {
             val claims = parseToken(token)
 
@@ -96,7 +100,8 @@ class JwtTokenService(
         }
 
     private fun parseToken(token: String): Claims =
-        Jwts.parser()
+        Jwts
+            .parser()
             .verifyWith(secretKey)
             .build()
             .parseSignedClaims(token)

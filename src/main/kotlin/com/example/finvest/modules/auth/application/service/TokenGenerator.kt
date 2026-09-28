@@ -1,14 +1,10 @@
 package com.example.finvest.modules.auth.application.service
 
 interface TokenGenerator {
-
     fun generateAccessToken(
         userId: Long,
-        email: String
+        email: String,
     ): String
 
-    fun generateRefreshToken(
-        userId: Long
-    ): String
-
+    fun generateRefreshToken(userId: Long): String
 }

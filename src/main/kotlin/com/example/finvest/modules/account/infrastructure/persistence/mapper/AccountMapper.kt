@@ -1,107 +1,96 @@
 package com.example.finvest.modules.account.infrastructure.persistence.mapper
 
+import com.example.finvest.modules.account.domain.models.Account
+import com.example.finvest.modules.account.domain.models.AssuranceVie
+import com.example.finvest.modules.account.domain.models.CompteCourant
+import com.example.finvest.modules.account.domain.models.CompteTitre
+import com.example.finvest.modules.account.domain.models.Livret
+import com.example.finvest.modules.account.domain.models.Money
+import com.example.finvest.modules.account.domain.models.Pea
+import com.example.finvest.modules.account.domain.models.Pee
+import com.example.finvest.modules.account.domain.models.Per
+import com.example.finvest.modules.account.domain.valueobject.AccountId
+import com.example.finvest.modules.account.domain.valueobject.AccountStatusId
+import com.example.finvest.modules.account.domain.valueobject.AccountTypeId
+import com.example.finvest.modules.account.domain.valueobject.BankId
+import com.example.finvest.modules.account.domain.valueobject.CurrencyId
+import com.example.finvest.modules.account.infrastructure.persistence.models.AccountEntity
+import com.example.finvest.modules.account.infrastructure.persistence.models.AssuranceVieEntity
+import com.example.finvest.modules.account.infrastructure.persistence.models.CompteCourantEntity
+import com.example.finvest.modules.account.infrastructure.persistence.models.CompteTitreEntity
+import com.example.finvest.modules.account.infrastructure.persistence.models.LivretEntity
+import com.example.finvest.modules.account.infrastructure.persistence.models.PeaEntity
+import com.example.finvest.modules.account.infrastructure.persistence.models.PeeEntity
+import com.example.finvest.modules.account.infrastructure.persistence.models.PerEntity
 
-import com.example.finvest.modules.account.domain.models.*
-import com.example.finvest.modules.account.infrastructure.persistence.models.*
-import com.example.finvest.modules.common.domain.Currency
-
-fun AccountDashboardRow.toDomain(): AccountDashboardData {
-    return AccountDashboardData(
-        account = Account(
-            id = accountId,
-            bankId = accountBankId,
-            name = accountName,
-            balance = accountBalance,
-            currencyId = accountCurrencyId,
-            createdAt = accountCreatedAt,
-            closedAt = accountClosedAt,
-            accountStatusId = accountStatusId,
-            description = accountDescription,
-            accountType = accountType
-        ),
-
-        bank = Bank(
-            id = bankId,
-            name = bankName,
-            bic = bankBic,
-            logo = bankLogo
-        ),
-
-        currency = Currency(
-            id = currencyId,
-            code = currencyCode,
-        ),
-
-        status = AccountStatus.valueOf(statusCode),
-
-        owners = listOf(
-            AccountOwner(
-                id = ownerId,
-                accountId = ownerAccountId,
-                userId = ownerUserId,
-                name = ownerName,
-                ownershipPercentage = ownerOwnershipPercentage
-            )
-        )
+fun AccountEntity.toDomain(): Account =
+    Account(
+        id = AccountId(id),
+        bankId = BankId(bankId),
+        name = name,
+        balance =
+            Money(
+                amount = balance,
+                currencyId = CurrencyId(currencyId),
+            ),
+        createdAt = createdAt,
+        closedAt = closedAt,
+        description = description,
+        accountStatusId = AccountStatusId(accountStatusId),
+        accountTypeId = AccountTypeId(accountTypeId),
     )
-}
 
-fun AssuranceVieEntity.toDomain(): AssuranceVie {
-    return AssuranceVie(
-        accountId = accountId,
+fun AssuranceVieEntity.toDomain(): AssuranceVie =
+    AssuranceVie(
+        accountId = accountId.toAccountId(),
         contractNumber = contractNumber,
         openingDate = openingDate,
-        managementTypeId = managementTypeId
+        managementTypeId = managementTypeId,
     )
-}
 
-fun CompteCourantEntity.toDomain(): CompteCourant {
-    return CompteCourant(
-        accountId = accountId,
+fun CompteCourantEntity.toDomain(): CompteCourant =
+    CompteCourant(
+        accountId = accountId.toAccountId(),
         iban = iban,
         bic = bic,
         accountNumber = accountNumber,
         overdraftLimit = overdraftLimit,
         holderName = holderName,
     )
-}
 
-fun CompteTitreEntity.toDomain(): CompteTitre {
-    return CompteTitre(
-        accountId = accountId,
+fun CompteTitreEntity.toDomain(): CompteTitre =
+    CompteTitre(
+        accountId = accountId.toAccountId(),
         accountNumber = accountNumber,
     )
-}
 
-fun LivretEntity.toDomain(): Livret {
-    return Livret(
-        accountId = accountId,
+fun LivretEntity.toDomain(): Livret =
+    Livret(
+        accountId = accountId.toAccountId(),
         interestRate = interestRate,
-        ceiling = ceiling
+        ceiling = ceiling,
     )
-}
 
-fun PeaEntity.toDomain(): Pea {
-    return Pea(
-        accountId = accountId,
+fun PeaEntity.toDomain(): Pea =
+    Pea(
+        accountId = accountId.toAccountId(),
         openingDate = openingDate,
-        depositLimit = depositLimit
+        depositLimit = depositLimit,
     )
-}
 
-fun PeeEntity.toDomain(): Pee {
-    return Pee(
-        accountId = accountId,
+fun PeeEntity.toDomain(): Pee =
+    Pee(
+        accountId = accountId.toAccountId(),
         openingDate = openingDate,
-        employer = employer
+        employer = employer,
     )
-}
 
-fun PerEntity.toDomain(): Per {
-    return Per(
-        accountId = accountId,
+fun PerEntity.toDomain(): Per =
+    Per(
+        accountId = accountId.toAccountId(),
         contractNumber = contractNumber,
         openingDate = openingDate,
-        managementTypeId = managementTypeId
+        managementTypeId = managementTypeId,
     )
-}
+
+fun Long.toAccountId(): AccountId = AccountId(this)
