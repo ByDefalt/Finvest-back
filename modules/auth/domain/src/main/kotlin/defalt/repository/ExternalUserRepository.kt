@@ -1,0 +1,3 @@
+package defalt.repository
+
+interface ExternalUserRepository
