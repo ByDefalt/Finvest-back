@@ -1,13 +1,14 @@
 package com.example.finvest.modules.account.presentation.controller
 
 import com.example.finvest.logger.Logger
-import com.example.finvest.modules.account.application.usecase.CreateLivretUseCase
-import com.example.finvest.modules.account.application.usecase.DeleteLivretUseCase
-import com.example.finvest.modules.account.application.usecase.GetLivretByUserIdUseCase
-import com.example.finvest.modules.account.application.usecase.UpdateLivretUseCase
-import com.example.finvest.modules.account.presentation.dto.AccountIdResponse
-import com.example.finvest.modules.account.presentation.dto.LivretDto
-import com.example.finvest.modules.account.presentation.dto.LivretRequest
+import com.example.finvest.modules.account.application.usecase.create.CreateLivretUseCase
+import com.example.finvest.modules.account.application.usecase.delete.DeleteLivretUseCase
+import com.example.finvest.modules.account.application.usecase.get.GetLivretByUserIdUseCase
+import com.example.finvest.modules.account.application.usecase.update.UpdateLivretUseCase
+import com.example.finvest.modules.account.presentation.dto.request.LivretRequest
+import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
+import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
+import com.example.finvest.modules.account.presentation.dto.response.LivretDto
 import com.example.finvest.modules.account.presentation.mapper.toAccountId
 import com.example.finvest.modules.account.presentation.mapper.toAccountIdResponse
 import com.example.finvest.modules.account.presentation.mapper.toDto
@@ -62,10 +63,10 @@ class LivretController(
     fun update(
         @RequestBody request: LivretRequest,
         @CurrentUser user: AuthenticatedUser,
-    ): LivretDto {
+    ): AccountWithDetailsDto {
         logger.info("start update livret account for user=${user.id}")
         val result = update(request.toLivretWithDetails()).toDto()
-        logger.info("finis update livret account for user=${user.id}, accountId=${result.accountId}")
+        logger.info("finis update livret account for user=${user.id}, accountId=${result.account.accountId}")
         return result
     }
 

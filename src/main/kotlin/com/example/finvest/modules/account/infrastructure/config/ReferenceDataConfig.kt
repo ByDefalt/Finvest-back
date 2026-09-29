@@ -1,6 +1,6 @@
 package com.example.finvest.modules.account.infrastructure.config
 
-import com.example.finvest.modules.account.application.usecase.LoadReferenceDataUseCase
+import com.example.finvest.modules.account.application.usecase.get.LoadReferenceDataUseCase
 import com.example.finvest.modules.account.domain.cache.DefaultReferenceDataCache
 import com.example.finvest.modules.account.domain.cache.ReferenceDataCache
 import com.example.finvest.modules.account.domain.repository.AccountStatusRepository

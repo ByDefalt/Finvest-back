@@ -1,10 +1,10 @@
 package com.example.finvest.modules.account.infrastructure.config
 
 import com.example.finvest.logger.Logger
-import com.example.finvest.modules.account.application.usecase.CreateAssuranceVieUseCase
-import com.example.finvest.modules.account.application.usecase.DeleteAssuranceVieUseCase
-import com.example.finvest.modules.account.application.usecase.GetAssuranceVieByUserIdUseCase
-import com.example.finvest.modules.account.application.usecase.UpdateAssuranceVieUseCase
+import com.example.finvest.modules.account.application.usecase.create.CreateAssuranceVieUseCase
+import com.example.finvest.modules.account.application.usecase.delete.DeleteAssuranceVieUseCase
+import com.example.finvest.modules.account.application.usecase.get.GetAssuranceVieByUserIdUseCase
+import com.example.finvest.modules.account.application.usecase.update.UpdateAssuranceVieUseCase
 import com.example.finvest.modules.account.domain.repository.AccountRepository
 import com.example.finvest.modules.account.domain.repository.AssuranceVieRepository
 import com.example.finvest.modules.shared.application.manager.TransactionManager

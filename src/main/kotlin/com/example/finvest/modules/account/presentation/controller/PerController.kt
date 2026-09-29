@@ -1,13 +1,14 @@
 package com.example.finvest.modules.account.presentation.controller
 
 import com.example.finvest.logger.Logger
-import com.example.finvest.modules.account.application.usecase.CreatePerUseCase
-import com.example.finvest.modules.account.application.usecase.DeletePerUseCase
-import com.example.finvest.modules.account.application.usecase.GetPerByUserIdUseCase
-import com.example.finvest.modules.account.application.usecase.UpdatePerUseCase
-import com.example.finvest.modules.account.presentation.dto.AccountIdResponse
-import com.example.finvest.modules.account.presentation.dto.PerDto
-import com.example.finvest.modules.account.presentation.dto.PerRequest
+import com.example.finvest.modules.account.application.usecase.create.CreatePerUseCase
+import com.example.finvest.modules.account.application.usecase.delete.DeletePerUseCase
+import com.example.finvest.modules.account.application.usecase.get.GetPerByUserIdUseCase
+import com.example.finvest.modules.account.application.usecase.update.UpdatePerUseCase
+import com.example.finvest.modules.account.presentation.dto.request.PerRequest
+import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
+import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
+import com.example.finvest.modules.account.presentation.dto.response.PerDto
 import com.example.finvest.modules.account.presentation.mapper.toAccountId
 import com.example.finvest.modules.account.presentation.mapper.toAccountIdResponse
 import com.example.finvest.modules.account.presentation.mapper.toDto
@@ -62,10 +63,10 @@ class PerController(
     fun update(
         @RequestBody request: PerRequest,
         @CurrentUser user: AuthenticatedUser,
-    ): PerDto {
+    ): AccountWithDetailsDto {
         logger.info("start update per account for user=${user.id}")
         val result = update(request.toPerWithDetails()).toDto()
-        logger.info("finis update per account for user=${user.id}, accountId=${result.accountId}")
+        logger.info("finis update per account for user=${user.id}, accountId=${result.account.accountId}")
         return result
     }
 

@@ -1,13 +1,14 @@
 package com.example.finvest.modules.account.presentation.controller
 
 import com.example.finvest.logger.Logger
-import com.example.finvest.modules.account.application.usecase.CreateAssuranceVieUseCase
-import com.example.finvest.modules.account.application.usecase.DeleteAssuranceVieUseCase
-import com.example.finvest.modules.account.application.usecase.GetAssuranceVieByUserIdUseCase
-import com.example.finvest.modules.account.application.usecase.UpdateAssuranceVieUseCase
-import com.example.finvest.modules.account.presentation.dto.AccountIdResponse
-import com.example.finvest.modules.account.presentation.dto.AssuranceVieDto
-import com.example.finvest.modules.account.presentation.dto.AssuranceVieRequest
+import com.example.finvest.modules.account.application.usecase.create.CreateAssuranceVieUseCase
+import com.example.finvest.modules.account.application.usecase.delete.DeleteAssuranceVieUseCase
+import com.example.finvest.modules.account.application.usecase.get.GetAssuranceVieByUserIdUseCase
+import com.example.finvest.modules.account.application.usecase.update.UpdateAssuranceVieUseCase
+import com.example.finvest.modules.account.presentation.dto.request.AssuranceVieRequest
+import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
+import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
+import com.example.finvest.modules.account.presentation.dto.response.AssuranceVieDto
 import com.example.finvest.modules.account.presentation.mapper.toAccountId
 import com.example.finvest.modules.account.presentation.mapper.toAccountIdResponse
 import com.example.finvest.modules.account.presentation.mapper.toAssuranceVieWithDetails
@@ -62,10 +63,10 @@ class AssuranceVieController(
     fun update(
         @RequestBody request: AssuranceVieRequest,
         @CurrentUser user: AuthenticatedUser,
-    ): AssuranceVieDto {
+    ): AccountWithDetailsDto {
         logger.info("start update assurance vie account for user=${user.id}")
         val result = update(request.toAssuranceVieWithDetails()).toDto()
-        logger.info("finis update assurance vie account for user=${user.id}, accountId=${result.accountId}")
+        logger.info("finis update assurance vie account for user=${user.id}, accountId=${result.account.accountId}")
         return result
     }
 

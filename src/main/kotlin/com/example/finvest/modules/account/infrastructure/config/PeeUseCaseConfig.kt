@@ -1,10 +1,10 @@
 package com.example.finvest.modules.account.infrastructure.config
 
 import com.example.finvest.logger.Logger
-import com.example.finvest.modules.account.application.usecase.CreatePeeUseCase
-import com.example.finvest.modules.account.application.usecase.DeletePeeUseCase
-import com.example.finvest.modules.account.application.usecase.GetPeeByUserIdUseCase
-import com.example.finvest.modules.account.application.usecase.UpdatePeeUseCase
+import com.example.finvest.modules.account.application.usecase.create.CreatePeeUseCase
+import com.example.finvest.modules.account.application.usecase.delete.DeletePeeUseCase
+import com.example.finvest.modules.account.application.usecase.get.GetPeeByUserIdUseCase
+import com.example.finvest.modules.account.application.usecase.update.UpdatePeeUseCase
 import com.example.finvest.modules.account.domain.repository.AccountRepository
 import com.example.finvest.modules.account.domain.repository.PeeRepository
 import com.example.finvest.modules.shared.application.manager.TransactionManager

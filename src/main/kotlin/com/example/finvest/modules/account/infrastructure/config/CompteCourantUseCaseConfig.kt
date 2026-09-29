@@ -1,10 +1,10 @@
 package com.example.finvest.modules.account.infrastructure.config
 
 import com.example.finvest.logger.Logger
-import com.example.finvest.modules.account.application.usecase.CreateCompteCourantUseCase
-import com.example.finvest.modules.account.application.usecase.DeleteCompteCourantUseCase
-import com.example.finvest.modules.account.application.usecase.GetCompteCourantByUserIdUseCase
-import com.example.finvest.modules.account.application.usecase.UpdateCompteCourantUseCase
+import com.example.finvest.modules.account.application.usecase.create.CreateCompteCourantUseCase
+import com.example.finvest.modules.account.application.usecase.delete.DeleteCompteCourantUseCase
+import com.example.finvest.modules.account.application.usecase.get.GetCompteCourantByUserIdUseCase
+import com.example.finvest.modules.account.application.usecase.update.UpdateCompteCourantUseCase
 import com.example.finvest.modules.account.domain.repository.AccountRepository
 import com.example.finvest.modules.account.domain.repository.CompteCourantRepository
 import com.example.finvest.modules.shared.application.manager.TransactionManager

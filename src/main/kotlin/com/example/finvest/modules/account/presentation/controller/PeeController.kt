@@ -1,13 +1,14 @@
 package com.example.finvest.modules.account.presentation.controller
 
 import com.example.finvest.logger.Logger
-import com.example.finvest.modules.account.application.usecase.CreatePeeUseCase
-import com.example.finvest.modules.account.application.usecase.DeletePeeUseCase
-import com.example.finvest.modules.account.application.usecase.GetPeeByUserIdUseCase
-import com.example.finvest.modules.account.application.usecase.UpdatePeeUseCase
-import com.example.finvest.modules.account.presentation.dto.AccountIdResponse
-import com.example.finvest.modules.account.presentation.dto.PeeDto
-import com.example.finvest.modules.account.presentation.dto.PeeRequest
+import com.example.finvest.modules.account.application.usecase.create.CreatePeeUseCase
+import com.example.finvest.modules.account.application.usecase.delete.DeletePeeUseCase
+import com.example.finvest.modules.account.application.usecase.get.GetPeeByUserIdUseCase
+import com.example.finvest.modules.account.application.usecase.update.UpdatePeeUseCase
+import com.example.finvest.modules.account.presentation.dto.request.PeeRequest
+import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
+import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
+import com.example.finvest.modules.account.presentation.dto.response.PeeDto
 import com.example.finvest.modules.account.presentation.mapper.toAccountId
 import com.example.finvest.modules.account.presentation.mapper.toAccountIdResponse
 import com.example.finvest.modules.account.presentation.mapper.toDto
@@ -62,10 +63,10 @@ class PeeController(
     fun update(
         @RequestBody request: PeeRequest,
         @CurrentUser user: AuthenticatedUser,
-    ): PeeDto {
+    ): AccountWithDetailsDto {
         logger.info("start update pee account for user=${user.id}")
         val result = update(request.toPeeWithDetails()).toDto()
-        logger.info("finis update pee account for user=${user.id}, accountId=${result.accountId}")
+        logger.info("finis update pee account for user=${user.id}, accountId=${result.account.accountId}")
         return result
     }
 

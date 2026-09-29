@@ -1,10 +1,10 @@
 package com.example.finvest.modules.account.infrastructure.config
 
 import com.example.finvest.logger.Logger
-import com.example.finvest.modules.account.application.usecase.CreateCompteTitreUseCase
-import com.example.finvest.modules.account.application.usecase.DeleteCompteTitreUseCase
-import com.example.finvest.modules.account.application.usecase.GetCompteTitreByUserIdUseCase
-import com.example.finvest.modules.account.application.usecase.UpdateCompteTitreUseCase
+import com.example.finvest.modules.account.application.usecase.create.CreateCompteTitreUseCase
+import com.example.finvest.modules.account.application.usecase.delete.DeleteCompteTitreUseCase
+import com.example.finvest.modules.account.application.usecase.get.GetCompteTitreByUserIdUseCase
+import com.example.finvest.modules.account.application.usecase.update.UpdateCompteTitreUseCase
 import com.example.finvest.modules.account.domain.repository.AccountRepository
 import com.example.finvest.modules.account.domain.repository.CompteTitreRepository
 import com.example.finvest.modules.shared.application.manager.TransactionManager

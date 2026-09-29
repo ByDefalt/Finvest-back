@@ -1,6 +1,7 @@
 package com.example.finvest.modules.account.application.usecase
 
 import com.example.finvest.logger.Logger
+import com.example.finvest.modules.account.application.usecase.delete.DeleteAssuranceVieUseCase
 import com.example.finvest.modules.account.domain.repository.AssuranceVieRepository
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock

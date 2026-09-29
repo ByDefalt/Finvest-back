@@ -1,13 +1,14 @@
 package com.example.finvest.modules.account.presentation.controller
 
 import com.example.finvest.logger.Logger
-import com.example.finvest.modules.account.application.usecase.CreateCompteTitreUseCase
-import com.example.finvest.modules.account.application.usecase.DeleteCompteTitreUseCase
-import com.example.finvest.modules.account.application.usecase.GetCompteTitreByUserIdUseCase
-import com.example.finvest.modules.account.application.usecase.UpdateCompteTitreUseCase
-import com.example.finvest.modules.account.presentation.dto.AccountIdResponse
-import com.example.finvest.modules.account.presentation.dto.CompteTitreDto
-import com.example.finvest.modules.account.presentation.dto.CompteTitreRequest
+import com.example.finvest.modules.account.application.usecase.create.CreateCompteTitreUseCase
+import com.example.finvest.modules.account.application.usecase.delete.DeleteCompteTitreUseCase
+import com.example.finvest.modules.account.application.usecase.get.GetCompteTitreByUserIdUseCase
+import com.example.finvest.modules.account.application.usecase.update.UpdateCompteTitreUseCase
+import com.example.finvest.modules.account.presentation.dto.request.CompteTitreRequest
+import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
+import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
+import com.example.finvest.modules.account.presentation.dto.response.CompteTitreDto
 import com.example.finvest.modules.account.presentation.mapper.toAccountId
 import com.example.finvest.modules.account.presentation.mapper.toAccountIdResponse
 import com.example.finvest.modules.account.presentation.mapper.toCompteTitreWithDetails
@@ -62,10 +63,10 @@ class CompteTitreController(
     fun update(
         @RequestBody request: CompteTitreRequest,
         @CurrentUser user: AuthenticatedUser,
-    ): CompteTitreDto {
+    ): AccountWithDetailsDto {
         logger.info("start update compte titre account for user=${user.id}")
         val result = update(request.toCompteTitreWithDetails()).toDto()
-        logger.info("finis update compte titre account for user=${user.id}, accountId=${result.accountId}")
+        logger.info("finis update compte titre account for user=${user.id}, accountId=${result.account.accountId}")
         return result
     }
 

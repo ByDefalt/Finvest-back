@@ -1,13 +1,14 @@
 package com.example.finvest.modules.account.presentation.controller
 
 import com.example.finvest.logger.Logger
-import com.example.finvest.modules.account.application.usecase.CreateCompteCourantUseCase
-import com.example.finvest.modules.account.application.usecase.DeleteCompteCourantUseCase
-import com.example.finvest.modules.account.application.usecase.GetCompteCourantByUserIdUseCase
-import com.example.finvest.modules.account.application.usecase.UpdateCompteCourantUseCase
-import com.example.finvest.modules.account.presentation.dto.AccountIdResponse
-import com.example.finvest.modules.account.presentation.dto.CompteCourantDto
-import com.example.finvest.modules.account.presentation.dto.CompteCourantRequest
+import com.example.finvest.modules.account.application.usecase.create.CreateCompteCourantUseCase
+import com.example.finvest.modules.account.application.usecase.delete.DeleteCompteCourantUseCase
+import com.example.finvest.modules.account.application.usecase.get.GetCompteCourantByUserIdUseCase
+import com.example.finvest.modules.account.application.usecase.update.UpdateCompteCourantUseCase
+import com.example.finvest.modules.account.presentation.dto.request.CompteCourantRequest
+import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
+import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
+import com.example.finvest.modules.account.presentation.dto.response.CompteCourantDto
 import com.example.finvest.modules.account.presentation.mapper.toAccountId
 import com.example.finvest.modules.account.presentation.mapper.toAccountIdResponse
 import com.example.finvest.modules.account.presentation.mapper.toCompteCourantWithDetails
@@ -62,10 +63,10 @@ class CompteCourantController(
     fun update(
         @RequestBody request: CompteCourantRequest,
         @CurrentUser user: AuthenticatedUser,
-    ): CompteCourantDto {
+    ): AccountWithDetailsDto {
         logger.info("start update compte courant account for user=${user.id}")
         val result = update(request.toCompteCourantWithDetails()).toDto()
-        logger.info("finis update compte courant account for user=${user.id}, accountId=${result.accountId}")
+        logger.info("finis update compte courant account for user=${user.id}, accountId=${result.account.accountId}")
         return result
     }
 

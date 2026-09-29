@@ -1,6 +1,24 @@
 package com.example.finvest.modules.account.infrastructure.persistence.queries
 
 object AccountQueries {
+    const val GET_ACCOUNT_BY_USER_ID = """
+        SELECT
+            a.id AS accountId,
+            a.bank_id AS bankId,
+            a.name AS name,
+            a.balance AS balance,
+            a.currency_id AS currencyId,
+            a.created_at AS createdAt,
+            a.closed_at AS closedAt,
+            a.account_status_id AS accountStatusId,
+            a.description AS description,
+            a.account_type_id AS accountTypeId
+        FROM accounts a
+        JOIN account_owners ao
+            ON ao.account_id = a.id
+        WHERE ao.user_id = :userId;
+    """
+
     const val CREATE_ACCOUNT = """
         INSERT INTO accounts (
             bank_id, 

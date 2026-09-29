@@ -4,6 +4,8 @@ import com.example.finvest.modules.account.domain.models.Account
 import com.example.finvest.modules.account.domain.valueobject.AccountId
 
 interface AccountRepository {
+    fun getAccountByUserId(userId: Long): List<Account>
+
     fun createAccount(account: Account): AccountId
 
     fun updateAccount(account: Account): Account

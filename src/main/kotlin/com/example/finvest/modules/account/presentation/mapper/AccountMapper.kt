@@ -15,26 +15,26 @@ import com.example.finvest.modules.account.domain.valueobject.AccountStatusId
 import com.example.finvest.modules.account.domain.valueobject.AccountTypeId
 import com.example.finvest.modules.account.domain.valueobject.BankId
 import com.example.finvest.modules.account.domain.valueobject.CurrencyId
-import com.example.finvest.modules.account.presentation.dto.AccountIdResponse
-import com.example.finvest.modules.account.presentation.dto.AccountRequest
-import com.example.finvest.modules.account.presentation.dto.AccountResponse
-import com.example.finvest.modules.account.presentation.dto.AssuranceVieDto
-import com.example.finvest.modules.account.presentation.dto.AssuranceVieRequest
-import com.example.finvest.modules.account.presentation.dto.CompteCourantDto
-import com.example.finvest.modules.account.presentation.dto.CompteCourantRequest
-import com.example.finvest.modules.account.presentation.dto.CompteTitreDto
-import com.example.finvest.modules.account.presentation.dto.CompteTitreRequest
-import com.example.finvest.modules.account.presentation.dto.LivretDto
-import com.example.finvest.modules.account.presentation.dto.LivretRequest
-import com.example.finvest.modules.account.presentation.dto.PeaDto
-import com.example.finvest.modules.account.presentation.dto.PeaRequest
-import com.example.finvest.modules.account.presentation.dto.PeeDto
-import com.example.finvest.modules.account.presentation.dto.PeeRequest
-import com.example.finvest.modules.account.presentation.dto.PerDto
-import com.example.finvest.modules.account.presentation.dto.PerRequest
+import com.example.finvest.modules.account.presentation.dto.request.AssuranceVieRequest
+import com.example.finvest.modules.account.presentation.dto.request.CompteCourantRequest
+import com.example.finvest.modules.account.presentation.dto.request.CompteTitreRequest
+import com.example.finvest.modules.account.presentation.dto.request.LivretRequest
+import com.example.finvest.modules.account.presentation.dto.request.PeaRequest
+import com.example.finvest.modules.account.presentation.dto.request.PeeRequest
+import com.example.finvest.modules.account.presentation.dto.request.PerRequest
+import com.example.finvest.modules.account.presentation.dto.response.AccountDto
+import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
+import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
+import com.example.finvest.modules.account.presentation.dto.response.AssuranceVieDto
+import com.example.finvest.modules.account.presentation.dto.response.CompteCourantDto
+import com.example.finvest.modules.account.presentation.dto.response.CompteTitreDto
+import com.example.finvest.modules.account.presentation.dto.response.LivretDto
+import com.example.finvest.modules.account.presentation.dto.response.PeaDto
+import com.example.finvest.modules.account.presentation.dto.response.PeeDto
+import com.example.finvest.modules.account.presentation.dto.response.PerDto
 
-fun Account.toResponse() =
-    AccountResponse(
+fun Account.toDto() =
+    AccountDto(
         accountId = id.value,
         bankId = bankId.value,
         name = name,
@@ -45,19 +45,6 @@ fun Account.toResponse() =
         accountStatusId = accountStatusId.value,
         description = description,
         accountTypeId = accountTypeId.value,
-    )
-
-fun AccountRequest.toAccountDomain() =
-    Account(
-        id = AccountId(accountId),
-        bankId = BankId(bankId),
-        name = name,
-        balance = Money(balance, CurrencyId(currencyId)),
-        createdAt = createdAt,
-        closedAt = closedAt,
-        accountStatusId = AccountStatusId(accountStatusId),
-        description = description,
-        accountTypeId = AccountTypeId(accountTypeId),
     )
 
 fun AssuranceVieRequest.toAssuranceVieWithDetails() =
@@ -85,22 +72,9 @@ fun AssuranceVieRequest.toAssuranceVieWithDetails() =
 
 fun AssuranceVie.toDto() = AssuranceVieDto(contractNumber, openingDate, managementTypeId)
 
+@JvmName("toAssuranceVieAccountWithDetailsDto")
 fun AccountWithDetails<AssuranceVie>.toDto() =
-    AssuranceVieDto(
-        contractNumber = details.contractNumber,
-        openingDate = details.openingDate,
-        managementTypeId = details.managementTypeId,
-        accountId = account.id.value,
-        bankId = account.bankId.value,
-        name = account.name,
-        balance = account.balance.amount,
-        currencyId = account.balance.currencyId.value,
-        createdAt = account.createdAt,
-        closedAt = account.closedAt,
-        accountStatusId = account.accountStatusId.value,
-        description = account.description,
-        accountTypeId = account.accountTypeId.value,
-    )
+    AccountWithDetailsDto(account.toDto(), details.toDto())
 
 fun CompteCourantRequest.toCompteCourantWithDetails() =
     AccountWithDetails(
@@ -129,24 +103,9 @@ fun CompteCourantRequest.toCompteCourantWithDetails() =
 
 fun CompteCourant.toDto() = CompteCourantDto(iban, bic, accountNumber, overdraftLimit, holderName)
 
+@JvmName("toCompteCourantAccountWithDetailsDto")
 fun AccountWithDetails<CompteCourant>.toDto() =
-    CompteCourantDto(
-        iban = details.iban,
-        bic = details.bic,
-        accountNumber = details.accountNumber,
-        overdraftLimit = details.overdraftLimit,
-        holderName = details.holderName,
-        accountId = account.id.value,
-        bankId = account.bankId.value,
-        name = account.name,
-        balance = account.balance.amount,
-        currencyId = account.balance.currencyId.value,
-        createdAt = account.createdAt,
-        closedAt = account.closedAt,
-        accountStatusId = account.accountStatusId.value,
-        description = account.description,
-        accountTypeId = account.accountTypeId.value,
-    )
+    AccountWithDetailsDto(account.toDto(), details.toDto())
 
 fun CompteTitreRequest.toCompteTitreWithDetails() =
     AccountWithDetails(
@@ -171,20 +130,9 @@ fun CompteTitreRequest.toCompteTitreWithDetails() =
 
 fun CompteTitre.toDto() = CompteTitreDto(accountNumber)
 
+@JvmName("toCompteTitreAccountWithDetailsDto")
 fun AccountWithDetails<CompteTitre>.toDto() =
-    CompteTitreDto(
-        accountNumber = details.accountNumber,
-        accountId = account.id.value,
-        bankId = account.bankId.value,
-        name = account.name,
-        balance = account.balance.amount,
-        currencyId = account.balance.currencyId.value,
-        createdAt = account.createdAt,
-        closedAt = account.closedAt,
-        accountStatusId = account.accountStatusId.value,
-        description = account.description,
-        accountTypeId = account.accountTypeId.value,
-    )
+    AccountWithDetailsDto(account.toDto(), details.toDto())
 
 fun LivretRequest.toLivretWithDetails() =
     AccountWithDetails(
@@ -210,21 +158,9 @@ fun LivretRequest.toLivretWithDetails() =
 
 fun Livret.toDto() = LivretDto(interestRate, ceiling)
 
+@JvmName("toLivretAccountWithDetailsDto")
 fun AccountWithDetails<Livret>.toDto() =
-    LivretDto(
-        interestRate = details.interestRate,
-        ceiling = details.ceiling,
-        accountId = account.id.value,
-        bankId = account.bankId.value,
-        name = account.name,
-        balance = account.balance.amount,
-        currencyId = account.balance.currencyId.value,
-        createdAt = account.createdAt,
-        closedAt = account.closedAt,
-        accountStatusId = account.accountStatusId.value,
-        description = account.description,
-        accountTypeId = account.accountTypeId.value,
-    )
+    AccountWithDetailsDto(account.toDto(), details.toDto())
 
 fun PeaRequest.toPeaWithDetails() =
     AccountWithDetails(
@@ -250,21 +186,9 @@ fun PeaRequest.toPeaWithDetails() =
 
 fun Pea.toDto() = PeaDto(openingDate, depositLimit)
 
+@JvmName("toPeaAccountWithDetailsDto")
 fun AccountWithDetails<Pea>.toDto() =
-    PeaDto(
-        openingDate = details.openingDate,
-        depositLimit = details.depositLimit,
-        accountId = account.id.value,
-        bankId = account.bankId.value,
-        name = account.name,
-        balance = account.balance.amount,
-        currencyId = account.balance.currencyId.value,
-        createdAt = account.createdAt,
-        closedAt = account.closedAt,
-        accountStatusId = account.accountStatusId.value,
-        description = account.description,
-        accountTypeId = account.accountTypeId.value,
-    )
+    AccountWithDetailsDto(account.toDto(), details.toDto())
 
 fun PeeRequest.toPeeWithDetails() =
     AccountWithDetails(
@@ -290,21 +214,9 @@ fun PeeRequest.toPeeWithDetails() =
 
 fun Pee.toDto() = PeeDto(openingDate, employer)
 
+@JvmName("toPeeAccountWithDetailsDto")
 fun AccountWithDetails<Pee>.toDto() =
-    PeeDto(
-        openingDate = details.openingDate,
-        employer = details.employer,
-        accountId = account.id.value,
-        bankId = account.bankId.value,
-        name = account.name,
-        balance = account.balance.amount,
-        currencyId = account.balance.currencyId.value,
-        createdAt = account.createdAt,
-        closedAt = account.closedAt,
-        accountStatusId = account.accountStatusId.value,
-        description = account.description,
-        accountTypeId = account.accountTypeId.value,
-    )
+    AccountWithDetailsDto(account.toDto(), details.toDto())
 
 fun PerRequest.toPerWithDetails() =
     AccountWithDetails(
@@ -331,22 +243,9 @@ fun PerRequest.toPerWithDetails() =
 
 fun Per.toDto() = PerDto(contractNumber, openingDate, managementTypeId)
 
+@JvmName("toPerAccountWithDetailsDto")
 fun AccountWithDetails<Per>.toDto() =
-    PerDto(
-        contractNumber = details.contractNumber,
-        openingDate = details.openingDate,
-        managementTypeId = details.managementTypeId,
-        accountId = account.id.value,
-        bankId = account.bankId.value,
-        name = account.name,
-        balance = account.balance.amount,
-        currencyId = account.balance.currencyId.value,
-        createdAt = account.createdAt,
-        closedAt = account.closedAt,
-        accountStatusId = account.accountStatusId.value,
-        description = account.description,
-        accountTypeId = account.accountTypeId.value,
-    )
+    AccountWithDetailsDto(account.toDto(), details.toDto())
 
 fun Long.toAccountIdResponse() = AccountIdResponse(this)
 

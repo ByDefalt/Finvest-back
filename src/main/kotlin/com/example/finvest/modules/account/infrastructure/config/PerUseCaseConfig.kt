@@ -1,10 +1,10 @@
 package com.example.finvest.modules.account.infrastructure.config
 
 import com.example.finvest.logger.Logger
-import com.example.finvest.modules.account.application.usecase.CreatePerUseCase
-import com.example.finvest.modules.account.application.usecase.DeletePerUseCase
-import com.example.finvest.modules.account.application.usecase.GetPerByUserIdUseCase
-import com.example.finvest.modules.account.application.usecase.UpdatePerUseCase
+import com.example.finvest.modules.account.application.usecase.create.CreatePerUseCase
+import com.example.finvest.modules.account.application.usecase.delete.DeletePerUseCase
+import com.example.finvest.modules.account.application.usecase.get.GetPerByUserIdUseCase
+import com.example.finvest.modules.account.application.usecase.update.UpdatePerUseCase
 import com.example.finvest.modules.account.domain.repository.AccountRepository
 import com.example.finvest.modules.account.domain.repository.PerRepository
 import com.example.finvest.modules.shared.application.manager.TransactionManager

@@ -5,6 +5,8 @@ import com.example.finvest.modules.account.domain.models.Account
 import com.example.finvest.modules.account.domain.repository.AccountRepository
 import com.example.finvest.modules.account.domain.valueobject.AccountId
 import com.example.finvest.modules.account.infrastructure.persistence.mapper.toAccountId
+import com.example.finvest.modules.account.infrastructure.persistence.mapper.toDomain
+import com.example.finvest.modules.account.infrastructure.persistence.models.AccountEntity
 import com.example.finvest.modules.account.infrastructure.persistence.queries.AccountQueries
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
@@ -16,6 +18,28 @@ class AccountJdbcRepository(
     private val jdbcTemplate: NamedParameterJdbcTemplate,
     private val logger: Logger,
 ) : AccountRepository {
+    override fun getAccountByUserId(userId: Long): List<Account> {
+        logger.info("Fetching accounts for userId: $userId")
+        return jdbcTemplate.query(
+            AccountQueries.GET_ACCOUNT_BY_USER_ID,
+            MapSqlParameterSource()
+                .addValue("userId", userId),
+        ) { rs, _ ->
+            AccountEntity(
+                id = rs.getLong("accountId"),
+                bankId = rs.getLong("bankId"),
+                name = rs.getString("name"),
+                balance = rs.getBigDecimal("balance"),
+                currencyId = rs.getLong("currencyId"),
+                createdAt = rs.getTimestamp("createdAt").toLocalDateTime(),
+                closedAt = rs.getTimestamp("closedAt")?.toLocalDateTime(),
+                accountStatusId = rs.getLong("accountStatusId"),
+                description = rs.getString("description"),
+                accountTypeId = rs.getLong("accountTypeId"),
+            ).toDomain()
+        }
+    }
+
     override fun createAccount(account: Account): AccountId {
         val keyHolder = GeneratedKeyHolder()
         logger.info("Creating account with name: ${account.name}")

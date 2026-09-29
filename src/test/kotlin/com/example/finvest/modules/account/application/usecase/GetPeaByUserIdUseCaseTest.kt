@@ -1,6 +1,7 @@
 package com.example.finvest.modules.account.application.usecase
 
 import com.example.finvest.logger.Logger
+import com.example.finvest.modules.account.application.usecase.get.GetPeaByUserIdUseCase
 import com.example.finvest.modules.account.domain.repository.PeaRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

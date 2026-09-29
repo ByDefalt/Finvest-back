@@ -1,13 +1,14 @@
 package com.example.finvest.modules.account.presentation.controller
 
 import com.example.finvest.logger.Logger
-import com.example.finvest.modules.account.application.usecase.CreatePeaUseCase
-import com.example.finvest.modules.account.application.usecase.DeletePeaUseCase
-import com.example.finvest.modules.account.application.usecase.GetPeaByUserIdUseCase
-import com.example.finvest.modules.account.application.usecase.UpdatePeaUseCase
-import com.example.finvest.modules.account.presentation.dto.AccountIdResponse
-import com.example.finvest.modules.account.presentation.dto.PeaDto
-import com.example.finvest.modules.account.presentation.dto.PeaRequest
+import com.example.finvest.modules.account.application.usecase.create.CreatePeaUseCase
+import com.example.finvest.modules.account.application.usecase.delete.DeletePeaUseCase
+import com.example.finvest.modules.account.application.usecase.get.GetPeaByUserIdUseCase
+import com.example.finvest.modules.account.application.usecase.update.UpdatePeaUseCase
+import com.example.finvest.modules.account.presentation.dto.request.PeaRequest
+import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
+import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
+import com.example.finvest.modules.account.presentation.dto.response.PeaDto
 import com.example.finvest.modules.account.presentation.mapper.toAccountId
 import com.example.finvest.modules.account.presentation.mapper.toAccountIdResponse
 import com.example.finvest.modules.account.presentation.mapper.toDto
@@ -62,10 +63,10 @@ class PeaController(
     fun update(
         @RequestBody request: PeaRequest,
         @CurrentUser user: AuthenticatedUser,
-    ): PeaDto {
+    ): AccountWithDetailsDto {
         logger.info("start update pea account for user=${user.id}")
         val result = update(request.toPeaWithDetails()).toDto()
-        logger.info("finis update pea account for user=${user.id}, accountId=${result.accountId}")
+        logger.info("finis update pea account for user=${user.id}, accountId=${result.account.accountId}")
         return result
     }
 
