@@ -1,6 +1,7 @@
 package com.example.finvest.modules.account.infrastructure.persistence.repository
 
 import com.example.finvest.logger.Logger
+import com.example.finvest.modules.account.domain.cache.ReferenceDataCache
 import com.example.finvest.modules.account.domain.models.Account
 import com.example.finvest.modules.account.domain.repository.AccountRepository
 import com.example.finvest.modules.account.domain.valueobject.AccountId
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class AccountJdbcRepository(
     private val jdbcTemplate: NamedParameterJdbcTemplate,
+    private val referenceDataCache: ReferenceDataCache,
     private val logger: Logger,
 ) : AccountRepository {
     override fun getAccountByUserId(userId: Long): List<Account> {
@@ -36,7 +38,7 @@ class AccountJdbcRepository(
                 accountStatusId = rs.getLong("accountStatusId"),
                 description = rs.getString("description"),
                 accountTypeId = rs.getLong("accountTypeId"),
-            ).toDomain()
+            ).toDomain(referenceDataCache)
         }
     }
 
@@ -46,15 +48,15 @@ class AccountJdbcRepository(
         jdbcTemplate.update(
             AccountQueries.CREATE_ACCOUNT,
             MapSqlParameterSource()
-                .addValue("bankId", account.bankId.value)
+                .addValue("bankId", account.bank.id.value)
                 .addValue("name", account.name)
                 .addValue("balance", account.balance.amount)
-                .addValue("currencyId", account.balance.currencyId.value)
+                .addValue("currencyId", referenceDataCache.currencyIdOf(account.balance.currencyCode.value))
                 .addValue("createdAt", account.createdAt)
                 .addValue("closedAt", account.closedAt)
-                .addValue("accountStatusId", account.accountStatusId.value)
+                .addValue("accountStatusId", referenceDataCache.statusIdOf(account.accountStatus.name))
                 .addValue("description", account.description)
-                .addValue("accountTypeId", account.accountTypeId.value),
+                .addValue("accountTypeId", referenceDataCache.typeIdOf(account.accountType.value)),
             keyHolder,
             arrayOf("id"),
         )
@@ -68,15 +70,15 @@ class AccountJdbcRepository(
             AccountQueries.UPDATE_ACCOUNT,
             MapSqlParameterSource()
                 .addValue("accountId", account.id.value)
-                .addValue("bankId", account.bankId.value)
+                .addValue("bankId", account.bank.id.value)
                 .addValue("name", account.name)
                 .addValue("balance", account.balance.amount)
-                .addValue("currencyId", account.balance.currencyId.value)
+                .addValue("currencyId", referenceDataCache.currencyIdOf(account.balance.currencyCode.value))
                 .addValue("createdAt", account.createdAt)
                 .addValue("closedAt", account.closedAt)
-                .addValue("accountStatusId", account.accountStatusId.value)
+                .addValue("accountStatusId", referenceDataCache.statusIdOf(account.accountStatus.name))
                 .addValue("description", account.description)
-                .addValue("accountTypeId", account.accountTypeId.value),
+                .addValue("accountTypeId", referenceDataCache.typeIdOf(account.accountType.value)),
         )
         logger.info("Account updated with id: ${account.id.value}")
         return account

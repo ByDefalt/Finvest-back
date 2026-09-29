@@ -5,6 +5,7 @@ import com.example.finvest.modules.account.application.usecase.create.CreateLivr
 import com.example.finvest.modules.account.application.usecase.delete.DeleteLivretUseCase
 import com.example.finvest.modules.account.application.usecase.get.GetLivretByUserIdUseCase
 import com.example.finvest.modules.account.application.usecase.update.UpdateLivretUseCase
+import com.example.finvest.modules.account.domain.cache.ReferenceDataCache
 import com.example.finvest.modules.account.presentation.dto.request.LivretRequest
 import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
 import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
@@ -35,6 +36,7 @@ class LivretController(
     private val create: CreateLivretUseCase,
     private val update: UpdateLivretUseCase,
     private val delete: DeleteLivretUseCase,
+    private val referenceDataCache: ReferenceDataCache,
     private val logger: Logger,
 ) {
     @GetMapping
@@ -54,7 +56,7 @@ class LivretController(
         @CurrentUser user: AuthenticatedUser,
     ): AccountIdResponse {
         logger.info("start create livret account for user=${user.id}")
-        val result = create(request.toLivretWithDetails()).value.toAccountIdResponse()
+        val result = create(request.toLivretWithDetails(referenceDataCache)).value.toAccountIdResponse()
         logger.info("finis create livret account for user=${user.id}, accountId=${result.accountId}")
         return result
     }
@@ -65,7 +67,7 @@ class LivretController(
         @CurrentUser user: AuthenticatedUser,
     ): AccountWithDetailsDto {
         logger.info("start update livret account for user=${user.id}")
-        val result = update(request.toLivretWithDetails()).toDto()
+        val result = update(request.toLivretWithDetails(referenceDataCache)).toDto(referenceDataCache)
         logger.info("finis update livret account for user=${user.id}, accountId=${result.account.accountId}")
         return result
     }

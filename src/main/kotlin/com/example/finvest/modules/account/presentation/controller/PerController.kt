@@ -5,6 +5,7 @@ import com.example.finvest.modules.account.application.usecase.create.CreatePerU
 import com.example.finvest.modules.account.application.usecase.delete.DeletePerUseCase
 import com.example.finvest.modules.account.application.usecase.get.GetPerByUserIdUseCase
 import com.example.finvest.modules.account.application.usecase.update.UpdatePerUseCase
+import com.example.finvest.modules.account.domain.cache.ReferenceDataCache
 import com.example.finvest.modules.account.presentation.dto.request.PerRequest
 import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
 import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
@@ -35,6 +36,7 @@ class PerController(
     private val create: CreatePerUseCase,
     private val update: UpdatePerUseCase,
     private val delete: DeletePerUseCase,
+    private val referenceDataCache: ReferenceDataCache,
     private val logger: Logger,
 ) {
     @GetMapping
@@ -54,7 +56,7 @@ class PerController(
         @CurrentUser user: AuthenticatedUser,
     ): AccountIdResponse {
         logger.info("start create per account for user=${user.id}")
-        val result = create(request.toPerWithDetails()).value.toAccountIdResponse()
+        val result = create(request.toPerWithDetails(referenceDataCache)).value.toAccountIdResponse()
         logger.info("finis create per account for user=${user.id}, accountId=${result.accountId}")
         return result
     }
@@ -65,7 +67,7 @@ class PerController(
         @CurrentUser user: AuthenticatedUser,
     ): AccountWithDetailsDto {
         logger.info("start update per account for user=${user.id}")
-        val result = update(request.toPerWithDetails()).toDto()
+        val result = update(request.toPerWithDetails(referenceDataCache)).toDto(referenceDataCache)
         logger.info("finis update per account for user=${user.id}, accountId=${result.account.accountId}")
         return result
     }

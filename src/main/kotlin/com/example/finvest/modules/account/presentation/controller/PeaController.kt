@@ -5,6 +5,7 @@ import com.example.finvest.modules.account.application.usecase.create.CreatePeaU
 import com.example.finvest.modules.account.application.usecase.delete.DeletePeaUseCase
 import com.example.finvest.modules.account.application.usecase.get.GetPeaByUserIdUseCase
 import com.example.finvest.modules.account.application.usecase.update.UpdatePeaUseCase
+import com.example.finvest.modules.account.domain.cache.ReferenceDataCache
 import com.example.finvest.modules.account.presentation.dto.request.PeaRequest
 import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
 import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
@@ -35,6 +36,7 @@ class PeaController(
     private val create: CreatePeaUseCase,
     private val update: UpdatePeaUseCase,
     private val delete: DeletePeaUseCase,
+    private val referenceDataCache: ReferenceDataCache,
     private val logger: Logger,
 ) {
     @GetMapping
@@ -54,7 +56,7 @@ class PeaController(
         @CurrentUser user: AuthenticatedUser,
     ): AccountIdResponse {
         logger.info("start create pea account for user=${user.id}")
-        val result = create(request.toPeaWithDetails()).value.toAccountIdResponse()
+        val result = create(request.toPeaWithDetails(referenceDataCache)).value.toAccountIdResponse()
         logger.info("finis create pea account for user=${user.id}, accountId=${result.accountId}")
         return result
     }
@@ -65,7 +67,7 @@ class PeaController(
         @CurrentUser user: AuthenticatedUser,
     ): AccountWithDetailsDto {
         logger.info("start update pea account for user=${user.id}")
-        val result = update(request.toPeaWithDetails()).toDto()
+        val result = update(request.toPeaWithDetails(referenceDataCache)).toDto(referenceDataCache)
         logger.info("finis update pea account for user=${user.id}, accountId=${result.account.accountId}")
         return result
     }

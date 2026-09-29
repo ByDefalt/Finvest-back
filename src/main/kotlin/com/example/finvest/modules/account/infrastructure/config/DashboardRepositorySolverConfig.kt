@@ -32,41 +32,41 @@ class DashboardRepositorySolverConfig {
     fun dashboardAssuranceVieRepositorySolver(
         repository: AssuranceVieRepository,
         referenceDataCache: ReferenceDataCache,
-    ): DashboardRepositorySolver<AssuranceVie> = DashboardAssuranceVieRepositorySolver(repository, referenceDataCache)
+    ): DashboardRepositorySolver<AssuranceVie> = DashboardAssuranceVieRepositorySolver(repository)
 
     @Bean
     fun dashboardCompteCourantRepositorySolver(
         repository: CompteCourantRepository,
         referenceDataCache: ReferenceDataCache,
-    ): DashboardRepositorySolver<CompteCourant> = DashboardCompteCourantRepositorySolver(repository, referenceDataCache)
+    ): DashboardRepositorySolver<CompteCourant> = DashboardCompteCourantRepositorySolver(repository)
 
     @Bean
     fun dashboardCompteTitreRepositorySolver(
         repository: CompteTitreRepository,
         referenceDataCache: ReferenceDataCache,
-    ): DashboardRepositorySolver<CompteTitre> = DashboardCompteTitreRepositorySolver(repository, referenceDataCache)
+    ): DashboardRepositorySolver<CompteTitre> = DashboardCompteTitreRepositorySolver(repository)
 
     @Bean
     fun dashboardLivretRepositorySolver(
         repository: LivretRepository,
         referenceDataCache: ReferenceDataCache,
-    ): DashboardRepositorySolver<Livret> = DashboardLivretRepositorySolver(repository, referenceDataCache)
+    ): DashboardRepositorySolver<Livret> = DashboardLivretRepositorySolver(repository)
 
     @Bean
     fun dashboardPeaRepositorySolver(
         repository: PeaRepository,
         referenceDataCache: ReferenceDataCache,
-    ): DashboardRepositorySolver<Pea> = DashboardPeaRepositorySolver(repository, referenceDataCache)
+    ): DashboardRepositorySolver<Pea> = DashboardPeaRepositorySolver(repository)
 
     @Bean
     fun dashboardPeeRepositorySolver(
         repository: PeeRepository,
         referenceDataCache: ReferenceDataCache,
-    ): DashboardRepositorySolver<Pee> = DashboardPeeRepositorySolver(repository, referenceDataCache)
+    ): DashboardRepositorySolver<Pee> = DashboardPeeRepositorySolver(repository)
 
     @Bean
     fun dashboardPerRepositorySolver(
         repository: PerRepository,
         referenceDataCache: ReferenceDataCache,
-    ): DashboardRepositorySolver<Per> = DashboardPerRepositorySolver(repository, referenceDataCache)
+    ): DashboardRepositorySolver<Per> = DashboardPerRepositorySolver(repository)
 }

@@ -5,6 +5,7 @@ import com.example.finvest.modules.account.application.usecase.create.CreateComp
 import com.example.finvest.modules.account.application.usecase.delete.DeleteCompteTitreUseCase
 import com.example.finvest.modules.account.application.usecase.get.GetCompteTitreByUserIdUseCase
 import com.example.finvest.modules.account.application.usecase.update.UpdateCompteTitreUseCase
+import com.example.finvest.modules.account.domain.cache.ReferenceDataCache
 import com.example.finvest.modules.account.presentation.dto.request.CompteTitreRequest
 import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
 import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
@@ -35,6 +36,7 @@ class CompteTitreController(
     private val create: CreateCompteTitreUseCase,
     private val update: UpdateCompteTitreUseCase,
     private val delete: DeleteCompteTitreUseCase,
+    private val referenceDataCache: ReferenceDataCache,
     private val logger: Logger,
 ) {
     @GetMapping
@@ -54,7 +56,7 @@ class CompteTitreController(
         @CurrentUser user: AuthenticatedUser,
     ): AccountIdResponse {
         logger.info("start create compte titre account for user=${user.id}")
-        val result = create(request.toCompteTitreWithDetails()).value.toAccountIdResponse()
+        val result = create(request.toCompteTitreWithDetails(referenceDataCache)).value.toAccountIdResponse()
         logger.info("finis create compte titre account for user=${user.id}, accountId=${result.accountId}")
         return result
     }
@@ -65,7 +67,7 @@ class CompteTitreController(
         @CurrentUser user: AuthenticatedUser,
     ): AccountWithDetailsDto {
         logger.info("start update compte titre account for user=${user.id}")
-        val result = update(request.toCompteTitreWithDetails()).toDto()
+        val result = update(request.toCompteTitreWithDetails(referenceDataCache)).toDto(referenceDataCache)
         logger.info("finis update compte titre account for user=${user.id}, accountId=${result.account.accountId}")
         return result
     }

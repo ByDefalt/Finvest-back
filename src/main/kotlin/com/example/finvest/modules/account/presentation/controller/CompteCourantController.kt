@@ -5,6 +5,7 @@ import com.example.finvest.modules.account.application.usecase.create.CreateComp
 import com.example.finvest.modules.account.application.usecase.delete.DeleteCompteCourantUseCase
 import com.example.finvest.modules.account.application.usecase.get.GetCompteCourantByUserIdUseCase
 import com.example.finvest.modules.account.application.usecase.update.UpdateCompteCourantUseCase
+import com.example.finvest.modules.account.domain.cache.ReferenceDataCache
 import com.example.finvest.modules.account.presentation.dto.request.CompteCourantRequest
 import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
 import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
@@ -35,6 +36,7 @@ class CompteCourantController(
     private val create: CreateCompteCourantUseCase,
     private val update: UpdateCompteCourantUseCase,
     private val delete: DeleteCompteCourantUseCase,
+    private val referenceDataCache: ReferenceDataCache,
     private val logger: Logger,
 ) {
     @GetMapping
@@ -54,7 +56,7 @@ class CompteCourantController(
         @CurrentUser user: AuthenticatedUser,
     ): AccountIdResponse {
         logger.info("start create compte courant account for user=${user.id}")
-        val result = create(request.toCompteCourantWithDetails()).value.toAccountIdResponse()
+        val result = create(request.toCompteCourantWithDetails(referenceDataCache)).value.toAccountIdResponse()
         logger.info("finis create compte courant account for user=${user.id}, accountId=${result.accountId}")
         return result
     }
@@ -65,7 +67,7 @@ class CompteCourantController(
         @CurrentUser user: AuthenticatedUser,
     ): AccountWithDetailsDto {
         logger.info("start update compte courant account for user=${user.id}")
-        val result = update(request.toCompteCourantWithDetails()).toDto()
+        val result = update(request.toCompteCourantWithDetails(referenceDataCache)).toDto(referenceDataCache)
         logger.info("finis update compte courant account for user=${user.id}, accountId=${result.account.accountId}")
         return result
     }

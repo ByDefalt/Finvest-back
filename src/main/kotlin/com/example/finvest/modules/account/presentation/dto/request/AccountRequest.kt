@@ -5,13 +5,13 @@ import java.time.LocalDateTime
 
 data class AccountRequest(
     val accountId: Long = 0L,
-    val bankId: Long,
+    val bankBic: String,
     val name: String,
     val balance: BigDecimal,
-    val currencyId: Long,
+    val currency: String,
     val createdAt: LocalDateTime,
     val closedAt: LocalDateTime?,
-    val accountStatusId: Long,
+    val accountStatus: AccountStatusDto,
     val description: String?,
-    val accountTypeId: Long,
+    val accountType: String,
 )

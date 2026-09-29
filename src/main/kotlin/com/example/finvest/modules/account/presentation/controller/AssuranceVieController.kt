@@ -5,6 +5,7 @@ import com.example.finvest.modules.account.application.usecase.create.CreateAssu
 import com.example.finvest.modules.account.application.usecase.delete.DeleteAssuranceVieUseCase
 import com.example.finvest.modules.account.application.usecase.get.GetAssuranceVieByUserIdUseCase
 import com.example.finvest.modules.account.application.usecase.update.UpdateAssuranceVieUseCase
+import com.example.finvest.modules.account.domain.cache.ReferenceDataCache
 import com.example.finvest.modules.account.presentation.dto.request.AssuranceVieRequest
 import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
 import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
@@ -35,6 +36,7 @@ class AssuranceVieController(
     private val create: CreateAssuranceVieUseCase,
     private val update: UpdateAssuranceVieUseCase,
     private val delete: DeleteAssuranceVieUseCase,
+    private val referenceDataCache: ReferenceDataCache,
     private val logger: Logger,
 ) {
     @GetMapping
@@ -54,7 +56,7 @@ class AssuranceVieController(
         @CurrentUser user: AuthenticatedUser,
     ): AccountIdResponse {
         logger.info("start create assurance vie account for user=${user.id}")
-        val result = create(request.toAssuranceVieWithDetails()).value.toAccountIdResponse()
+        val result = create(request.toAssuranceVieWithDetails(referenceDataCache)).value.toAccountIdResponse()
         logger.info("finis create assurance vie account for user=${user.id}, accountId=${result.accountId}")
         return result
     }
@@ -65,7 +67,7 @@ class AssuranceVieController(
         @CurrentUser user: AuthenticatedUser,
     ): AccountWithDetailsDto {
         logger.info("start update assurance vie account for user=${user.id}")
-        val result = update(request.toAssuranceVieWithDetails()).toDto()
+        val result = update(request.toAssuranceVieWithDetails(referenceDataCache)).toDto(referenceDataCache)
         logger.info("finis update assurance vie account for user=${user.id}, accountId=${result.account.accountId}")
         return result
     }

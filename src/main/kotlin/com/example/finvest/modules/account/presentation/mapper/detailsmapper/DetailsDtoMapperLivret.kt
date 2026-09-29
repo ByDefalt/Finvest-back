@@ -12,7 +12,7 @@ class DetailsDtoMapperLivret(
 ) : DetailsDtoMapper {
     @Suppress("UNCHECKED_CAST")
     override fun mapToDto(accountDetails: AccountWithDetails<*>): AccountWithDetailsDto? {
-        if (referenceDataCache.typeOf(accountDetails.account.accountTypeId.value).value != "LIVRET") return null
-        return (accountDetails as AccountWithDetails<com.example.finvest.modules.account.domain.models.Livret>).toDto()
+        if (accountDetails.account.accountType.value != "LIVRET") return null
+        return (accountDetails as AccountWithDetails<com.example.finvest.modules.account.domain.models.Livret>).toDto(referenceDataCache)
     }
 }

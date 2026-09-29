@@ -35,6 +35,13 @@ class DefaultReferenceDataCache : ReferenceDataCache {
 
     override fun bankOf(id: Long): Bank = current().banks.getValue(id)
 
+    override fun bankOf(bic: String): Bank {
+        return current()
+            .banks.entries
+            .first { it.value.bic.value == bic }
+            .value
+    }
+
     override fun reload(newSnapshot: ReferenceDataCache.Snapshot) {
         snapshot = newSnapshot
     }

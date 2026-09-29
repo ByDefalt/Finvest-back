@@ -27,5 +27,7 @@ interface ReferenceDataCache {
 
     fun bankOf(id: Long): Bank
 
+    fun bankOf(bic: String): Bank
+
     fun reload(newSnapshot: Snapshot)
 }

@@ -1,5 +1,6 @@
 package com.example.finvest.modules.account.infrastructure.persistence.mapper
 
+import com.example.finvest.modules.account.domain.cache.ReferenceDataCache
 import com.example.finvest.modules.account.domain.models.Account
 import com.example.finvest.modules.account.domain.models.AssuranceVie
 import com.example.finvest.modules.account.domain.models.CompteCourant
@@ -23,21 +24,21 @@ import com.example.finvest.modules.account.infrastructure.persistence.models.Pea
 import com.example.finvest.modules.account.infrastructure.persistence.models.PeeEntity
 import com.example.finvest.modules.account.infrastructure.persistence.models.PerEntity
 
-fun AccountEntity.toDomain(): Account =
+fun AccountEntity.toDomain(referenceDataCache: ReferenceDataCache): Account =
     Account(
         id = AccountId(id),
-        bankId = BankId(bankId),
+        bank = referenceDataCache.bankOf(bankId),
         name = name,
         balance =
             Money(
                 amount = balance,
-                currencyId = CurrencyId(currencyId),
+                currencyCode = referenceDataCache.currencyOf(currencyId),
             ),
         createdAt = createdAt,
         closedAt = closedAt,
         description = description,
-        accountStatusId = AccountStatusId(accountStatusId),
-        accountTypeId = AccountTypeId(accountTypeId),
+        accountStatus = referenceDataCache.statusOf(accountStatusId),
+        accountType = referenceDataCache.typeOf(accountTypeId),
     )
 
 fun AssuranceVieEntity.toDomain(): AssuranceVie =

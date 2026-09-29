@@ -13,7 +13,7 @@ class DetailsDtoMapperPer(
 ) : DetailsDtoMapper {
     @Suppress("UNCHECKED_CAST")
     override fun mapToDto(accountDetails: AccountWithDetails<*>): AccountWithDetailsDto? {
-        if (referenceDataCache.typeOf(accountDetails.account.accountTypeId.value).value != "PER") return null
-        return (accountDetails as AccountWithDetails<Per>).toDto()
+        if (accountDetails.account.accountType.value != "PER") return null
+        return (accountDetails as AccountWithDetails<Per>).toDto(referenceDataCache)
     }
 }

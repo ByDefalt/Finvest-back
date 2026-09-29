@@ -5,6 +5,7 @@ import com.example.finvest.modules.account.application.usecase.create.CreatePeeU
 import com.example.finvest.modules.account.application.usecase.delete.DeletePeeUseCase
 import com.example.finvest.modules.account.application.usecase.get.GetPeeByUserIdUseCase
 import com.example.finvest.modules.account.application.usecase.update.UpdatePeeUseCase
+import com.example.finvest.modules.account.domain.cache.ReferenceDataCache
 import com.example.finvest.modules.account.presentation.dto.request.PeeRequest
 import com.example.finvest.modules.account.presentation.dto.response.AccountIdResponse
 import com.example.finvest.modules.account.presentation.dto.response.AccountWithDetailsDto
@@ -35,6 +36,7 @@ class PeeController(
     private val create: CreatePeeUseCase,
     private val update: UpdatePeeUseCase,
     private val delete: DeletePeeUseCase,
+    private val referenceDataCache: ReferenceDataCache,
     private val logger: Logger,
 ) {
     @GetMapping
@@ -54,7 +56,7 @@ class PeeController(
         @CurrentUser user: AuthenticatedUser,
     ): AccountIdResponse {
         logger.info("start create pee account for user=${user.id}")
-        val result = create(request.toPeeWithDetails()).value.toAccountIdResponse()
+        val result = create(request.toPeeWithDetails(referenceDataCache)).value.toAccountIdResponse()
         logger.info("finis create pee account for user=${user.id}, accountId=${result.accountId}")
         return result
     }
@@ -65,7 +67,7 @@ class PeeController(
         @CurrentUser user: AuthenticatedUser,
     ): AccountWithDetailsDto {
         logger.info("start update pee account for user=${user.id}")
-        val result = update(request.toPeeWithDetails()).toDto()
+        val result = update(request.toPeeWithDetails(referenceDataCache)).toDto(referenceDataCache)
         logger.info("finis update pee account for user=${user.id}, accountId=${result.account.accountId}")
         return result
     }
