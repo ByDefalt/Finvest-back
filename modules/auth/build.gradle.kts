@@ -20,4 +20,5 @@ dependencies {
     api(project(":modules:auth:domain"))
     api(project(":modules:auth:infrastructure"))
     api(project(":modules:auth:application"))
+    api(project(":modules:auth:api"))
 }

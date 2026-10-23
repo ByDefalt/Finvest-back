@@ -15,9 +15,9 @@ CREATE TABLE personal_informations
 
 CREATE TABLE users
 (
-    id       BIGINT AUTO_INCREMENT PRIMARY KEY,
-    personal_information_id BIGINT NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    id                      BIGINT AUTO_INCREMENT PRIMARY KEY,
+    personal_information_id BIGINT       NOT NULL,
+    password                VARCHAR(255) NOT NULL,
 
     CONSTRAINT fk_users_personal_information
         FOREIGN KEY (personal_information_id) REFERENCES personal_informations (id)
@@ -25,7 +25,7 @@ CREATE TABLE users
 
 CREATE TABLE users_external
 (
-    id   BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id                      BIGINT AUTO_INCREMENT PRIMARY KEY,
     personal_information_id BIGINT NOT NULL,
 
     CONSTRAINT fk_users_external_personal_information

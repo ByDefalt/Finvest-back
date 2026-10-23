@@ -1,5 +1,6 @@
 plugins {
-    kotlin("jvm") version "2.3.21"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.ktlint)
 }
 
 group = "com.example"
@@ -10,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+    implementation(project(":core:domain"))
 }
 
 kotlin {

@@ -20,6 +20,8 @@ dependencies {
     testImplementation(libs.archunit)
     developmentOnly(libs.spring.boot.docker.compose)
     testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.spring.boot.starter.webmvc.test)
+    testImplementation(testFixtures(project(":core:infrastructure")))
     testRuntimeOnly(libs.junit.platform.launcher)
 }
 

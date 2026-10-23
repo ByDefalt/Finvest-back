@@ -1,25 +1,23 @@
 plugins {
-    kotlin("jvm")
+    `java-library`
 }
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation(project(":core:domain"))
-    implementation(project(":core:application"))
-    implementation(project(":core:infrastructure"))
-    implementation(project(":core:presentation"))
-}
-
-kotlin {
-    jvmToolchain(25)
-}
-
-tasks.test {
-    useJUnitPlatform()
+    api(project(":modules:account:domain"))
+    api(project(":modules:account:application"))
+    api(project(":modules:account:infrastructure"))
+    api(project(":modules:account:presentation"))
 }

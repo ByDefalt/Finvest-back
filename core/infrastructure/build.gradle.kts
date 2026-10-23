@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.ktlint)
+    `java-test-fixtures`
 }
 
 group = "com.example"
@@ -26,10 +27,16 @@ dependencies {
     runtimeOnly(libs.h2)
     runtimeOnly(libs.mariadb)
 
-    testImplementation(libs.spring.boot.starter.data.jdbc.test)
+    // Shared integration test tooling (MariaDB Testcontainer, JDBC slice base class),
+    // consumed by other modules with testImplementation(testFixtures(project(":core:infrastructure")))
+    testFixturesApi(libs.spring.boot.starter.test)
+    testFixturesApi(libs.spring.boot.starter.data.jdbc.test)
+    testFixturesApi(libs.testcontainers.mariadb)
+    testFixturesApi(libs.spring.boot.testcontainers)
+
     testImplementation(libs.spring.boot.starter.security.test)
-    testImplementation(libs.testcontainers.mariadb)
-    testImplementation(libs.spring.boot.testcontainers)
+    testImplementation(libs.kotlin.test.junit5)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 kotlin {
@@ -38,4 +45,9 @@ kotlin {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+// Flyway migrations live in the app module: expose them to this module's tests only
+tasks.processTestResources {
+    from(rootProject.file("app/src/main/resources/db/migration")) { into("db/migration") }
 }

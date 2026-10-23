@@ -1,5 +1,6 @@
 package defalt.exception
 
+/** HTTP status of an error, without depending on Spring (mapped to the Spring status by the presentation layer). */
 enum class ErrorHttp {
     // 4xx Client Error
     BAD_REQUEST,

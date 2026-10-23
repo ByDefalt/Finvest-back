@@ -16,6 +16,11 @@ dependencies {
     implementation(project(":core:utils"))
     implementation(project(":modules:auth:domain"))
     implementation(project(":modules:auth:application"))
+    implementation(project(":modules:auth:api"))
+
+    testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.kotlin.test.junit5)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 kotlin {

@@ -16,6 +16,11 @@ dependencies {
     implementation(project(":core:utils"))
     implementation(project(":modules:auth:domain"))
     implementation(project(":modules:auth:application"))
+    implementation(project(":modules:auth:api"))
+
+    testImplementation(testFixtures(project(":core:infrastructure")))
+    testImplementation(libs.kotlin.test.junit5)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 kotlin {
@@ -24,4 +29,9 @@ kotlin {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+// Flyway migrations live in the app module: expose them to this module's tests only
+tasks.processTestResources {
+    from(rootProject.file("app/src/main/resources/db/migration")) { into("db/migration") }
 }

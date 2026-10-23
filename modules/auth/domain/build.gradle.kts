@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     implementation(project(":core:domain"))
+    implementation(project(":modules:auth:api"))
 }
 
 kotlin {

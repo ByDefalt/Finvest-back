@@ -18,6 +18,7 @@ dependencies {
 
     testImplementation(libs.kotlin.test.junit5)
     testImplementation(libs.archunit)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 kotlin {

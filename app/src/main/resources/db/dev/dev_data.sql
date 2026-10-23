@@ -4,7 +4,6 @@
 -- ============================================================
 
 
-
 INSERT INTO personal_informations (first_name, last_name, email)
 VALUES ('Romain', 'Rousval', 'romain@example.com'),
        ('Test', 'User', 'test@example.com'),
@@ -375,7 +374,7 @@ WHERE b.name = 'Fortuneo'
 -- ------------------------------------------------------------
 
 INSERT INTO account_owners
-(account_id, user_id, user_external_id, ownership_percentage)
+    (account_id, user_id, user_external_id, ownership_percentage)
 SELECT a.id,
        u.id,
        null,
@@ -400,7 +399,7 @@ WHERE pi.email = 'romain@example.com'
 -- ------------------------------------------------------------
 
 INSERT INTO account_owners
-(account_id, user_id, user_external_id, ownership_percentage)
+    (account_id, user_id, user_external_id, ownership_percentage)
 SELECT a.id,
        u.id,
        null,
@@ -426,7 +425,7 @@ WHERE pi.email = 'test@example.com'
 -- ------------------------------------------------------------
 
 INSERT INTO compte_courants
-(account_id, iban, bic, account_number, overdraft_limit, holder_name)
+    (account_id, iban, bic, account_number, overdraft_limit, holder_name)
 SELECT a.id,
        'FR7630006000011234567890189',
        b.bic,
@@ -451,7 +450,7 @@ WHERE a.name = 'Compte courant Romain'
 -- ------------------------------------------------------------
 
 INSERT INTO compte_courants
-(account_id, iban, bic, account_number, overdraft_limit, holder_name)
+    (account_id, iban, bic, account_number, overdraft_limit, holder_name)
 SELECT a.id,
        'FR7630006000098765432109876',
        b.bic,
@@ -476,7 +475,7 @@ WHERE a.name = 'Compte courant Test'
 -- ============================================================
 
 INSERT INTO livrets
-(account_id, interest_rate, ceiling)
+    (account_id, interest_rate, ceiling)
 SELECT a.id,
        1.70,
        22950.00
@@ -492,7 +491,7 @@ WHERE a.name = 'Livret A Romain'
 
 
 INSERT INTO livrets
-(account_id, interest_rate, ceiling)
+    (account_id, interest_rate, ceiling)
 SELECT a.id,
        1.70,
        22950.00
@@ -512,7 +511,7 @@ WHERE a.name = 'Livret A Test'
 -- ============================================================
 
 INSERT INTO peas
-(account_id, opening_date, deposit_limit)
+    (account_id, opening_date, deposit_limit)
 SELECT a.id,
        '2022-03-15',
        150000.00
@@ -528,7 +527,7 @@ WHERE a.name = 'PEA Romain'
 
 
 INSERT INTO peas
-(account_id, opening_date, deposit_limit)
+    (account_id, opening_date, deposit_limit)
 SELECT a.id,
        '2024-06-10',
        150000.00
@@ -548,7 +547,7 @@ WHERE a.name = 'PEA Test'
 -- ============================================================
 
 INSERT INTO pers
-(account_id, contract_number, opening_date, management_type_code)
+    (account_id, contract_number, opening_date, management_type_code)
 SELECT a.id,
        'PER-2025-000001',
        '2025-09-01',
@@ -571,7 +570,7 @@ WHERE a.name = 'PER Romain'
 -- ============================================================
 
 INSERT INTO pees
-(account_id, opening_date, employer)
+    (account_id, opening_date, employer)
 SELECT a.id,
        '2020-06-01',
        'Crédit Mutuel Arkéa'
@@ -591,7 +590,7 @@ WHERE a.name = 'PEE Romain'
 -- ============================================================
 
 INSERT INTO assurances_vie
-(account_id, contract_number, opening_date, management_type_code)
+    (account_id, contract_number, opening_date, management_type_code)
 SELECT a.id,
        'AV-2021-000001',
        '2021-05-10',
@@ -709,7 +708,7 @@ WHERE at.code = 'SCPI'
 -- ============================================================
 
 INSERT INTO asset_countries
-(asset_id, country_code, weight)
+    (asset_id, country_code, weight)
 SELECT a.id,
        c.code,
        70.00
@@ -720,7 +719,7 @@ WHERE a.isin = 'LU1681043599'
 
 
 INSERT INTO asset_countries
-(asset_id, country_code, weight)
+    (asset_id, country_code, weight)
 SELECT a.id,
        c.code,
        6.00
@@ -731,7 +730,7 @@ WHERE a.isin = 'LU1681043599'
 
 
 INSERT INTO asset_countries
-(asset_id, country_code, weight)
+    (asset_id, country_code, weight)
 SELECT a.id,
        c.code,
        4.00
@@ -742,7 +741,7 @@ WHERE a.isin = 'LU1681043599'
 
 
 INSERT INTO asset_countries
-(asset_id, country_code, weight)
+    (asset_id, country_code, weight)
 SELECT a.id,
        c.code,
        3.00
@@ -753,7 +752,7 @@ WHERE a.isin = 'LU1681043599'
 
 
 INSERT INTO asset_countries
-(asset_id, country_code, weight)
+    (asset_id, country_code, weight)
 SELECT a.id,
        c.code,
        17.00
@@ -764,7 +763,7 @@ WHERE a.isin = 'LU1681043599'
 
 
 INSERT INTO asset_countries
-(asset_id, country_code, weight)
+    (asset_id, country_code, weight)
 SELECT a.id,
        c.code,
        100.00
@@ -779,7 +778,7 @@ WHERE a.isin = 'IE00B5BMR087'
 -- ============================================================
 
 INSERT INTO asset_prices
-(asset_id, price, currency_code, date)
+    (asset_id, price, currency_code, date)
 SELECT a.id,
        230.50,
        c.code,
@@ -791,7 +790,7 @@ WHERE a.ticker = 'AAPL';
 
 
 INSERT INTO asset_prices
-(asset_id, price, currency_code, date)
+    (asset_id, price, currency_code, date)
 SELECT a.id,
        510.25,
        c.code,
@@ -803,7 +802,7 @@ WHERE a.ticker = 'MSFT';
 
 
 INSERT INTO asset_prices
-(asset_id, price, currency_code, date)
+    (asset_id, price, currency_code, date)
 SELECT a.id,
        520.80,
        c.code,
@@ -815,7 +814,7 @@ WHERE a.ticker = 'CW8';
 
 
 INSERT INTO asset_prices
-(asset_id, price, currency_code, date)
+    (asset_id, price, currency_code, date)
 SELECT a.id,
        650.40,
        c.code,
@@ -827,7 +826,7 @@ WHERE a.ticker = 'CSPX';
 
 
 INSERT INTO asset_prices
-(asset_id, price, currency_code, date)
+    (asset_id, price, currency_code, date)
 SELECT a.id,
        350.00,
        c.code,
@@ -843,7 +842,7 @@ WHERE a.ticker = 'IMMOR';
 -- ============================================================
 
 INSERT INTO positions
-(account_id, asset_id, quantity, average_price, currency_code)
+    (account_id, asset_id, quantity, average_price, currency_code)
 SELECT a.id,
        asset.id,
        20,
@@ -865,7 +864,7 @@ WHERE a.name = 'PEA Romain'
 
 
 INSERT INTO positions
-(account_id, asset_id, quantity, average_price, currency_code)
+    (account_id, asset_id, quantity, average_price, currency_code)
 SELECT a.id,
        asset.id,
        10,
@@ -887,7 +886,7 @@ WHERE a.name = 'PEA Romain'
 
 
 INSERT INTO positions
-(account_id, asset_id, quantity, average_price, currency_code)
+    (account_id, asset_id, quantity, average_price, currency_code)
 SELECT a.id,
        asset.id,
        15,
@@ -1142,7 +1141,7 @@ WHERE a.name = 'PEA Romain'
 -- ------------------------------------------------------------
 
 INSERT INTO exchange_rates
-(from_currency_code, to_currency_code, rate, rate_date)
+    (from_currency_code, to_currency_code, rate, rate_date)
 SELECT cf.code,
        ct.code,
        v.rate,
@@ -1162,7 +1161,7 @@ WHERE cf.code = 'USD';
 -- ------------------------------------------------------------
 
 INSERT INTO exchange_rates
-(from_currency_code, to_currency_code, rate, rate_date)
+    (from_currency_code, to_currency_code, rate, rate_date)
 SELECT cf.code,
        ct.code,
        v.rate,
@@ -1182,7 +1181,7 @@ WHERE cf.code = 'GBP';
 -- ------------------------------------------------------------
 
 INSERT INTO exchange_rates
-(from_currency_code, to_currency_code, rate, rate_date)
+    (from_currency_code, to_currency_code, rate, rate_date)
 SELECT cf.code,
        ct.code,
        v.rate,
@@ -1202,7 +1201,7 @@ WHERE cf.code = 'JPY';
 -- ------------------------------------------------------------
 
 INSERT INTO exchange_rates
-(from_currency_code, to_currency_code, rate, rate_date)
+    (from_currency_code, to_currency_code, rate, rate_date)
 SELECT cf.code,
        ct.code,
        v.rate,
@@ -1224,7 +1223,7 @@ WHERE cf.code = 'CHF';
 -- progression réaliste vers le solde actuel.
 
 INSERT INTO account_balance_snapshots
-(account_id, balance, currency_code, snapshot_date)
+    (account_id, balance, currency_code, snapshot_date)
 SELECT a.id,
        v.balance,
        a.currency_code,
@@ -1245,7 +1244,7 @@ WHERE a.name = 'Compte courant Romain'
 
 
 INSERT INTO account_balance_snapshots
-(account_id, balance, currency_code, snapshot_date)
+    (account_id, balance, currency_code, snapshot_date)
 SELECT a.id,
        v.balance,
        a.currency_code,
@@ -1266,7 +1265,7 @@ WHERE a.name = 'Livret A Romain'
 
 
 INSERT INTO account_balance_snapshots
-(account_id, balance, currency_code, snapshot_date)
+    (account_id, balance, currency_code, snapshot_date)
 SELECT a.id,
        v.balance,
        a.currency_code,
@@ -1287,7 +1286,7 @@ WHERE a.name = 'PEA Romain'
 
 
 INSERT INTO account_balance_snapshots
-(account_id, balance, currency_code, snapshot_date)
+    (account_id, balance, currency_code, snapshot_date)
 SELECT a.id,
        v.balance,
        a.currency_code,
@@ -1308,7 +1307,7 @@ WHERE a.name = 'PER Romain'
 
 
 INSERT INTO account_balance_snapshots
-(account_id, balance, currency_code, snapshot_date)
+    (account_id, balance, currency_code, snapshot_date)
 SELECT a.id,
        v.balance,
        a.currency_code,
@@ -1329,7 +1328,7 @@ WHERE a.name = 'PEE Romain'
 
 
 INSERT INTO account_balance_snapshots
-(account_id, balance, currency_code, snapshot_date)
+    (account_id, balance, currency_code, snapshot_date)
 SELECT a.id,
        v.balance,
        a.currency_code,
@@ -1350,7 +1349,7 @@ WHERE a.name = 'Assurance vie Romain'
 
 
 INSERT INTO account_balance_snapshots
-(account_id, balance, currency_code, snapshot_date)
+    (account_id, balance, currency_code, snapshot_date)
 SELECT a.id,
        v.balance,
        a.currency_code,
@@ -1371,7 +1370,7 @@ WHERE a.name = 'Compte courant Test'
 
 
 INSERT INTO account_balance_snapshots
-(account_id, balance, currency_code, snapshot_date)
+    (account_id, balance, currency_code, snapshot_date)
 SELECT a.id,
        v.balance,
        a.currency_code,
@@ -1392,7 +1391,7 @@ WHERE a.name = 'Livret A Test'
 
 
 INSERT INTO account_balance_snapshots
-(account_id, balance, currency_code, snapshot_date)
+    (account_id, balance, currency_code, snapshot_date)
 SELECT a.id,
        v.balance,
        a.currency_code,
@@ -1529,7 +1528,7 @@ WHERE a.name = 'PEA Romain'
 -- jour où la répartition d'un compte évoluerait.
 
 INSERT INTO account_owner_snapshots
-(account_owner_id, ownership_percentage, snapshot_date)
+    (account_owner_id, ownership_percentage, snapshot_date)
 SELECT ao.id,
        100.00,
        CURRENT_DATE - INTERVAL v.days_ago DAY
